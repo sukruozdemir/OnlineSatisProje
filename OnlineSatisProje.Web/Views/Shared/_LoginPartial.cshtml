@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user"></i> User
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-user"></i> @User.Identity.GetUserName()
+                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home", new {Area = "Admin"})">
+                        <i class="fa fa-chevron-right"></i> Admin Panel
+                    </a>
+                }
+                @if (User.IsInRole("Satıcı"))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home", new {Area = "Satici"})">
+                        <i class="fa fa-chevron-right"></i> Satıcı Panel
+                    </a>
+                }
+                <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Ayarlar</a>
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Çıkış</a>
+            </div>
+        </li>
+    }
+}
+else
+{
+    <li class="nav-item">
+        <a href="@Url.Action("Giris", "Kullanici")" class="nav-link"><i class="fa fa-sign-in"></i> Giriş</a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("KayitOl", "Kullanici")" class="nav-link"><i class="fa fa-user"></i> Kayıt ol</a>
+    </li>
+}
