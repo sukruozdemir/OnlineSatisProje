@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using OnlineSatisProje.Core.Entities;
+using OnlineSatisProje.Data.Identity;
 using Owin;
 
 namespace OnlineSatisProje.Web

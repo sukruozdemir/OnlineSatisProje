@@ -181,7 +181,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
@@ -293,6 +292,10 @@
     <ProjectReference Include="..\OnlineSatisProje.Data\OnlineSatisProje.Data.csproj">
       <Project>{58D39A8D-4C2E-4367-8A77-4902042CAA20}</Project>
       <Name>OnlineSatisProje.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineSatisProje.Services\OnlineSatisProje.Services.csproj">
+      <Project>{6F87F61F-3263-4381-BA79-6B410F5E633B}</Project>
+      <Name>OnlineSatisProje.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

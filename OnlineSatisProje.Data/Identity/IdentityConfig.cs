@@ -8,9 +8,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataProtection;
 using OnlineSatisProje.Core.Entities;
-using OnlineSatisProje.Data;
 
-namespace OnlineSatisProje.Web
+namespace OnlineSatisProje.Data.Identity
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ApplicationUserStore : UserStore<Kullanici>
