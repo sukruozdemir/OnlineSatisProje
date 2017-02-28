@@ -34,12 +34,23 @@ namespace OnlineSatisProje.Services.Services
 
         public async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool rememberMe)
         {
-            return await SignInManager.PasswordSignInAsync(userName, password, rememberMe, false);
+            var user = await UserManager.FindAsync(userName, password);
+            if (user.IsActive && !user.IsDeleted)
+            {
+                return await SignInManager.PasswordSignInAsync(userName, password, rememberMe, false);
+            }
+            return SignInStatus.Failure;
         }
 
         public async Task SignInAsync(Kullanici kullanici)
         {
-            await SignInManager.SignInAsync(kullanici, false, false);
+            if (kullanici == null)
+                throw new ArgumentNullException(nameof(kullanici));
+
+            if (kullanici.IsActive && !kullanici.IsDeleted)
+            {
+                await SignInManager.SignInAsync(kullanici, false, false);
+            }
         }
 
         public bool Register(Kullanici kullanici, string password)
@@ -47,6 +58,9 @@ namespace OnlineSatisProje.Services.Services
             if (kullanici == null)
                 throw new ArgumentNullException(nameof(kullanici));
             kullanici.CreatedDate = DateTime.Now;
+            kullanici.UpdatedDate = kullanici.CreatedDate;
+            kullanici.IsActive = true;
+            kullanici.IsDeleted = false;
 
             var createResult = UserManager.CreateAsync(kullanici, password);
             if (!createResult.Result.Succeeded)
@@ -61,8 +75,19 @@ namespace OnlineSatisProje.Services.Services
             AuthManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
 
+        public List<string> GetUserRoles(object userId)
+        {
+            var roles = UserManager.GetRoles(userId.ToString());
+            return (List<string>)roles;
+        }
+
         public ApplicationSignInManager SignInManager { get; }
         public ApplicationUserManager UserManager { get; }
         public IAuthenticationManager AuthManager { get; }
+
+        public Kullanici GetLoggedUser()
+        {
+            return UserManager.FindById(AuthManager.User.Identity.GetUserId());
+        }
     }
 }

@@ -8,7 +8,8 @@ namespace OnlineSatisProje.Core.Attributes
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated || !filterContext.HttpContext.User.IsInRole(Roles))
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated ||
+                !filterContext.HttpContext.User.IsInRole(Roles))
             {
                 var request = filterContext.HttpContext.Request;
                 var url = request.IsSecureConnection ? "https://" : "http://";

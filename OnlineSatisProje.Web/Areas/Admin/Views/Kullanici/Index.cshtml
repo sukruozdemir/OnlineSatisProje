@@ -1,43 +1,106 @@
-﻿@model IEnumerable<OnlineSatisProje.Core.Entities.Kullanici>
-
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<OnlineSatisProje.Core.Entities.Kullanici>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Kullanıcılar</h2>
-
+<h1 class="display-4">Kullanıcılar</h1>
+<hr />
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <thead class="thead-default">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>*@
+            <th>Kullanıcı adı</th>
+            <th>Email</th>
+            <th>Oluşturma Tarihi</th>
+            <th class="text-center">Kullanıcı Silindi</th>
+            <th></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td class="text-center">
+                    @if (item.IsDeleted)
+                {
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (!item.IsDeleted && item.Id != User.Identity.GetUserId())
+                {
+                        <button class="btn btn-outline-danger" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-danger" disabled="disabled" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
+                    }
+                    <a class="btn btn-outline-primary" id="@item.Id" href="#"><i class="fa fa-pencil-square-o"></i> Düzenle</a>
+                    <button class="btn btn-outline-info" id="@item.Id" name="detayButton"><i class="fa fa-info"></i> Detay</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<div class="modal fade" id="modalDetay" tabindex="-1" role="dialog" aria-labelledby="detayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSil" tabindex="-1" role="dialog" aria-labelledby="silModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        $("button[name=detayButton]").on("click",
+            function () {
+                var id = $(this).prop("id");
+                $.post("Kullanici/Detay",
+                    { id: id },
+                    function (data) {
+                        var $content = $("#modalDetay").find(".modal-content");
+                        $content.html(data);
+                        $("#modalDetay").modal("show");
+                    });
+            });
+
+        $(".btn-outline-danger").on("click",
+            function () {
+                var id = $(this).prop("id");
+                $.post("Kullanici/SilOnay",
+                    { id: id },
+                    function (data) {
+                        var $content = $("#modalSil").find(".modal-content");
+                        $content.html(data);
+                        $("#modalSil").modal("show");
+                    });
+            });
+
+        $("#modalDetay").on("hide.bs.modal",
+            function () {
+                var $content = $(this).find(".modal-content");
+                $content.empty();
+            });
+
+        $("#modalSil").on("hide.bs.modal",
+            function () {
+                var $content = $(this).find(".modal-content");
+                $content.empty();
+            });
+    </script>
+}

@@ -18,6 +18,9 @@ namespace OnlineSatisProje.Core.Entities
         }
 
         public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual ICollection<Siparis> Siparis { get; set; }
         public virtual ICollection<KullaniciAdresMapping> KullaniciAdresMapping { get; set; }

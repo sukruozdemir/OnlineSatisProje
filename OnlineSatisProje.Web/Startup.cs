@@ -47,7 +47,7 @@ namespace OnlineSatisProje.Web
 
             ConfigureAuth(app);
 
-            //SeedRoles();
+            SeedRoles();
         }
 
         private void SeedRoles()
@@ -57,7 +57,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Admin" };
+                var role = new IdentityRole {Name = "Admin"};
                 manager.Create(role);
             }
 
@@ -65,7 +65,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Satıcı" };
+                var role = new IdentityRole {Name = "Satıcı"};
                 manager.Create(role);
             }
 
@@ -73,7 +73,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Standard" };
+                var role = new IdentityRole {Name = "Standard"};
                 manager.Create(role);
             }
 

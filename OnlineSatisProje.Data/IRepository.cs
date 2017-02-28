@@ -9,5 +9,6 @@ namespace OnlineSatisProje.Data
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);
+        int Save();
     }
 }

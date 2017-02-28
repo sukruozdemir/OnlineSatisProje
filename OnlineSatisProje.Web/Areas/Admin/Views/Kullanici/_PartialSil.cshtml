@@ -1,0 +1,30 @@
+﻿@model OnlineSatisProje.Core.Entities.Kullanici
+
+<!-- Modal -->
+
+<div class="modal-header">
+    <h5 class="modal-title" id="silModalLabel">Kullanıcı silinsin mi?</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="alert alert-danger text-center" role="alert">
+        <strong>Dikkat!</strong>
+    </div>
+    <p class="text-center">
+        <strong>@Model.UserName</strong> adlı kullanıcıyı silmek istiyor musunuz?
+    </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" name="@Model.Id" data-dismiss="modal">Evet</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+</div>
+
+<script>
+    $(".btn-primary").on("click",
+        function() {
+            $.post("Kullanici/Sil", { id: $(this).prop("name") });
+            location.reload();
+        });
+</script>

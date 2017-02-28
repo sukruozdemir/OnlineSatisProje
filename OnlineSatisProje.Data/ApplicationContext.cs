@@ -42,7 +42,7 @@ namespace OnlineSatisProje.Data
         public virtual DbSet<UrunOzellikMapping> UrunOzellikMapping { get; set; }
         public virtual DbSet<UrunResimMapping> UrunResimMapping { get; set; }
 
-        public IDbSet<TEntity> Set<TEntity>() where TEntity : class
+        public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }

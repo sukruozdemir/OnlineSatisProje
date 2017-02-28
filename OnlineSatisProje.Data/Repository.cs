@@ -89,6 +89,12 @@ namespace OnlineSatisProje.Data
             }
         }
 
+        public int Save()
+        {
+            return _context.SaveChanges();
+        }
+
         public IQueryable<T> Table => Entities;
+
     }
 }
