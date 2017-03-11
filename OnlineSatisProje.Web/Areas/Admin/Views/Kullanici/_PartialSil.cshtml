@@ -25,6 +25,6 @@
     $(".btn-primary").on("click",
         function() {
             $.post("Kullanici/Sil", { id: $(this).prop("name") });
-            location.reload();
+            location.reload(true);
         });
 </script>

@@ -10,9 +10,6 @@ namespace OnlineSatisProje.Services.Interfaces
 {
     public interface IKullaniciRepository
     {
-        ApplicationSignInManager SignInManager { get; }
-        ApplicationUserManager UserManager { get; }
-        IAuthenticationManager AuthManager { get; }
         IEnumerable<Kullanici> GetAll();
         Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool rememberMe);
         Task SignInAsync(Kullanici kullanici);

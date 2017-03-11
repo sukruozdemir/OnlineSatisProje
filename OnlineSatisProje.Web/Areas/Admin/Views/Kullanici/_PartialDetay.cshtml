@@ -11,6 +11,10 @@
 <div class="modal-body">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-4 font-weight-bold text-right">Id</div>
+            <div class="col-md-8">@Model.Kullanici.Id</div>
+        </div>
+        <div class="row">
             <div class="col-md-4 font-weight-bold text-right">Kullanıcı Adı</div>
             <div class="col-md-8">@Model.Kullanici.UserName</div>
         </div>
@@ -89,6 +93,11 @@
         <div class="row">
             <div class="col-md-4 font-weight-bold text-right">Oluşturulma Tarihi</div>
             <div class="col-md-8">@Model.Kullanici.CreatedDate.ToLongDateString() @Model.Kullanici.CreatedDate.ToLongTimeString()</div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4 font-weight-bold text-right">Güncellenme Tarihi</div>
+            <div class="col-md-8">@Model.Kullanici.UpdatedDate.ToLongDateString() @Model.Kullanici.UpdatedDate.ToLongTimeString()</div>
         </div>
         <hr/>
         @if (Model.Roles.Count > 0)

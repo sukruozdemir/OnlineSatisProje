@@ -1,0 +1,26 @@
+﻿@model OnlineSatisProje.Core.Entities.Kullanici
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="duzenleModalLabel">@Model.UserName</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@using (Html.BeginForm("Duzenle", "Kullanici", FormMethod.Post))
+{
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="form-group row">
+                @Html.LabelFor(x => x.UserName, new { @class = "col-3 col-form-label text-right" })
+                <div class="col-9">
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Kaydet</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+    </div>
+}

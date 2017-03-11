@@ -34,7 +34,9 @@ namespace OnlineSatisProje.Web
             builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
             builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerRequest();
+            builder.RegisterType<IdentityRepository>().As<IIdentityRepostitory>().InstancePerRequest();
             builder.RegisterType<KullaniciRepository>().As<IKullaniciRepository>().InstancePerRequest();
+            builder.RegisterType<RolRepository>().As<IRolRepository>().InstancePerRequest();
 
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.Register(c => app.GetDataProtectionProvider()).InstancePerRequest();
@@ -57,7 +59,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole {Name = "Admin"};
+                var role = new IdentityRole { Name = "Admin" };
                 manager.Create(role);
             }
 
@@ -65,7 +67,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole {Name = "Satıcı"};
+                var role = new IdentityRole { Name = "Satıcı" };
                 manager.Create(role);
             }
 
@@ -73,7 +75,7 @@ namespace OnlineSatisProje.Web
             {
                 var store = new ApplicationRoleStore(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole {Name = "Standard"};
+                var role = new IdentityRole { Name = "Standard" };
                 manager.Create(role);
             }
 

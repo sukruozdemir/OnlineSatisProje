@@ -5,48 +5,53 @@
 }
 
 <h1 class="display-4">Kullanıcılar</h1>
-<hr />
+<hr/>
+<div class="col-12">
+    <a href="@Url.Action("RolEkle")" id="buttonRolEkle" class="btn btn-secondary">Rol ekle</a>
+</div>
+<hr/>
 <table class="table">
     <thead class="thead-default">
-        <tr>
-            <th>Kullanıcı adı</th>
-            <th>Email</th>
-            <th>Oluşturma Tarihi</th>
-            <th class="text-center">Kullanıcı Silindi</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Kullanıcı adı</th>
+        <th>Email</th>
+        <th>Oluşturma Tarihi</th>
+        <th class="text-center">Kullanıcı Silindi</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td class="text-center">
-                    @if (item.IsDeleted)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+            <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+            <td class="text-center">
+                @if (item.IsDeleted)
                 {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </td>
-                <td class="text-center">
-                    @if (!item.IsDeleted && item.Id != User.Identity.GetUserId())
+                    <i class="fa fa-check"></i>
+                }
+                else
                 {
-                        <button class="btn btn-outline-danger" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-outline-danger" disabled="disabled" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
-                    }
-                    <a class="btn btn-outline-primary" id="@item.Id" href="#"><i class="fa fa-pencil-square-o"></i> Düzenle</a>
-                    <button class="btn btn-outline-info" id="@item.Id" name="detayButton"><i class="fa fa-info"></i> Detay</button>
-                </td>
-            </tr>
-        }
+                    <i class="fa fa-times"></i>
+                }
+            </td>
+            <td class="text-center">
+
+                @if (!item.IsDeleted && item.Id != User.Identity.GetUserId())
+                {
+                    <button class="btn btn-outline-danger" name="silButton" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-danger" name="silButton" disabled="disabled" id="@item.Id"><i class="fa fa-trash-o"></i> Sil</button>
+                }
+                <button class="btn btn-outline-primary" id="@item.Id" name="duzenleButton"><i class="fa fa-pencil-square-o"></i> Düzenle</button>
+                <button class="btn btn-outline-info" id="@item.Id" name="detayButton"><i class="fa fa-info"></i> Detay</button>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 
@@ -64,15 +69,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalDuzenle" tabindex="-1" role="dialog" aria-labelledby="duzenleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRolEkle" tabindex="-1" role="dialog" aria-labelledby="rolEkleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
 @section scripts{
 
     <script>
+
         $("button[name=detayButton]").on("click",
-            function () {
+            function() {
                 var id = $(this).prop("id");
                 $.post("Kullanici/Detay",
                     { id: id },
-                    function (data) {
+                    function(data) {
                         var $content = $("#modalDetay").find(".modal-content");
                         $content.html(data);
                         $("#modalDetay").modal("show");
@@ -80,25 +100,44 @@
             });
 
         $(".btn-outline-danger").on("click",
-            function () {
+            function() {
                 var id = $(this).prop("id");
                 $.post("Kullanici/SilOnay",
                     { id: id },
-                    function (data) {
+                    function(data) {
                         var $content = $("#modalSil").find(".modal-content");
                         $content.html(data);
                         $("#modalSil").modal("show");
                     });
             });
 
+        $("button[name=duzenleButton]").on("click",
+            function() {
+                var id = $(this).prop("id");
+                $.post("Kullanici/Duzenle",
+                    { id: id },
+                    function(data) {
+                        var $content = $("#modalDuzenle").find(".modal-content");
+                        $content.html(data);
+                        $("#modalDuzenle").modal("show");
+                    });
+            });
+
+
         $("#modalDetay").on("hide.bs.modal",
-            function () {
+            function() {
                 var $content = $(this).find(".modal-content");
                 $content.empty();
             });
 
         $("#modalSil").on("hide.bs.modal",
-            function () {
+            function() {
+                var $content = $(this).find(".modal-content");
+                $content.empty();
+            });
+
+        $("#modalDuzenle").on("hide.bs.modal",
+            function() {
                 var $content = $(this).find(".modal-content");
                 $content.empty();
             });
