@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Satıcı Panel</title>
     @Styles.Render("~/Content/css")
@@ -9,27 +9,27 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <a href="#" class="navbar-brand">Satıcı</a>
+    <a href="#" class="navbar-brand">Satıcı</a>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a href="@Url.Action("Index", "Home", new {area = "Satici"})" class="nav-link"><i class="fa fa-bars"></i> Dashboard <span class="sr-only">(şuanki)</span></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a href="@Url.Action("Index", "Home", new {area = "Satici"})" class="nav-link"><i class="fa fa-bars"></i> Dashboard <span class="sr-only">(şuanki)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-    <div class="container">@RenderBody()</div>
+<div class="container">@RenderBody()</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", false)
 </body>
 </html>

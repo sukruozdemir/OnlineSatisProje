@@ -76,7 +76,7 @@ namespace OnlineSatisProje.Web.Controllers
         public async Task<ActionResult> KayitOl(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var kullanici = new Kullanici { UserName = model.Email, Email = model.Email };
+            var kullanici = new Kullanici {UserName = model.Email, Email = model.Email};
             if (!_kullaniciRepository.Register(kullanici, model.Password))
             {
                 ModelState.AddModelError("", "Kullanıcı oluşturulamadı!");
@@ -84,7 +84,7 @@ namespace OnlineSatisProje.Web.Controllers
             }
 
             await _kullaniciRepository.SignInAsync(kullanici);
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "Home", new {area = ""});
         }
 
         //

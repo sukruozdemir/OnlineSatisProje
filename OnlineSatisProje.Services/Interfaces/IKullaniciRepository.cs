@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using OnlineSatisProje.Core.Entities;
-using OnlineSatisProje.Data.Identity;
 
 namespace OnlineSatisProje.Services.Interfaces
 {

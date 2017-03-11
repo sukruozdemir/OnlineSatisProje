@@ -95,6 +95,5 @@ namespace OnlineSatisProje.Data
         }
 
         public IQueryable<T> Table => Entities;
-
     }
 }
