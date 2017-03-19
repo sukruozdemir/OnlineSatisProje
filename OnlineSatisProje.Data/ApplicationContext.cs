@@ -51,18 +51,7 @@ namespace OnlineSatisProje.Data
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-
-            //var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
-            //    .Where(type => !string.IsNullOrEmpty(type.Namespace))
-            //    .Where(type => type.BaseType != null && type.BaseType.IsGenericType &&
-            //                   type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
-            //foreach (var type in typesToRegister)
-            //{
-            //    dynamic configurationInstance = Activator.CreateInstance(type);
-            //    modelBuilder.Configurations.Add(configurationInstance);
-            //}
-
-
+            modelBuilder.Entity<Adres>().Property(a => a.Adres1).IsMaxLength();
             modelBuilder.Entity<Adres>()
                 .Property(e => e.Telefon)
                 .IsFixedLength();
@@ -154,6 +143,10 @@ namespace OnlineSatisProje.Data
                 .HasMany(e => e.SepetItem)
                 .WithRequired(e => e.Kullanici)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Resim>().Property(r => r.Baslik).IsMaxLength();
+            modelBuilder.Entity<Resim>().Property(r => r.AltAttr).IsMaxLength();
+            modelBuilder.Entity<Resim>().Property(r => r.TitleAttr).IsMaxLength();
 
             modelBuilder.Entity<Resim>()
                 .HasMany(e => e.Satici)

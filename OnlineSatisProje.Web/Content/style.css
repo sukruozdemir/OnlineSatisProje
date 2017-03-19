@@ -1,0 +1,53 @@
+﻿body {
+    padding-top: 50px;
+}
+
+/*
+        * Sidebar
+        */
+
+.sidebar {
+    border-right: 1px solid #eee;
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    padding: 20px;
+    position: fixed;
+    top: 51px;
+    z-index: 1000;
+}
+
+/* Sidebar navigation */
+
+.sidebar {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+    .sidebar .nav {
+        color: black;
+        margin-bottom: 20px;
+    }
+
+    .sidebar .nav-item {
+        width: 100%;
+    }
+
+        .sidebar .nav-item + .nav-item {
+            margin-left: 0;
+        }
+
+    .sidebar .nav-link {
+        border-radius: 0;
+        color: white;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+        .sidebar .nav-link:hover {
+            color: white;
+        }
+
+        .sidebar .nav-link.active {
+            background: transparent;
+        }

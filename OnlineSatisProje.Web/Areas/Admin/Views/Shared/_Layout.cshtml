@@ -5,55 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Admin Dashboard</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/style")
     @Scripts.Render("~/bundles/modernizr")
-
-
-    <style>
-        body { padding-top: 50px; }
-
-        /*
-        * Sidebar
-        */
-
-        .sidebar {
-            border-right: 1px solid #eee;
-            bottom: 0;
-            left: 0;
-            overflow-x: hidden;
-            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-            padding: 20px;
-            position: fixed;
-            top: 51px;
-            z-index: 1000;
-        }
-
-        /* Sidebar navigation */
-
-        .sidebar {
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        .sidebar .nav {
-            color: black;
-            margin-bottom: 20px;
-        }
-
-        .sidebar .nav-item { width: 100%; }
-
-        .sidebar .nav-item + .nav-item { margin-left: 0; }
-
-        .sidebar .nav-link {
-            border-radius: 0;
-            color: white;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .sidebar .nav-link:hover { color: white; }
-
-        .sidebar .nav-link.active { background: transparent; }
-    </style>
-
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
@@ -83,7 +36,7 @@
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-inverse sidebar">
             <ul class="nav nav-pills flex-column" style="border-top: 3px solid orange">
                 <li class="nav-item">
-                    <a class="nav-link active" href="@Url.Action("Index", "Home", new {area = "Admin"})"><i class="fa fa-bars"></i> Dashboard <span class="sr-only">(şuanki)</span></a>
+                    <a class="nav-link active" href="@Url.Action("Index", "Home", new {area = "Admin"})"><i class="fa fa-home"></i> Dashboard <span class="sr-only">(şuanki)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "Kullanici", new {Area = "Admin"})"><i class="fa fa-users"></i> Kullanıcılar</a>

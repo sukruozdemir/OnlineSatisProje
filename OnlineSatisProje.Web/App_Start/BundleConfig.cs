@@ -25,6 +25,7 @@ namespace OnlineSatisProje.Web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css", "~/Content/font-awesome.css"));
+            bundles.Add(new StyleBundle("~/Content/css/style").Include("~/Content/style.css"));
         }
     }
 }

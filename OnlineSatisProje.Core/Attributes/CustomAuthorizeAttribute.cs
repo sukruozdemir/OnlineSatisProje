@@ -16,13 +16,6 @@ namespace OnlineSatisProje.Core.Attributes
                 url += request["HTTP_HOST"] + "/";
                 filterContext.Result = new RedirectResult(url + "AccessDenied.html");
             }
-            //else if (!filterContext.HttpContext.User.IsInRole(Roles))
-            //{
-            //    var request = filterContext.HttpContext.Request;
-            //    var url = request.IsSecureConnection ? "https://" : "http://";
-            //    url += request["HTTP_HOST"] + "/";
-            //    filterContext.Result = new RedirectResult(url + "AccessDenied.html");
-            //}
             else
             {
                 base.HandleUnauthorizedRequest(filterContext);
