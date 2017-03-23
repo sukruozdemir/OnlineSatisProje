@@ -185,7 +185,6 @@
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
     <Compile Include="Areas\Satici\Controllers\UrunController.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
-    <Compile Include="Areas\Satici\Models\UrunResimModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

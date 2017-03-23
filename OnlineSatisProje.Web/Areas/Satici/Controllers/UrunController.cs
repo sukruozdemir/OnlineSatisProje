@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -7,14 +9,13 @@ using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.Areas.Satici.Models;
 
+#endregion
+
 namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
     public class UrunController : BaseController
     {
-        private readonly IRepository<Urun> _repository;
-        private readonly IRepository<Resim> _resimRepository;
-        private readonly IUrunRepository _urunRepository;
-        private readonly IRepository<UrunResimMapping> _urunResimRepository;
+        #region Ctor
 
         public UrunController(IUrunRepository urunRepository,
             IRepository<Urun> repository,
@@ -27,34 +28,63 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             _urunResimRepository = urunResimRepository;
         }
 
-        // GET: Satici/Urun
+        #endregion
+
+        #region Fields
+
+        private readonly IRepository<Urun> _repository;
+        private readonly IRepository<Resim> _resimRepository;
+        private readonly IUrunRepository _urunRepository;
+        private readonly IRepository<UrunResimMapping> _urunResimRepository;
+
+        #endregion
+
+        #region Actions
+
+        /// <summary>
+        /// GET: Satici/Urun
+        /// Urun anasayfa görünümü
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var list = _urunRepository.GetAll();
             return View(list);
         }
 
-        // GET: Satici/Urun/Ekle
+        /// <summary>
+        /// GET: Satici/Urun/Ekle
+        /// View görünümü
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult Ekle()
-        {
-            return View();
-        }
+        public ActionResult Ekle() => View();
 
-        // POST: Satiici/Urun/Ekle
+        /// <summary>
+        /// POST: Satiici/Urun/Ekle
+        /// Veritabanına ürünü ekler.
+        /// </summary>
+        /// <param name="model">Ürün model</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Ekle(UrunModel model)
         {
+            // MODEL VAR MI?
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
+            // MODEL DOGRULANDI MI?
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Ürün eklenemedi!");
                 return View(model);
             }
+
+            // URUNUN EKLENDIGI/GUNCELLENDIGI TARIH
             var date = DateTime.Now;
+
+            // YENI BIR URUN NESNESI OLUSTUR VE MODELDEN GELEN VERILERI NESNENIN ALANLARINA SET ET.
             var urun = new Urun
             {
                 Baslik = model.Baslik,
@@ -72,9 +102,11 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 UpdatedDate = date
             };
 
+            // URUNU VERITABANINA EKLE. HATA OLUSMASI SIRASINDA SAYFAYA GERI DON VE MESAJI YAZDIR.
             try
             {
                 _repository.Insert(urun);
+                // URUN KAYDEDILIRSA Satici/Urun SAYFASINA GERI DON.
                 return RedirectToAction("Index");
             }
             catch
@@ -84,7 +116,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
         }
 
-        // GET: Satici/Urun/ResimEkle?urunId=2
+        /// <summary>
+        /// GET: Satici/Urun/ResimEkle?urunId=2
+        /// View görünümü
+        /// </summary>
+        /// <param name="urunId">Resimin ekleneceği ürünün id'si.</param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult ResimEkle(int? urunId)
         {
@@ -94,19 +131,27 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return View();
         }
 
-        // POST: Satici/Urun/ResimEkle
+        /// <summary>
+        /// POST: Satici/Urun/ResimEkle
+        /// Resimi veri tabanına ekler. Eklenen resim, ürün ile ilişkilendirilir. (UrunResimMapping tablosuna eklenir.)
+        /// </summary>
+        /// <param name="upload">Eklenecek Resim</param>
+        /// <param name="resimekleurunid">Ürün id</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ResimEkle(HttpPostedFileBase upload, string resimekleurunid)
         {
             try
             {
+                // DOSYA UPLOAD EDİLMİŞ Mİ?
                 if (upload != null && upload.ContentLength > 0)
                 {
+                    // UPLOAD EDİLEN DOSYANIN İSMİNİ AL
                     var fileName = Path.GetFileName(upload.FileName);
                     if (fileName != null)
                     {
-                        // DOSYAYI KAYDET
+                        // DOSYAYI Content/Images/UrunUploads KLASORUNE KAYDET.
                         var mapFileName = DateTime.Now.ToString("MM.dd.yyyy");
                         var filePath = Path.Combine(Server.MapPath("~/Content/Images/UrunUploads/"),
                             mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName);
@@ -117,9 +162,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
                         {
-                            fileBytes = reader.ReadBytes((int) fs.Length);
+                            fileBytes = reader.ReadBytes((int)fs.Length);
                         }
-                        // SAVE
+
+                        // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
                         var resim = new Resim
                         {
                             Baslik = fileName,
@@ -130,23 +176,36 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         };
                         _resimRepository.Insert(resim);
 
+                        // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
+                            // VERİ TABANINA EKLE
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
                                 UrunId = int.Parse(resimekleurunid),
                                 ResimId = resim.Id
                             });
+                        else
+                        {
+                            // HATA MESAJI
+                            ModelState.AddModelError("", "Ürün id boş veya geçersiz!");
+                            return View();
+                        }
 
+                        // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
                         return RedirectToAction("Index", "Urun");
                     }
                 }
             }
             catch (Exception)
             {
+                // Herhangi bir hata oluşması sırasında; sayfada görünecek hata
                 ModelState.AddModelError("", "Resim eklenemedi! ");
             }
 
+            // Hata oluştuğu sırada sayfaya geri döner
             return View();
         }
+
+        #endregion
     }
 }
