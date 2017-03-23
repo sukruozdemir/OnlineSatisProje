@@ -1,24 +1,18 @@
-﻿@model OnlineSatisProje.Web.Areas.Satici.Models.UrunResimModel
-@{
+﻿@{
     ViewBag.Title = "ResimEkle";
 }
 
 
-@using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new {enctype = "multipart/form-data"}))
+@using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
 
-    <div class="form-group row">
-        <div class="col-10 offset-2">
-            @Html.HiddenFor(x => x.UrunId)
-        </div>
-    </div>
 
+    <input type="hidden" value="@ViewBag.ResimEkleUrunId" name="resimekleurunid" />
     <div class="form-group row">
-
         <div class="col-10">
-            <input type="file" id="ResimId" name="upload"/>
+            <input type="file" id="ResimId" name="upload" />
         </div>
     </div>
 

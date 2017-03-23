@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/OnlineSatisProje.Web/logs
+/OnlineSatisProje.Web/Content/Images/UrunUploads

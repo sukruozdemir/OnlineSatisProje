@@ -14,14 +14,17 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IUrunRepository _urunRepository;
+        private readonly IRepository<UrunResimMapping> _urunResimRepository;
 
-
-        public UrunController(IUrunRepository urunRepository, IRepository<Urun> repository,
-            IRepository<Resim> resimRepository)
+        public UrunController(IUrunRepository urunRepository,
+            IRepository<Urun> repository,
+            IRepository<Resim> resimRepository,
+            IRepository<UrunResimMapping> urunResimRepository)
         {
             _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
+            _urunResimRepository = urunResimRepository;
         }
 
         // GET: Satici/Urun
@@ -83,18 +86,18 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
         // GET: Satici/Urun/ResimEkle?urunId=2
         [HttpGet]
-        public ActionResult ResimEkle(int urunId)
+        public ActionResult ResimEkle(int? urunId)
         {
-            var model = new UrunResimModel
-            {
-                UrunId = urunId
-            };
-            return View(model);
+            if (urunId == null)
+                return HttpNotFound();
+            ViewBag.ResimEkleUrunId = urunId;
+            return View();
         }
 
+        // POST: Satici/Urun/ResimEkle
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResimEkle(UrunResimModel model, HttpPostedFileBase upload)
+        public ActionResult ResimEkle(HttpPostedFileBase upload, string resimekleurunid)
         {
             try
             {
@@ -104,91 +107,46 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     if (fileName != null)
                     {
                         // DOSYAYI KAYDET
-                        var filePath = Path.Combine(Server.MapPath("~/Content/Images/UrunUploads/"), fileName);
+                        var mapFileName = DateTime.Now.ToString("MM.dd.yyyy");
+                        var filePath = Path.Combine(Server.MapPath("~/Content/Images/UrunUploads/"),
+                            mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName);
                         upload.SaveAs(filePath);
 
                         // DOSYAYININ BYTE DIZISINI AL
                         byte[] fileBytes;
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
-                            fileBytes = reader.ReadBytes((int)fs.Length);
-
+                        {
+                            fileBytes = reader.ReadBytes((int) fs.Length);
+                        }
                         // SAVE
                         var resim = new Resim
                         {
                             Baslik = fileName,
                             CreatedDate = DateTime.Now,
-                            ResimBinary = fileBytes
+                            ResimBinary = fileBytes,
+                            AltAttr = "",
+                            TitleAttr = ""
                         };
                         _resimRepository.Insert(resim);
+
+                        if (resimekleurunid != null)
+                            _urunResimRepository.Insert(new UrunResimMapping
+                            {
+                                UrunId = int.Parse(resimekleurunid),
+                                ResimId = resim.Id
+                            });
+
                         return RedirectToAction("Index", "Urun");
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Resim eklenemedi! " + ex.Message);
+                ModelState.AddModelError("", "Resim eklenemedi! ");
             }
 
-            return View(model);
+            return View();
         }
-
-        //    var urun = _repository.GetById(urunId);
-        //    }
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    {
-        //    if (urunId == null)
-        //{
-        //public ActionResult ResimEkle(int? urunId)
-        //[HttpGet]
-
-        // GET: Satici/Urun/ResimEkle/2
-
-        //    if (urun == null)
-        //        return HttpNotFound("Ürün bulunamadı");
-
-        //    var model = new UrunResimMapping
-        //    {
-        //        UrunId = urun.Id
-        //    };
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ResimEkle([Bind(Include = "UrunId")] UrunResimMapping model, HttpPostedFileBase upload)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            ModelState.AddModelError("", "Model hatası!");
-        //            return View(model);
-        //        }
-
-        //        if (upload != null && upload.ContentLength > 0)
-        //        {
-        //            var resim = new Resim
-        //            {
-        //                Baslik = Path.GetFileName(upload.FileName),
-        //                CreatedDate = DateTime.Now
-        //            };
-        //            using (var reader = new BinaryReader(upload.InputStream))
-        //            {
-        //                resim.ResimBinary = reader.ReadBytes(upload.ContentLength);
-        //            }
-        //            _resimRepository.Insert(resim);
-        //            //_urunRepository.ResimEkle(model.UrunId, resim);
-        //            return RedirectToAction("ResimEkle", "Urun", new { urunId = model.UrunId });
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        ModelState.AddModelError("", "Resim eklenemedi!");
-        //    }
-
-        //    return View(model);
-        //}
     }
 }
