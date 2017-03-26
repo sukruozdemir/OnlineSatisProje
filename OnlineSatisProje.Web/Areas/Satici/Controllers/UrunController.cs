@@ -2,11 +2,15 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
+using OnlineSatisProje.Web.ActionFilters;
+using OnlineSatisProje.Web.Areas.Satici.CustomActions;
 using OnlineSatisProje.Web.Areas.Satici.Models;
 
 #endregion
@@ -42,8 +46,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         #region Actions
 
         /// <summary>
-        /// GET: Satici/Urun
-        /// Urun anasayfa görünümü
+        ///     GET: Satici/Urun
+        ///     Urun anasayfa görünümü
         /// </summary>
         /// <returns></returns>
         public ActionResult Index()
@@ -53,16 +57,16 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         }
 
         /// <summary>
-        /// GET: Satici/Urun/Ekle
-        /// View görünümü
+        ///     GET: Satici/Urun/Ekle
+        ///     View görünümü
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public ActionResult Ekle() => View();
 
         /// <summary>
-        /// POST: Satiici/Urun/Ekle
-        /// Veritabanına ürünü ekler.
+        ///     POST: Satiici/Urun/Ekle
+        ///     Veritabanına ürünü ekler.
         /// </summary>
         /// <param name="model">Ürün model</param>
         /// <returns></returns>
@@ -117,29 +121,32 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         }
 
         /// <summary>
-        /// GET: Satici/Urun/ResimEkle?urunId=2
-        /// View görünümü
+        ///     GET: Satici/Urun/ResimEkle?urunId=2
+        ///     View görünümü
         /// </summary>
         /// <param name="urunId">Resimin ekleneceği ürünün id'si.</param>
         /// <returns></returns>
         [HttpGet]
+        [NoCache]
         public ActionResult ResimEkle(int? urunId)
         {
             if (urunId == null)
                 return HttpNotFound();
             ViewBag.ResimEkleUrunId = urunId;
+            ViewData["UrunResimList"] = _resimRepository.Table.ToList();
             return View();
         }
 
         /// <summary>
-        /// POST: Satici/Urun/ResimEkle
-        /// Resimi veri tabanına ekler. Eklenen resim, ürün ile ilişkilendirilir. (UrunResimMapping tablosuna eklenir.)
+        ///     POST: Satici/Urun/ResimEkle
+        ///     Resimi veri tabanına ekler. Eklenen resim, ürün ile ilişkilendirilir. (UrunResimMapping tablosuna eklenir.)
         /// </summary>
         /// <param name="upload">Eklenecek Resim</param>
         /// <param name="resimekleurunid">Ürün id</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NoCache]
         public ActionResult ResimEkle(HttpPostedFileBase upload, string resimekleurunid)
         {
             try
@@ -178,12 +185,14 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
-                            // VERİ TABANINA EKLE
+                        // VERİ TABANINA EKLE
+                        {
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
                                 UrunId = int.Parse(resimekleurunid),
                                 ResimId = resim.Id
                             });
+                        }
                         else
                         {
                             // HATA MESAJI
@@ -192,7 +201,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         }
 
                         // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("Index", "Urun");
+                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
                     }
                 }
             }
@@ -204,6 +213,38 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
             // Hata oluştuğu sırada sayfaya geri döner
             return View();
+        }
+
+        #endregion
+
+        #region Image Actions
+
+        [NoCache]
+        public ActionResult Thumbnail(int? resimId)
+        {
+            if (null == resimId) throw new ArgumentNullException(nameof(resimId));
+            var resim = _resimRepository.GetById(resimId);
+            var image = new WebImage(resim.ResimBinary).Resize(196, 110, false, true).Crop(1, 1);
+            return new ImageResult(new MemoryStream(image.GetBytes()), "binary/octet-stream");
+        }
+
+        [NoCache]
+        public ActionResult ResimSil(int? urunId, int? resimId)
+        {
+            if (null == resimId)
+                throw new ArgumentNullException(nameof(resimId));
+            if (null == urunId)
+                throw new ArgumentNullException(nameof(urunId));
+
+            var urunResim =
+                _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
+            if (null == urunResim)
+                return RedirectToAction("ResimEkle", "Urun", new { urunId });
+
+            _urunResimRepository.Delete(urunResim);
+            _resimRepository.Delete(_resimRepository.GetById(resimId));
+
+            return RedirectToAction("ResimEkle", "Urun", new { urunId });
         }
 
         #endregion

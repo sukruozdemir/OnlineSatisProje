@@ -1,24 +1,107 @@
-﻿@{
+﻿@using OnlineSatisProje.Core.Entities
+@{
     ViewBag.Title = "ResimEkle";
 }
-
-
-@using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<!-- URUNUN RESMI VARSA LISTELE, YOKSA MESAJ YAZDIR -->
+@if (null != ViewData["UrunResimList"] && ((IList<Resim>)ViewData["UrunResimList"]).Count > 0)
 {
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
+    var i = 1;
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Resim</th>
+                <th>Başlık</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ÜRÜNE AİT RESİMLERİ LİSTELE -->
+            @foreach (var resim in (IList<Resim>)ViewData["UrunResimList"])
+            {
+                <tr>
+                    <th class="text-center">@i</th>
+                    <th class="text-center">
+                        <img src="@Url.Action("Thumbnail", "Urun", new {resimId = resim.Id})" class="img-thumbnail rounded" title="" alt="" width="291" height="285" />
+                    </th>
+                    <th>@resim.Baslik</th>
+                    <th>
+                        @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
+                    {
+                            @Html.Hidden("resimId", resim.Id)
+                            @Html.Hidden("urunId", (int)ViewBag.ResimEkleUrunId)
+                            <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
+                        }
+                    </th>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <!-- MESAJ -->
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Ürün resim bulunamadı</h1>
+}
+<hr />
 
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#resimEkleModal"><i class="fa fa-plus-square-o"></i> Yeni ekle</button>
 
-    <input type="hidden" value="@ViewBag.ResimEkleUrunId" name="resimekleurunid" />
-    <div class="form-group row">
-        <div class="col-10">
-            <input type="file" id="ResimId" name="upload" />
+        <!-- RESİM EKLE MODAL -->
+        <div class="modal fade" id="resimEkleModal" tabindex="-1" role="dialog" aria-labelledby="resimEkleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resimEkleModalLabel">Resim Ekle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    @using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="modal-body">
+
+                            @Html.ValidationSummary(true)
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" value="@ViewBag.ResimEkleUrunId" name="resimekleurunid" />
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <label class="custom-file col-12">
+                                        <input type="file" id="file" class="custom-file-input" name="upload" accept=".jpg, .png, .jpeg, .bmp, ">
+                                        <span class="custom-file-control"></span>
+                                    </label>
+                                    <br/>
+                                    <p class="text-muted" id="dosyaAdi" style="display: none;"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    }
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <div class="form-group row">
-        <div class="offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Ekle</button>
-        </div>
-    </div>
+
+@section scripts {
+    <script>
+        $("input[name=upload]").on("change",
+            function () {
+                var val = $(this).val();
+                var lastIndex = val.lastIndexOf("\\");
+                var editted = val.substring(lastIndex + 1, val.length);
+                $("#dosyaAdi").text(editted).css("display", "block");
+
+            });
+    </script>
 }
