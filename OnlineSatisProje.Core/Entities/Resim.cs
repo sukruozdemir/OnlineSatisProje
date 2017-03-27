@@ -30,7 +30,6 @@ namespace OnlineSatisProje.Core.Entities
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<Satici> Satici { get; set; }
-        public virtual ICollection<Kategori> Kategori { get; set; }
         public virtual ICollection<UrunResimMapping> UrunResimMapping { get; set; }
     }
 }

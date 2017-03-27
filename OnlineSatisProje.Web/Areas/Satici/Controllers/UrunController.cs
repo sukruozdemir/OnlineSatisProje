@@ -120,6 +120,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
         }
 
+        #endregion
+
+        #region Resim Actions
+
         /// <summary>
         ///     GET: Satici/Urun/ResimEkle?urunId=2
         ///     View görünümü
@@ -214,10 +218,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             // Hata oluştuğu sırada sayfaya geri döner
             return View();
         }
-
-        #endregion
-
-        #region Image Actions
 
         [NoCache]
         public ActionResult Thumbnail(int? resimId)

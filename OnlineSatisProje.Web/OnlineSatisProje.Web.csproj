@@ -178,8 +178,10 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KategoriController.cs" />
     <Compile Include="Areas\Admin\Controllers\KullaniciController.cs" />
     <Compile Include="Areas\Admin\Controllers\SaticiController.cs" />
+    <Compile Include="Areas\Admin\Models\KategoriModel.cs" />
     <Compile Include="Areas\Admin\Models\KullaniciRolModel.cs" />
     <Compile Include="Areas\Admin\Models\KullaniciViewModel.cs" />
     <Compile Include="Areas\Satici\Controllers\BaseController.cs" />
@@ -240,6 +242,8 @@
     <Content Include="Areas\Satici\Views\Urun\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\Ekle.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\ResimEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\Kategori\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Kategori\_PartialKategoriEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

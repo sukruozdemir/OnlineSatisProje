@@ -22,12 +22,11 @@ namespace OnlineSatisProje.Core.Entities
 
         public string Aciklama { get; set; }
         public int? AnaKategoriId { get; set; }
-        public int ResimId { get; set; }
+        public int? ResimId { get; set; }
         public bool Aktif { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public virtual Resim Resim { get; set; }
         public virtual ICollection<KategoriIndirimMapping> KategoriIndirimMapping { get; set; }
         public virtual ICollection<UrunKategoriMapping> UrunKategoriMapping { get; set; }
     }
