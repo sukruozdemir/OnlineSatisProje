@@ -18,7 +18,8 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
 
         public KullaniciController(IRepository<Kullanici> repository,
             IKullaniciRepository kullaniciRepository,
-            IRolRepository roleRepository, IIdentityRepostitory identityRepostitory)
+            IRolRepository roleRepository,
+            IIdentityRepostitory identityRepostitory)
         {
             _repository = repository;
             _kullaniciRepository = kullaniciRepository;
