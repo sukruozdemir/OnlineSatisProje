@@ -19,8 +19,8 @@
         <thead class="thead-default">
             <tr>
                 <th>#</th>
-                <th>Kategori</th>
-                <th>Aktif</th>
+                <th class="text-center">Kategori</th>
+                <th class="text-center">Aktif</th>
                 <th>Oluşturma Tarihi</th>
                 <th></th>
             </tr>
@@ -28,25 +28,25 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <th>@i</th>
-                <th>@Html.Display(item.Ad)</th>
-                <th class="text-center">
-                    @if (item.Aktif)
+                <tr>
+                    <th>@i</th>
+                    <th class="text-center">@item.Ad</th>
+                    <th class="text-center">
+                        @if (item.Aktif)
                     {
-                    <i class="fa fa-check"></i>
+                            <i class="fa fa-check"></i>
                         }
                         else
                         {
-                    <i class="fa fa-times"></i>
+                            <i class="fa fa-times"></i>
                         }
-                </th>
-                <th>@Html.Display(item.CreatedDate.ToLongDateString())</th>
-                <td class="text-center">
-                    @*<a href="@Url.Action("ResimEkle", "Urun", new { urunId = item.Id })" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resim ekle</a>*@
-                    @*<a href="@Url.Action("OzellikEkle", "Urun")" class="btn btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>*@
-                </td>
-            </tr>
+                    </th>
+                    <th>@item.CreatedDate.ToLongDateString()</th>
+                    <td class="text-center">
+                        @*<a href="@Url.Action("ResimEkle", "Urun", new { urunId = item.Id })" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resim ekle</a>*@
+                        @*<a href="@Url.Action("OzellikEkle", "Urun")" class="btn btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>*@
+                    </td>
+                </tr>
                 i++;
             }
         </tbody>
