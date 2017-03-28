@@ -1,28 +1,18 @@
-﻿@model OnlineSatisProje.Web.Areas.Admin.Models.KategoriModel
+﻿@model OnlineSatisProje.Web.Areas.Admin.Models.EtiketModel
 <div class="modal fade" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Kategori ekle</h5>
+                <h5 class="modal-title" id="modalLabel">Etiket ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("Ekle", "Kategori", FormMethod.Post))
+            @using (Html.BeginForm("Ekle", "Etiket", FormMethod.Post))
             {
                 <div class="modal-body">
                     <div class="form-group">
                         @Html.TextBoxFor(x => x.Ad, new {@class = "form-control", placeholder = "Ad"})
-                    </div>
-                    <div class="form-group">
-                        <label class="custom-control custom-checkbox">
-                            @Html.CheckBoxFor(x => x.Aktif, new {@class = "custom-control-input"})
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">@Html.DisplayNameFor(x => x.Aktif)</span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        @Html.TextAreaFor(x => x.Aciklama, new {@class = "form-control", placeholder = "Açıklama", rows = 3})
                     </div>
                 </div>
                 <div class="modal-footer">

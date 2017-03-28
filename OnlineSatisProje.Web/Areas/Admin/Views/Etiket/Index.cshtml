@@ -1,22 +1,52 @@
-﻿@model IEnumerable<OnlineSatisProje.Core.Entities.Etiket>
+﻿@using OnlineSatisProje.Web.Areas.Admin.Models
+@model IEnumerable<OnlineSatisProje.Core.Entities.Etiket>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Etiketler";
     const string modalId = "etiketEkleModal";
+    var i = 1;
 }
 
 <h1 class="display-4">Etiketler</h1>
-<hr />
+<hr/>
 <div class="col-12">
     <button href="#" id="buttonEtiketEkle" class="btn btn-secondary" data-toggle="modal" data-target="#@modalId"><i class="fa fa-plus-square-o"></i> Etiket ekle</button>
 </div>
-<hr />
+<hr/>
 
 @if (Model.Any())
 {
-
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>#</th>
+            <th class="text-center">Etiket</th>
+            <th>Oluşturma Tarihi</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@i</th>
+                <th class="text-center">@item.Ad</th>
+                <th>@item.CreatedDate.ToLongDateString()</th>
+                <td class="text-center">
+                    @using (Html.BeginForm("Sil", "Etiket", FormMethod.Post))
+                    {
+                        @Html.Hidden("etiketId", item.Id)
+                        <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
+                    }
+                </td>
+            </tr>
+            i++;
+        }
+        </tbody>
+    </table>
 }
 else
 {
-    <h1 class="display-4 text-center" style="margin-top:20px;">Etiket bulunamadı</h1>
+    <h1 class="display-4 text-center" style="margin-top: 20px;">Etiket bulunamadı</h1>
 }
 
+@Html.Partial("_PartialEtiketEkle", new EtiketModel(modalId))

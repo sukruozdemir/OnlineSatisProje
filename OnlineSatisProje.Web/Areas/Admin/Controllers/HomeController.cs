@@ -8,21 +8,21 @@ using OnlineSatisProje.Services.Interfaces;
 namespace OnlineSatisProje.Web.Areas.Admin.Controllers
 {
     /// <summary>
-    /// Represents the home page
+    ///     Represents the home page
     /// </summary>
     public class HomeController : BaseController
     {
+        private readonly IRepository<Adres> _adresRepository;
         private readonly IRepository<Etiket> _etiketRepository;
         private readonly IRepository<Kategori> _kategoriRepository;
         private readonly IRepository<Kullanici> _kullaniciRepository;
-        private readonly IRepository<IdentityRole> _roleRepository;
-        private readonly IRepository<Urun> _urunRepository;
         private readonly IRepository<Resim> _resimRepository;
+        private readonly IRepository<IdentityRole> _roleRepository;
         private readonly IRepository<Siparis> _siparisRepository;
-        private readonly IRepository<Adres> _adresRepository;
+        private readonly IRepository<Urun> _urunRepository;
 
         /// <summary>
-        /// Ctor
+        ///     Ctor
         /// </summary>
         /// <param name="kullaniciRepository"></param>
         /// <param name="urunRepository"></param>
@@ -54,7 +54,7 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// // GET: Admin/Home
+        ///     // GET: Admin/Home
         /// </summary>
         /// <returns>View</returns>
         public ActionResult Index()

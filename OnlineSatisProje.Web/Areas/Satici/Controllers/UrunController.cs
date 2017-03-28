@@ -173,7 +173,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
                         {
-                            fileBytes = reader.ReadBytes((int)fs.Length);
+                            fileBytes = reader.ReadBytes((int) fs.Length);
                         }
 
                         // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
@@ -189,7 +189,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
-                        // VERİ TABANINA EKLE
+                            // VERİ TABANINA EKLE
                         {
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
@@ -205,7 +205,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         }
 
                         // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
+                        return RedirectToAction("ResimEkle", "Urun", new {urunId = resimekleurunid});
                     }
                 }
             }
@@ -239,12 +239,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("ResimEkle", "Urun", new { urunId });
+                return RedirectToAction("ResimEkle", "Urun", new {urunId});
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("ResimEkle", "Urun", new { urunId });
+            return RedirectToAction("ResimEkle", "Urun", new {urunId});
         }
 
         #endregion

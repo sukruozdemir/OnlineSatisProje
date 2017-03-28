@@ -1,9 +1,9 @@
-﻿using OnlineSatisProje.Core.Entities;
-using OnlineSatisProje.Data;
-using OnlineSatisProje.Web.Areas.Admin.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using OnlineSatisProje.Core.Entities;
+using OnlineSatisProje.Data;
+using OnlineSatisProje.Web.Areas.Admin.Models;
 
 namespace OnlineSatisProje.Web.Areas.Admin.Controllers
 {
@@ -17,21 +17,16 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// GET: Satici/Kategori
+        ///     GET: Satici/Kategori
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
-        {
-            return View(_kategoriRepository.Table.ToList());
-        }
+        public ActionResult Index() => View(_kategoriRepository.Table.ToList());
 
         [HttpPost]
         public ActionResult Ekle(KategoriModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return RedirectToAction("Index");
-            }
             var date = DateTime.Now;
             _kategoriRepository.Insert(new Kategori
             {

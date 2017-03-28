@@ -2,13 +2,13 @@
 
 namespace OnlineSatisProje.Web.Areas.Admin.Models
 {
-    public class KategoriModel
+    public class EtiketModel
     {
-        public KategoriModel()
+        public EtiketModel()
         {
         }
 
-        public KategoriModel(string modalId)
+        public EtiketModel(string modalId)
         {
             ModalId = modalId;
         }
@@ -17,8 +17,6 @@ namespace OnlineSatisProje.Web.Areas.Admin.Models
         [StringLength(50, ErrorMessage = "Maksimum 50 karakter olmalı")]
         public string Ad { get; set; }
 
-        public bool Aktif { get; set; }
-        public string Aciklama { get; set; }
         public string ModalId { get; set; }
     }
 }

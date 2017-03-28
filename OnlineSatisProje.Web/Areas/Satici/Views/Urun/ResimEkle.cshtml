@@ -3,39 +3,39 @@
     ViewBag.Title = "ResimEkle";
 }
 <!-- URUNUN RESMI VARSA LISTELE, YOKSA MESAJ YAZDIR -->
-@if (null != ViewData["UrunResimList"] && ((IList<Resim>)ViewData["UrunResimList"]).Count > 0)
+@if (null != ViewData["UrunResimList"] && ((IList<Resim>) ViewData["UrunResimList"]).Count > 0)
 {
     var i = 1;
     <table class="table">
         <thead class="thead-inverse">
-            <tr>
-                <th class="text-center">#</th>
-                <th class="text-center">Resim</th>
-                <th>Başlık</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Resim</th>
+            <th>Başlık</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            <!-- ÜRÜNE AİT RESİMLERİ LİSTELE -->
-            @foreach (var resim in (IList<Resim>)ViewData["UrunResimList"])
-            {
-                <tr>
-                    <th class="text-center">@i</th>
-                    <th class="text-center">
-                        <img src="@Url.Action("Thumbnail", "Urun", new {resimId = resim.Id})" class="img-thumbnail rounded" title="" alt="" width="291" height="285" />
-                    </th>
-                    <th>@resim.Baslik</th>
-                    <th>
-                        @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
+        <!-- ÜRÜNE AİT RESİMLERİ LİSTELE -->
+        @foreach (var resim in (IList<Resim>) ViewData["UrunResimList"])
+        {
+            <tr>
+                <th class="text-center">@i</th>
+                <th class="text-center">
+                    <img src="@Url.Action("Thumbnail", "Urun", new {resimId = resim.Id})" class="img-thumbnail rounded" title="" alt="" width="291" height="285"/>
+                </th>
+                <th>@resim.Baslik</th>
+                <th>
+                    @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
                     {
-                            @Html.Hidden("resimId", resim.Id)
-                            @Html.Hidden("urunId", (int)ViewBag.ResimEkleUrunId)
-                            <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
-                        }
-                    </th>
-                </tr>
-                i++;
-            }
+                        @Html.Hidden("resimId", resim.Id)
+                        @Html.Hidden("urunId", (int) ViewBag.ResimEkleUrunId)
+                        <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
+                    }
+                </th>
+            </tr>
+            i++;
+        }
         </tbody>
     </table>
 }
@@ -44,7 +44,7 @@ else
     <!-- MESAJ -->
     <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Ürün resim bulunamadı</h1>
 }
-<hr />
+<hr/>
 
 <div class="row">
     <div class="col-12">
@@ -61,14 +61,14 @@ else
                         </button>
                     </div>
 
-                    @using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new {enctype = "multipart/form-data"}))
                     {
                         <div class="modal-body">
 
                             @Html.ValidationSummary(true)
                             @Html.AntiForgeryToken()
 
-                            <input type="hidden" value="@ViewBag.ResimEkleUrunId" name="resimekleurunid" />
+                            <input type="hidden" value="@ViewBag.ResimEkleUrunId" name="resimekleurunid"/>
                             <div class="form-group row">
                                 <div class="col-12">
                                     <label class="custom-file col-12">
@@ -96,7 +96,7 @@ else
 @section scripts {
     <script>
         $("input[name=upload]").on("change",
-            function () {
+            function() {
                 var val = $(this).val();
                 var lastIndex = val.lastIndexOf("\\");
                 var editted = val.substring(lastIndex + 1, val.length);

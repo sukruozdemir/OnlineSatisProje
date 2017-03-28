@@ -4,55 +4,55 @@
 }
 
 <h1 class="display-4">Ürünler</h1>
-<hr />
+<hr/>
 <div class="col-12">
     <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-secondary"><i class="fa fa-plus-square-o"></i> Ürün ekle</a>
 </div>
-<hr />
+<hr/>
 
 
 <table class="table">
     <thead class="thead-default">
-        <tr>
-            <th>Başlık</th>
-            <th class="text-center">Yayınlandı</th>
-            <th class="text-center">Silindi</th>
-            <th>Oluşturma Tarihi</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Başlık</th>
+        <th class="text-center">Yayınlandı</th>
+        <th class="text-center">Silindi</th>
+        <th>Oluşturma Tarihi</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
 
-                <td class="text-center">
-                    @if (item.Yayinlandi)
+            <td class="text-center">
+                @if (item.Yayinlandi)
                 {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </td>
-                <td class="text-center">
-                    @if (item.Silindi)
+                    <i class="fa fa-check"></i>
+                }
+                else
                 {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td class="text-center">
-                    <a href="@Url.Action("ResimEkle", "Urun", new { urunId = item.Id })" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resim ekle</a>
-                    <a href="@Url.Action("OzellikEkle", "Urun")" class="btn btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>
-                </td>
-            </tr>
-        }
+                    <i class="fa fa-times"></i>
+                }
+            </td>
+            <td class="text-center">
+                @if (item.Silindi)
+                {
+                    <i class="fa fa-check"></i>
+                }
+                else
+                {
+                    <i class="fa fa-times"></i>
+                }
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+            <td class="text-center">
+                <a href="@Url.Action("ResimEkle", "Urun", new {urunId = item.Id})" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resim ekle</a>
+                <a href="@Url.Action("OzellikEkle", "Urun")" class="btn btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
