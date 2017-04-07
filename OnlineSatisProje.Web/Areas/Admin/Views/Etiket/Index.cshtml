@@ -31,13 +31,13 @@
                 <th>@i</th>
                 <th class="text-center">@item.Ad</th>
                 <th>@item.CreatedDate.ToLongDateString()</th>
-                <td class="text-center">
+                <th class="text-center">
                     @using (Html.BeginForm("Sil", "Etiket", FormMethod.Post))
                     {
                         @Html.Hidden("etiketId", item.Id)
                         <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
                     }
-                </td>
+                </th>
             </tr>
             i++;
         }

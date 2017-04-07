@@ -1,3 +1,16 @@
 ﻿@{
     ViewBag.Title = "Anasayfa";
+
+    var urunListe = (IList<OnlineSatisProje.Core.Entities.Urun>)ViewData["UrunListe"];
 }
+<div class="col-12">
+
+    @foreach (var urun in urunListe)
+    {
+        <div class="col-4">
+            <img src="data:image;base64,@Convert.ToBase64String(urun.UrunResimMapping.FirstOrDefault().Resim.ResimBinary)" alt="Alternate Text" width="125" height="125" />
+            <span>@urun.Baslik</span>
+        </div>
+    }
+
+</div>

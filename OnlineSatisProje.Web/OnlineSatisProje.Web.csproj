@@ -188,6 +188,7 @@
     <Compile Include="Areas\Admin\Models\KullaniciViewModel.cs" />
     <Compile Include="Areas\Satici\Controllers\BaseController.cs" />
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Satici\Controllers\OzellikController.cs" />
     <Compile Include="Areas\Satici\Controllers\UrunController.cs" />
     <Compile Include="Areas\Satici\CustomActions\ImageResult.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
@@ -248,6 +249,9 @@
     <Content Include="Areas\Admin\Views\Kategori\_PartialKategoriEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\_PartialEtiketEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\OzellikEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
+    <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

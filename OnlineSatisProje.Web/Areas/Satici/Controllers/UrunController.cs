@@ -12,6 +12,7 @@ using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.ActionFilters;
 using OnlineSatisProje.Web.Areas.Satici.CustomActions;
 using OnlineSatisProje.Web.Areas.Satici.Models;
+using System.Net;
 
 #endregion
 
@@ -24,12 +25,16 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         public UrunController(IUrunRepository urunRepository,
             IRepository<Urun> repository,
             IRepository<Resim> resimRepository,
-            IRepository<UrunResimMapping> urunResimRepository)
+            IRepository<UrunResimMapping> urunResimRepository,
+            IRepository<UrunOzellik> urunOzellikRepository,
+            IRepository<UrunOzellikMapping> urunOzellikMapping)
         {
             _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
+            _urunOzellikRepository = urunOzellikRepository;
+            _urunOzellikMappingRepository = urunOzellikMapping;
         }
 
         #endregion
@@ -40,6 +45,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         private readonly IRepository<Resim> _resimRepository;
         private readonly IUrunRepository _urunRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
+        private readonly IRepository<UrunOzellik> _urunOzellikRepository;
+        private readonly IRepository<UrunOzellikMapping> _urunOzellikMappingRepository;
 
         #endregion
 
@@ -120,6 +127,30 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult OzellikEkle(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var urun = _repository.GetById(id);
+            if (urun == null)
+                return HttpNotFound();
+
+            return View(urun);
+        }
+
+        public ActionResult OzellikEkle(UrunOzellikMapping model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Özellik eklenemedi!");
+                return View(model);
+            }
+            _urunOzellikMappingRepository.Insert(model);
+            return RedirectToAction("Index");
+        }
+
         #endregion
 
         #region Resim Actions
@@ -173,7 +204,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
                         {
-                            fileBytes = reader.ReadBytes((int) fs.Length);
+                            fileBytes = reader.ReadBytes((int)fs.Length);
                         }
 
                         // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
@@ -189,7 +220,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
-                            // VERİ TABANINA EKLE
+                        // VERİ TABANINA EKLE
                         {
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
@@ -205,7 +236,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         }
 
                         // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("ResimEkle", "Urun", new {urunId = resimekleurunid});
+                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
                     }
                 }
             }
@@ -239,12 +270,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("ResimEkle", "Urun", new {urunId});
+                return RedirectToAction("ResimEkle", "Urun", new { urunId });
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("ResimEkle", "Urun", new {urunId});
+            return RedirectToAction("ResimEkle", "Urun", new { urunId });
         }
 
         #endregion

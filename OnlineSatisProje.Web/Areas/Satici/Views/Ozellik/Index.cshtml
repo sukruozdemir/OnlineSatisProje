@@ -1,0 +1,42 @@
+﻿@model IEnumerable<OnlineSatisProje.Core.Entities.UrunOzellik>
+@{
+    ViewBag.Title = "Özellikler";
+    ViewBag.ModalId = "modalOzellik";
+}
+
+<h1 class="display-4">Özellikler</h1>
+<hr />
+<div class="col-12">
+    <button id="buttonOzellikEkle" data-target="#@ViewBag.ModalId.ToString()" data-toggle="modal" class="btn btn-secondary"><i class="fa fa-plus-square-o"></i> Özellik ekle</button>
+    @Html.Partial("_PartialOzellikEkle", new OnlineSatisProje.Core.Entities.UrunOzellik())
+</div>
+<hr />
+
+@if (!Model.Any())
+{
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Özellik bulunamadı</h1>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-default">
+            <tr>
+                <th>#</th>
+                <th>Ad</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <th>@item.Ad</th>
+                    <th>
+                        <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash-o"></i> Sil</button>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
