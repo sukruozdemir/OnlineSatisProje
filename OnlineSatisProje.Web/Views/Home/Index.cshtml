@@ -1,6 +1,7 @@
-﻿@{
+﻿@using OnlineSatisProje.Core.Entities
+@{
     ViewBag.Title = "Anasayfa";
-    var urunListe = (IEnumerable<OnlineSatisProje.Core.Entities.Urun>)ViewData["UrunListe"];
+    var urunListe = (IEnumerable<Urun>) ViewData["UrunListe"];
     urunListe = urunListe.OrderByDescending(x => x.Id).Take(3);
 }
 
@@ -8,13 +9,15 @@
     @foreach (var urun in urunListe)
     {
         <div class="card m-3 text-center">
-            <img class="card-img-top" height="180" style="width:100%;" src="data:image;base64, @Convert.ToBase64String(urun.UrunResimMapping.FirstOrDefault().Resim.ResimBinary)"
+            <img class="card-img-top" height="180" style="width: 100%;" src="data:image;base64, @Convert.ToBase64String(urun.UrunResimMapping.FirstOrDefault().Resim.ResimBinary)"
                  alt="Card image cap">
             <div class="card-block">
                 <h4 class="card-title">@urun.Baslik</h4>
                 <p class="card-text">@urun.KisaAciklama</p>
                 <p class="card-text">
-                    <a href="#"><small class="text-muted">@urun.SaticiUrunMapping.FirstOrDefault().Satici.Ad</small></a>
+                    <a href="#">
+                        <small class="text-muted">@urun.Fiyat</small>
+                    </a>
                 </p>
             </div>
         </div>

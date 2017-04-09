@@ -27,26 +27,32 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             IRepository<Resim> resimRepository,
             IRepository<UrunResimMapping> urunResimRepository,
             IRepository<UrunOzellik> urunOzellikRepository,
-            IRepository<UrunOzellikMapping> urunOzellikMapping)
+            IRepository<UrunOzellikMapping> urunOzellikMappingRepository,
+            IRepository<SaticiUrunMapping> saticiUrunRepository,
+            IIdentityRepostitory identityRepository)
         {
             _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
             _urunOzellikRepository = urunOzellikRepository;
-            _urunOzellikMappingRepository = urunOzellikMapping;
+            _urunOzellikMappingRepository = urunOzellikMappingRepository;
+            _saticiUrunRepository = saticiUrunRepository;
+            _identityRepository = identityRepository;
         }
 
         #endregion
 
         #region Fields
 
+        private readonly IIdentityRepostitory _identityRepository;
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IUrunRepository _urunRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
         private readonly IRepository<UrunOzellik> _urunOzellikRepository;
         private readonly IRepository<UrunOzellikMapping> _urunOzellikMappingRepository;
+        private readonly IRepository<SaticiUrunMapping> _saticiUrunRepository;
 
         #endregion
 
@@ -56,7 +62,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         ///     GET: Satici/Urun
         ///     Urun anasayfa görünümü
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Index view</returns>
         public ActionResult Index()
         {
             var list = _urunRepository.GetAll();
@@ -67,7 +73,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         ///     GET: Satici/Urun/Ekle
         ///     View görünümü
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Ekle view</returns>
         [HttpGet]
         public ActionResult Ekle() => View();
 
@@ -117,6 +123,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             try
             {
                 _repository.Insert(urun);
+
+                //_saticiUrunRepository.Insert(new SaticiUrunMapping
+                //{
+                //    CreatedDate = DateTime.Now,
+                //    SaticiId =
+                //});
                 // URUN KAYDEDILIRSA Satici/Urun SAYFASINA GERI DON.
                 return RedirectToAction("Index");
             }
@@ -125,30 +137,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 ModelState.AddModelError("", "Ürün eklenemedi!");
                 return View(model);
             }
-        }
-
-        [HttpGet]
-        public ActionResult OzellikEkle(int? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var urun = _repository.GetById(id);
-            if (urun == null)
-                return HttpNotFound();
-
-            return View(urun);
-        }
-
-        public ActionResult OzellikEkle(UrunOzellikMapping model)
-        {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Özellik eklenemedi!");
-                return View(model);
-            }
-            _urunOzellikMappingRepository.Insert(model);
-            return RedirectToAction("Index");
         }
 
         #endregion

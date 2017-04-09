@@ -249,7 +249,6 @@
     <Content Include="Areas\Admin\Views\Kategori\_PartialKategoriEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\_PartialEtiketEkle.cshtml" />
-    <Content Include="Areas\Satici\Views\Urun\OzellikEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
