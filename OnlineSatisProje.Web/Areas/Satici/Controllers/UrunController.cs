@@ -6,13 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.ActionFilters;
 using OnlineSatisProje.Web.Areas.Satici.CustomActions;
 using OnlineSatisProje.Web.Areas.Satici.Models;
-using System.Net;
 
 #endregion
 
@@ -29,16 +29,16 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             IRepository<UrunOzellik> urunOzellikRepository,
             IRepository<UrunOzellikMapping> urunOzellikMappingRepository,
             IRepository<SaticiUrunMapping> saticiUrunRepository,
-            IIdentityRepostitory identityRepository)
+            IIdentityRepostitory identityRepository,
+            IRepository<Core.Entities.Satici> saticiRepository)
         {
             _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
-            _urunOzellikRepository = urunOzellikRepository;
-            _urunOzellikMappingRepository = urunOzellikMappingRepository;
             _saticiUrunRepository = saticiUrunRepository;
             _identityRepository = identityRepository;
+            _saticiRepository = saticiRepository;
         }
 
         #endregion
@@ -48,10 +48,9 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         private readonly IIdentityRepostitory _identityRepository;
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
+        private readonly IRepository<Core.Entities.Satici> _saticiRepository;
         private readonly IUrunRepository _urunRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
-        private readonly IRepository<UrunOzellik> _urunOzellikRepository;
-        private readonly IRepository<UrunOzellikMapping> _urunOzellikMappingRepository;
         private readonly IRepository<SaticiUrunMapping> _saticiUrunRepository;
 
         #endregion
@@ -75,7 +74,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// </summary>
         /// <returns>Ekle view</returns>
         [HttpGet]
-        public ActionResult Ekle() => View();
+        public ActionResult Ekle()
+        {
+            return View();
+        }
 
         /// <summary>
         ///     POST: Satiici/Urun/Ekle
@@ -123,12 +125,16 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             try
             {
                 _repository.Insert(urun);
-
-                //_saticiUrunRepository.Insert(new SaticiUrunMapping
-                //{
-                //    CreatedDate = DateTime.Now,
-                //    SaticiId =
-                //});
+                var user = _identityRepository.UserManager.FindById(User.Identity.GetUserId());
+                var satici = _saticiRepository.Table.FirstOrDefault(x => x.KullaniciId == user.Id);
+                if (satici != null)
+                    _saticiUrunRepository.Insert(new SaticiUrunMapping
+                    {
+                        CreatedDate = DateTime.Now,
+                        SaticiId = satici.Id
+                    });
+                else
+                    ModelState.AddModelError("", "Ürün eklenemedi!");
                 // URUN KAYDEDILIRSA Satici/Urun SAYFASINA GERI DON.
                 return RedirectToAction("Index");
             }
@@ -192,7 +198,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
                         {
-                            fileBytes = reader.ReadBytes((int)fs.Length);
+                            fileBytes = reader.ReadBytes((int) fs.Length);
                         }
 
                         // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
@@ -208,7 +214,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
-                        // VERİ TABANINA EKLE
+                            // VERİ TABANINA EKLE
                         {
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
@@ -224,7 +230,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         }
 
                         // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
+                        return RedirectToAction("ResimEkle", "Urun", new {urunId = resimekleurunid});
                     }
                 }
             }
@@ -258,12 +264,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("ResimEkle", "Urun", new { urunId });
+                return RedirectToAction("ResimEkle", "Urun", new {urunId});
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("ResimEkle", "Urun", new { urunId });
+            return RedirectToAction("ResimEkle", "Urun", new {urunId});
         }
 
         #endregion
