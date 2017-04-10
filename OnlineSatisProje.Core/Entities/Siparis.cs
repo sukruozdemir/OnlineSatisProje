@@ -12,7 +12,7 @@ namespace OnlineSatisProje.Core.Entities
         }
 
         public Guid SiparisGuid { get; set; }
-        public int KullaniciId { get; set; }
+        public string KullaniciId { get; set; }
         public int KargoAdresId { get; set; }
         public int? SiparisDurumId { get; set; }
         public int? OdemeDurumId { get; set; }

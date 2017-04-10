@@ -12,7 +12,7 @@ namespace OnlineSatisProje.Core.Entities
             UpdatedDate = CreatedDate;
         }
 
-        public int KullaniciId { get; set; }
+        public string KullaniciId { get; set; }
         public int UrunId { get; set; }
         public int Miktar { get; set; }
         public DateTime CreatedDate { get; set; }

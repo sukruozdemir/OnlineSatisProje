@@ -18,6 +18,8 @@ namespace OnlineSatisProje.Core.Entities
             UpdatedDate = CreatedDate;
         }
 
+        public string KullaniciId { get; set; }
+
         [Required]
         [StringLength(150)]
         public string Ad { get; set; }
@@ -35,6 +37,7 @@ namespace OnlineSatisProje.Core.Entities
         public DateTime UpdatedDate { get; set; }
 
         public virtual Resim Resim { get; set; }
+        public Kullanici Kullanici { get; set; }
 
         public virtual ICollection<SaticiEtiketMapping> SaticiEtiketMapping { get; set; }
         public virtual ICollection<SaticiIndirimMapping> SaticiIndirimMapping { get; set; }
