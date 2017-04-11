@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OnlineSatisProje.Core.Entities;
@@ -10,6 +12,7 @@ namespace OnlineSatisProje.Services.Services
 {
     public class RolRepository : IRolRepository
     {
+        private static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IIdentityRepostitory _identityRepostitory;
         private readonly IRepository<IdentityRole> _repository;
         private readonly IRepository<Satici> _saticiRepository;
@@ -37,18 +40,27 @@ namespace OnlineSatisProje.Services.Services
                 var role = _repository.GetById(rolId);
                 var result = _identityRepostitory.UserManager.AddToRole(user.Id, role.Name);
                 if (!result.Succeeded)
-                    return result.Succeeded;
+                    return false;
                 if (role.Name != "Satıcı")
                     return result.Succeeded;
+                var date = DateTime.Now;
                 var satici = new Satici
                 {
-                    KullaniciId = user.Id
+                    KullaniciId = user.Id,
+                    CreatedDate = date,
+                    UpdatedDate = date,
+                    Aktif = true,
+                    Silindi = false,
+                    Ad = user.UserName,
+                    Email = user.Email
                 };
                 _saticiRepository.Insert(satici);
-                return result.Succeeded;
+                return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
                 return false;
             }
         }

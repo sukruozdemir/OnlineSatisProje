@@ -148,11 +148,6 @@ namespace OnlineSatisProje.Data
             modelBuilder.Entity<Resim>().Property(r => r.AltAttr).IsMaxLength();
             modelBuilder.Entity<Resim>().Property(r => r.TitleAttr).IsMaxLength();
 
-            modelBuilder.Entity<Resim>()
-                .HasMany(e => e.Satici)
-                .WithRequired(e => e.Resim)
-                .HasForeignKey(e => e.LogoId)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Resim>()
                 .HasMany(e => e.UrunResimMapping)

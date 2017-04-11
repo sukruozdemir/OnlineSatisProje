@@ -10,7 +10,7 @@ namespace OnlineSatisProje.Core.Entities
     {
         public Resim()
         {
-            Satici = new HashSet<Satici>();
+            //Satici = new HashSet<Satici>();
             UrunResimMapping = new HashSet<UrunResimMapping>();
             CreatedDate = DateTime.Now;
         }
@@ -29,7 +29,7 @@ namespace OnlineSatisProje.Core.Entities
 
         public DateTime CreatedDate { get; set; }
 
-        public virtual ICollection<Satici> Satici { get; set; }
+        //public virtual ICollection<Satici> Satici { get; set; }
         public virtual ICollection<UrunResimMapping> UrunResimMapping { get; set; }
     }
 }

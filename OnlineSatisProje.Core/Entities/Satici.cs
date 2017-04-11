@@ -20,7 +20,6 @@ namespace OnlineSatisProje.Core.Entities
 
         public string KullaniciId { get; set; }
 
-        [Required]
         [StringLength(150)]
         public string Ad { get; set; }
 
@@ -30,13 +29,12 @@ namespace OnlineSatisProje.Core.Entities
         [StringLength(100)]
         public string Email { get; set; }
 
-        public int LogoId { get; set; }
+        public int? LogoId { get; set; }
         public bool? Aktif { get; set; }
         public bool? Silindi { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public virtual Resim Resim { get; set; }
         public Kullanici Kullanici { get; set; }
 
         public virtual ICollection<SaticiEtiketMapping> SaticiEtiketMapping { get; set; }
