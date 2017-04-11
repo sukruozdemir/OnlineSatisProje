@@ -1,11 +1,14 @@
 ﻿#region Usings
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using log4net;
 using Microsoft.AspNet.Identity;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
@@ -28,30 +31,29 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             IRepository<UrunResimMapping> urunResimRepository,
             IRepository<UrunOzellik> urunOzellikRepository,
             IRepository<UrunOzellikMapping> urunOzellikMappingRepository,
-            IRepository<SaticiUrunMapping> saticiUrunRepository,
             IIdentityRepostitory identityRepository,
-            IRepository<Core.Entities.Satici> saticiRepository)
+            IRepository<Core.Entities.Satici> saticiRepository,
+            IIdentityRepostitory identityRepostitory) : base(identityRepostitory, saticiRepository)
         {
             _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
-            _saticiUrunRepository = saticiUrunRepository;
-            _identityRepository = identityRepository;
             _saticiRepository = saticiRepository;
+            _identityRepostitory = identityRepostitory;
         }
 
         #endregion
 
         #region Fields
 
-        private readonly IIdentityRepostitory _identityRepository;
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<Core.Entities.Satici> _saticiRepository;
         private readonly IUrunRepository _urunRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
-        private readonly IRepository<SaticiUrunMapping> _saticiUrunRepository;
+        private readonly IIdentityRepostitory _identityRepostitory;
 
         #endregion
 
@@ -64,8 +66,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// <returns>Index view</returns>
         public ActionResult Index()
         {
-            var list = _urunRepository.GetAll();
-            return View(list);
+            return View();
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             // MODEL DOGRULANDI MI?
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Ürün eklenemedi!");
+                ModelState.AddModelError("", @"Ürün eklenemedi!");
                 return View(model);
             }
 
@@ -118,29 +119,22 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 Silindi = false,
                 Yayinlandi = model.Yayinlandi,
                 CreatedDate = date,
-                UpdatedDate = date
+                UpdatedDate = date,
+                SaticiId = CurrentSatici.Id
             };
 
             // URUNU VERITABANINA EKLE. HATA OLUSMASI SIRASINDA SAYFAYA GERI DON VE MESAJI YAZDIR.
             try
             {
                 _repository.Insert(urun);
-                var user = _identityRepository.UserManager.FindById(User.Identity.GetUserId());
-                var satici = _saticiRepository.Table.FirstOrDefault(x => x.KullaniciId == user.Id);
-                if (satici != null)
-                    _saticiUrunRepository.Insert(new SaticiUrunMapping
-                    {
-                        CreatedDate = DateTime.Now,
-                        SaticiId = satici.Id
-                    });
-                else
-                    ModelState.AddModelError("", "Ürün eklenemedi!");
                 // URUN KAYDEDILIRSA Satici/Urun SAYFASINA GERI DON.
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Ürün eklenemedi!");
+                ModelState.AddModelError("", @"Ürün eklenemedi!");
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
                 return View(model);
             }
         }
@@ -198,7 +192,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                         using (var reader = new BinaryReader(fs))
                         {
-                            fileBytes = reader.ReadBytes((int) fs.Length);
+                            fileBytes = reader.ReadBytes((int)fs.Length);
                         }
 
                         // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
@@ -214,7 +208,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
                         if (resimekleurunid != null)
-                            // VERİ TABANINA EKLE
+                        // VERİ TABANINA EKLE
                         {
                             _urunResimRepository.Insert(new UrunResimMapping
                             {
@@ -225,19 +219,19 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         else
                         {
                             // HATA MESAJI
-                            ModelState.AddModelError("", "Ürün id boş veya geçersiz!");
+                            ModelState.AddModelError("", @"Ürün id boş veya geçersiz!");
                             return View();
                         }
 
                         // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("ResimEkle", "Urun", new {urunId = resimekleurunid});
+                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
                     }
                 }
             }
             catch (Exception)
             {
                 // Herhangi bir hata oluşması sırasında; sayfada görünecek hata
-                ModelState.AddModelError("", "Resim eklenemedi! ");
+                ModelState.AddModelError("", @"Resim eklenemedi! ");
             }
 
             // Hata oluştuğu sırada sayfaya geri döner
@@ -264,12 +258,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("ResimEkle", "Urun", new {urunId});
+                return RedirectToAction("ResimEkle", "Urun", new { urunId });
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("ResimEkle", "Urun", new {urunId});
+            return RedirectToAction("ResimEkle", "Urun", new { urunId });
         }
 
         #endregion

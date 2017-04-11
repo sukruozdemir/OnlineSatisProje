@@ -102,7 +102,6 @@
     <Compile Include="Entities\SaticiEtiketMapping.cs" />
     <Compile Include="Entities\SaticiIndirimMapping.cs" />
     <Compile Include="Entities\SaticiMekanMapping.cs" />
-    <Compile Include="Entities\SaticiUrunMapping.cs" />
     <Compile Include="Entities\Sehir.cs" />
     <Compile Include="Entities\SepetItem.cs" />
     <Compile Include="Entities\Siparis.cs" />

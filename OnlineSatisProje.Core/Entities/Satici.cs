@@ -13,7 +13,7 @@ namespace OnlineSatisProje.Core.Entities
             SaticiEtiketMapping = new HashSet<SaticiEtiketMapping>();
             SaticiIndirimMapping = new HashSet<SaticiIndirimMapping>();
             SaticiMekanMapping = new HashSet<SaticiMekanMapping>();
-            SaticiUrunMapping = new HashSet<SaticiUrunMapping>();
+            Uruns = new HashSet<Urun>();
             CreatedDate = DateTime.Now;
             UpdatedDate = CreatedDate;
         }
@@ -40,6 +40,6 @@ namespace OnlineSatisProje.Core.Entities
         public virtual ICollection<SaticiEtiketMapping> SaticiEtiketMapping { get; set; }
         public virtual ICollection<SaticiIndirimMapping> SaticiIndirimMapping { get; set; }
         public virtual ICollection<SaticiMekanMapping> SaticiMekanMapping { get; set; }
-        public virtual ICollection<SaticiUrunMapping> SaticiUrunMapping { get; set; }
+        public virtual ICollection<Urun> Uruns { get; set; }
     }
 }

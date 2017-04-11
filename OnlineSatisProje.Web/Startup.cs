@@ -50,7 +50,7 @@ namespace OnlineSatisProje.Web
 
             ConfigureAuth(app);
 
-            SeedRoles();
+            //SeedRoles();
         }
 
         private void SeedRoles()

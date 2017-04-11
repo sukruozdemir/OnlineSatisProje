@@ -10,7 +10,6 @@ namespace OnlineSatisProje.Core.Entities
     {
         public Urun()
         {
-            SaticiUrunMapping = new HashSet<SaticiUrunMapping>();
             SepetItem = new HashSet<SepetItem>();
             SiparisItem = new HashSet<SiparisItem>();
             UrunEtiketMapping = new HashSet<UrunEtiketMapping>();
@@ -42,8 +41,11 @@ namespace OnlineSatisProje.Core.Entities
         public bool Yayinlandi { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int SaticiId { get; set; }
 
-        public virtual ICollection<SaticiUrunMapping> SaticiUrunMapping { get; set; }
+        [ForeignKey("SaticiId")]
+        public virtual Satici Satici { get; set; }
+
         public virtual ICollection<SepetItem> SepetItem { get; set; }
         public virtual ICollection<SiparisItem> SiparisItem { get; set; }
         public virtual ICollection<UrunEtiketMapping> UrunEtiketMapping { get; set; }

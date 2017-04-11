@@ -28,7 +28,6 @@ namespace OnlineSatisProje.Data
         public virtual DbSet<SaticiEtiketMapping> SaticiEtiketMapping { get; set; }
         public virtual DbSet<SaticiIndirimMapping> SaticiIndirimMapping { get; set; }
         public virtual DbSet<SaticiMekanMapping> SaticiMekanMapping { get; set; }
-        public virtual DbSet<SaticiUrunMapping> SaticiUrunMapping { get; set; }
         public virtual DbSet<Sehir> Sehir { get; set; }
         public virtual DbSet<SepetItem> SepetItem { get; set; }
         public virtual DbSet<Siparis> Siparis { get; set; }
@@ -169,11 +168,6 @@ namespace OnlineSatisProje.Data
                 .WithRequired(e => e.Satici)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Satici>()
-                .HasMany(e => e.SaticiUrunMapping)
-                .WithRequired(e => e.Satici)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Sehir>()
                 .Property(e => e.Plaka)
                 .IsFixedLength();
@@ -213,11 +207,6 @@ namespace OnlineSatisProje.Data
             modelBuilder.Entity<Urun>()
                 .Property(e => e.Fiyat)
                 .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Urun>()
-                .HasMany(e => e.SaticiUrunMapping)
-                .WithRequired(e => e.Urun)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Urun>()
                 .HasMany(e => e.SepetItem)
