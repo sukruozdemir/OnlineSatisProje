@@ -1,7 +1,6 @@
 ﻿#region Usings
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,7 +8,6 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using log4net;
-using Microsoft.AspNet.Identity;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
@@ -28,19 +26,11 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         public UrunController(IUrunRepository urunRepository,
             IRepository<Urun> repository,
             IRepository<Resim> resimRepository,
-            IRepository<UrunResimMapping> urunResimRepository,
-            IRepository<UrunOzellik> urunOzellikRepository,
-            IRepository<UrunOzellikMapping> urunOzellikMappingRepository,
-            IIdentityRepostitory identityRepository,
-            IRepository<Core.Entities.Satici> saticiRepository,
-            IIdentityRepostitory identityRepostitory) : base(identityRepostitory, saticiRepository)
+            IRepository<UrunResimMapping> urunResimRepository)
         {
-            _urunRepository = urunRepository;
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
-            _saticiRepository = saticiRepository;
-            _identityRepostitory = identityRepostitory;
         }
 
         #endregion
@@ -48,12 +38,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         #region Fields
 
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
-        private readonly IRepository<Core.Entities.Satici> _saticiRepository;
-        private readonly IUrunRepository _urunRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
-        private readonly IIdentityRepostitory _identityRepostitory;
 
         #endregion
 
@@ -64,10 +52,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         ///     Urun anasayfa görünümü
         /// </summary>
         /// <returns>Index view</returns>
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View(_repository.Table.ToList());
 
         /// <summary>
         ///     GET: Satici/Urun/Ekle
@@ -75,10 +60,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// </summary>
         /// <returns>Ekle view</returns>
         [HttpGet]
-        public ActionResult Ekle()
-        {
-            return View();
-        }
+        public ActionResult Ekle() => View();
 
         /// <summary>
         ///     POST: Satiici/Urun/Ekle
@@ -97,44 +79,46 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             // MODEL DOGRULANDI MI?
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", @"Ürün eklenemedi!");
+                ModelState.AddModelError("", @"Model isn't valid!");
                 return View(model);
             }
-
-            // URUNUN EKLENDIGI/GUNCELLENDIGI TARIH
-            var date = DateTime.Now;
-
-            // YENI BIR URUN NESNESI OLUSTUR VE MODELDEN GELEN VERILERI NESNENIN ALANLARINA SET ET.
-            var urun = new Urun
-            {
-                Baslik = model.Baslik,
-                Aktif = true,
-                KisaAciklama = model.KisaAciklama,
-                TamAciklama = model.UzunAciklama,
-                AnasayfadaGoster = model.AnasayfadaGoster,
-                KullaniciYorumIzinVer = model.YorumIzinVer,
-                KargoAktif = model.KargoAktif,
-                UcretsizKargo = model.UcretsizKargo,
-                Fiyat = model.Fiyat,
-                Silindi = false,
-                Yayinlandi = model.Yayinlandi,
-                CreatedDate = date,
-                UpdatedDate = date,
-                SaticiId = CurrentSatici.Id
-            };
 
             // URUNU VERITABANINA EKLE. HATA OLUSMASI SIRASINDA SAYFAYA GERI DON VE MESAJI YAZDIR.
             try
             {
+                // URUNUN EKLENDIGI/GUNCELLENDIGI TARIH
+                var date = DateTime.Now;
+                Logger.Info(CurrentSatici.Id);
+                // YENI BIR URUN NESNESI OLUSTUR VE MODELDEN GELEN VERILERI NESNENIN ALANLARINA SET ET.
+                var urun = new Urun
+                {
+                    Baslik = model.Baslik,
+                    Aktif = true,
+                    KisaAciklama = model.KisaAciklama,
+                    TamAciklama = model.UzunAciklama,
+                    AnasayfadaGoster = model.AnasayfadaGoster,
+                    KullaniciYorumIzinVer = model.YorumIzinVer,
+                    KargoAktif = model.KargoAktif,
+                    UcretsizKargo = model.UcretsizKargo,
+                    Fiyat = model.Fiyat,
+                    Silindi = false,
+                    Yayinlandi = model.Yayinlandi,
+                    CreatedDate = date,
+                    UpdatedDate = date,
+                    SaticiId = CurrentSatici.Id
+                };
+
                 _repository.Insert(urun);
                 // URUN KAYDEDILIRSA Satici/Urun SAYFASINA GERI DON.
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", @"Ürün eklenemedi!");
                 Logger.Error(ex.Message);
                 Logger.Error(ex.InnerException);
+                Logger.Error(ex);
+                Logger.Error(ex.StackTrace);
+                ModelState.AddModelError("", @"Ürün eklenemedi!");
                 return View(model);
             }
         }
@@ -150,14 +134,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// <param name="urunId">Resimin ekleneceği ürünün id'si.</param>
         /// <returns></returns>
         [HttpGet]
-        [NoCache]
         public ActionResult ResimEkle(int? urunId)
         {
             if (urunId == null)
-                return HttpNotFound();
-            ViewBag.ResimEkleUrunId = urunId;
-            ViewData["UrunResimList"] = _resimRepository.Table.ToList();
-            return View();
+                throw new ArgumentNullException(nameof(urunId));
+
+            return View(_urunResimRepository.Table.ToList().Where(x => x.UrunId == urunId));
         }
 
         /// <summary>
@@ -169,7 +151,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [NoCache]
         public ActionResult ResimEkle(HttpPostedFileBase upload, string resimekleurunid)
         {
             try

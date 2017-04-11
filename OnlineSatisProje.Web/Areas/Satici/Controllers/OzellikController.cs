@@ -1,7 +1,7 @@
-﻿using OnlineSatisProje.Core.Entities;
-using OnlineSatisProje.Data;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Linq;
+using OnlineSatisProje.Core.Entities;
+using OnlineSatisProje.Data;
 
 namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {

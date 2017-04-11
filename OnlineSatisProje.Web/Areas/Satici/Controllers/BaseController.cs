@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using OnlineSatisProje.Core.Attributes;
 using OnlineSatisProje.Core.Entities;
@@ -11,18 +13,22 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
     [CustomAuthorize(Roles = "Satıcı")]
     public class BaseController : Controller
     {
+        // SATICI CONTROLLERININ HEPSINDE ERISILECEK ALANLAR
         public Kullanici CurrentKullanici { get; set; }
         public Core.Entities.Satici CurrentSatici { get; set; }
 
-        public BaseController()
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            // GET LOGGED USER-ID
+            var userid = User.Identity.GetUserId();
+            // RESOLVE
+            var identityRepostitory = DependencyResolver.Current.GetService<IIdentityRepostitory>();
+            var saticiRepository = DependencyResolver.Current.GetService<IRepository<Core.Entities.Satici>>();
 
-        }
-
-        public BaseController(IIdentityRepostitory identityRepostitory, IRepository<Core.Entities.Satici> saticiRepository)
-        {
-            CurrentKullanici = identityRepostitory.UserManager.FindById(User.Identity.GetUserId());
+            // SET INFO
+            CurrentKullanici = identityRepostitory.UserManager.FindById(userid);
             CurrentSatici = saticiRepository.Table.FirstOrDefault(x => x.KullaniciId == CurrentKullanici.Id);
+            base.OnActionExecuting(filterContext);
         }
     }
 }

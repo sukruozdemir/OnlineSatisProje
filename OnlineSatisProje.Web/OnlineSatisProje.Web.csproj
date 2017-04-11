@@ -251,6 +251,7 @@
     <Content Include="Areas\Admin\Views\Etiket\_PartialEtiketEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\_PartialResimEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />
