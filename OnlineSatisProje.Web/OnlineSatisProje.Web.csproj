@@ -245,14 +245,13 @@
     <Content Include="Areas\Admin\Views\Kullanici\RolEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\Ekle.cshtml" />
-    <Content Include="Areas\Satici\Views\Urun\ResimEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\Resimler.cshtml" />
     <Content Include="Areas\Admin\Views\Kategori\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Kategori\_PartialKategoriEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\_PartialEtiketEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
-    <Content Include="Areas\Satici\Views\Urun\_PartialResimEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Satici\Index.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />

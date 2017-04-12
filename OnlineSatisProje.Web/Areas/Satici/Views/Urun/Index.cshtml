@@ -55,7 +55,7 @@ else
                 </td>
                 <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
                 <td class="text-center">
-                    <a href="@Url.Action("ResimEkle", "Urun", new {urunId = item.Id})" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resim ekle</a>
+                    <a href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})" class="btn btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resimler</a>
                     <a href="#" class="btn btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>
                 </td>
             </tr>

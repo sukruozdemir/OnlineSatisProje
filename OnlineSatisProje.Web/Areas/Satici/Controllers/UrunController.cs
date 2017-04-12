@@ -128,18 +128,17 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         #region Resim Actions
 
         /// <summary>
-        ///     GET: Satici/Urun/ResimEkle?urunId=2
+        ///     GET: Satici/Urun/Resimler?urunId=2
         ///     View görünümü
         /// </summary>
         /// <param name="urunId">Resimin ekleneceği ürünün id'si.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ResimEkle(int? urunId)
+        [OutputCache(Duration = 30)]
+        public ActionResult Resimler(int? urunId)
         {
             if (urunId == null)
-                throw new ArgumentNullException(nameof(urunId));
-
-           
+                return RedirectToAction("Index");
 
             var urun = _repository.GetById(urunId);
             if (urun == null)
@@ -154,81 +153,70 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return View(model);
         }
 
-        /// <summary>
-        ///     POST: Satici/Urun/ResimEkle
-        ///     Resimi veri tabanına ekler. Eklenen resim, ürün ile ilişkilendirilir. (UrunResimMapping tablosuna eklenir.)
-        /// </summary>
-        /// <param name="upload">Eklenecek Resim</param>
-        /// <param name="resimekleurunid">Ürün id</param>
-        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResimEkle(HttpPostedFileBase upload, string resimekleurunid)
+        [OutputCache(Duration = 30)]
+        public ActionResult Resimler(UrunResimMapping model, HttpPostedFileBase upload)
         {
+            if (upload == null)
+                throw new ArgumentNullException(nameof(upload));
             try
             {
-                // DOSYA UPLOAD EDİLMİŞ Mİ?
-                if (upload != null && upload.ContentLength > 0)
+                if (upload.ContentLength > 0)
                 {
-                    // UPLOAD EDİLEN DOSYANIN İSMİNİ AL
                     var fileName = Path.GetFileName(upload.FileName);
                     if (fileName != null)
                     {
+                        const string diretoryPath = "~/Content/Images/UrunUploads";
+                        if (!Directory.Exists(Server.MapPath(diretoryPath)))
+                            Directory.CreateDirectory(Server.MapPath(diretoryPath));
+
                         // DOSYAYI Content/Images/UrunUploads KLASORUNE KAYDET.
                         var mapFileName = DateTime.Now.ToString("MM.dd.yyyy");
-                        var filePath = Path.Combine(Server.MapPath("~/Content/Images/UrunUploads/"),
+                        var filePath = Path.Combine(Server.MapPath(diretoryPath + "/"),
                             mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName);
                         upload.SaveAs(filePath);
 
-                        // DOSYAYININ BYTE DIZISINI AL
                         byte[] fileBytes;
-                        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                        using (var reader = new BinaryReader(fs))
-                        {
-                            fileBytes = reader.ReadBytes((int)fs.Length);
-                        }
+                        using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                        using (var reader = new BinaryReader(fileStream))
+                            fileBytes = reader.ReadBytes((int)fileStream.Length);
 
-                        // RESİM OLUŞTUR VE RESİMİ VERİ TABANINA KAYDET
                         var resim = new Resim
                         {
-                            Baslik = fileName,
-                            CreatedDate = DateTime.Now,
                             ResimBinary = fileBytes,
                             AltAttr = "",
-                            TitleAttr = ""
+                            Baslik = Path.GetFileName(upload.FileName),
+                            TitleAttr = "",
+                            CreatedDate = DateTime.Now
                         };
                         _resimRepository.Insert(resim);
 
-                        // URUN ID BOŞ DEĞİLSE RESİM İLE URUNU ILISKILENDIR. UrunResimMapping TABLOSUNA KAYDET.
-                        if (resimekleurunid != null)
-                        // VERİ TABANINA EKLE
+                        if (model.UrunId > 0)
                         {
-                            _urunResimRepository.Insert(new UrunResimMapping
-                            {
-                                UrunId = int.Parse(resimekleurunid),
-                                ResimId = resim.Id
-                            });
-                        }
-                        else
-                        {
-                            // HATA MESAJI
-                            ModelState.AddModelError("", @"Ürün id boş veya geçersiz!");
-                            return View();
+                            model.ResimId = resim.Id;
+                            _urunResimRepository.Insert(model);
+                            return RedirectToAction("Resimler", new { urunId = model.UrunId });
                         }
 
-                        // BÜTÜN İŞLEMLER DOĞRU ŞEKİLDE GERÇEKLEŞİRSE Satici/Urun sayfasına geri dön
-                        return RedirectToAction("ResimEkle", "Urun", new { urunId = resimekleurunid });
+                        ModelState.AddModelError("", "Ürün id boş!");
+                        return View(model);
                     }
-                }
-            }
-            catch (Exception)
-            {
-                // Herhangi bir hata oluşması sırasında; sayfada görünecek hata
-                ModelState.AddModelError("", @"Resim eklenemedi! ");
-            }
 
-            // Hata oluştuğu sırada sayfaya geri döner
-            return View();
+                    ModelState.AddModelError("", "Resim yüklenemedi!");
+                    return View(model);
+                }
+
+                ModelState.AddModelError("", "Resim upload edilemedi!");
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                Logger.Error(e);
+                ModelState.AddModelError("", "Resim eklenirken bir hata oluştu");
+                return View(model);
+            }
         }
 
         [NoCache]
@@ -251,12 +239,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("ResimEkle", "Urun", new { urunId });
+                return RedirectToAction("Resimler", "Urun", new { urunId });
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("ResimEkle", "Urun", new { urunId });
+            return RedirectToAction("Resimler", "Urun", new { urunId });
         }
 
         #endregion
