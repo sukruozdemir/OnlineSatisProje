@@ -1,26 +1,15 @@
 ﻿@using OnlineSatisProje.Core.Entities
-@model IEnumerable<OnlineSatisProje.Core.Entities.UrunResimMapping>
+@model OnlineSatisProje.Core.Entities.UrunResimMapping
 @{
     ViewBag.Title = "ResimEkle";
+    var resimListe = (IEnumerable<UrunResimMapping>) ViewData["ResimListe"];
 }
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#resimEkleModal"><i class="fa fa-plus-square-o"></i> Yeni ekle</button>
-        @Html.Partial("_PartialResimEkle", new UrunResimMapping
-        {
-            UrunId = Model.FirstOrDefault().UrunId
-        })
-    </div>
-</div>
-<hr/>
-<!-- URUNUN RESMI VARSA LISTELE, YOKSA MESAJ YAZDIR -->
-@if (Model.Any())
+
+@if (resimListe.Any())
 {
-    var i = 1;
     <table class="table">
         <thead class="thead-inverse">
         <tr>
-            <th class="text-center">#</th>
             <th class="text-center">Resim</th>
             <th>Başlık</th>
             <th></th>
@@ -31,40 +20,35 @@
         @foreach (var resim in (IList<Resim>) ViewData["UrunResimList"])
         {
             <tr>
-                <th class="text-center">@i</th>
                 <th class="text-center">
-                    <img src="@Url.Action("Thumbnail", "Urun", new {resimId = resim.Id})" class="img-thumbnail rounded" title="" alt="" width="291" height="285"/>
+                    <img src="data:image;base64, @Convert.ToBase64String(resim.ResimBinary)" class="img-thumbnail rounded" title="" alt="" width="291" height="285"/>
                 </th>
                 <th>@resim.Baslik</th>
                 <th>
                     @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
                     {
-                        @Html.Hidden("resimId", resim.Id)
-                        @Html.Hidden("urunId", (int) ViewBag.ResimEkleUrunId)
                         <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
                     }
                 </th>
             </tr>
-            i++;
         }
         </tbody>
     </table>
 }
-else
-{
-    <!-- MESAJ -->
-    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Ürün resim bulunamadı</h1>
 }
 
-@section scripts {
-    <script>
-        $("input[name=upload]").on("change",
-            function() {
-                var val = $(this).val();
-                var lastIndex = val.lastIndexOf("\\");
-                var editted = val.substring(lastIndex + 1, val.length);
-                $("#dosyaAdi").text(editted).css("display", "block");
 
-            });
-    </script>
+@using (Html.BeginForm("ResimEkle", "Urun", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.HiddenFor(x => x.UrunId)
+    <div class="form-group row">
+        <div class="col-12">
+            <label class="custom-file col-12">
+                <input type="file" id="file" class="custom-file-input" name="upload" accept=".jpg, .png, .jpeg, .bmp, ">
+                <span class="custom-file-control"></span>
+            </label>
+            <br />
+            <p class="text-muted" id="dosyaAdi" style="display: none;"></p>
+        </div>
+    </div>
 }

@@ -139,7 +139,19 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (urunId == null)
                 throw new ArgumentNullException(nameof(urunId));
 
-            return View(_urunResimRepository.Table.ToList().Where(x => x.UrunId == urunId));
+           
+
+            var urun = _repository.GetById(urunId);
+            if (urun == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new UrunResimMapping
+            {
+                UrunId = urun.Id
+            };
+            ViewData["ResimListe"] = _urunResimRepository.Table.ToList().Where(x => x.UrunId == urunId);
+            return View(model);
         }
 
         /// <summary>
