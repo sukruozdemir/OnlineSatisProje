@@ -2,22 +2,26 @@
 using System.Linq;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
+using OnlineSatisProje.Services.Interfaces;
 
 namespace OnlineSatisProje.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository<Urun> _urunRepository;
+        private readonly IRepository<Urun> _repositoryUrun;
+        private readonly IUrunRepository _urunRepository;
 
-        public HomeController(IRepository<Urun> urunRepository)
+        public HomeController(IRepository<Urun> repositoryUrun,
+            IUrunRepository urunRepository)
         {
+            _repositoryUrun = repositoryUrun;
             _urunRepository = urunRepository;
         }
 
+        [OutputCache(Duration = 30)]
         public ActionResult Index()
         {
-
-            ViewData["UrunListe"] = _urunRepository.Table.ToList();
+            ViewData["UrunListe"] = _urunRepository.GetHomePageProducts();
             return View();
         }
 

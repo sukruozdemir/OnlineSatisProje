@@ -8,21 +8,36 @@ namespace OnlineSatisProje.Services.Services
 {
     public class UrunRepository : IUrunRepository
     {
-        private readonly IRepository<Urun> _repository;
+        private readonly IRepository<Urun> _urunRepository;
 
-        public UrunRepository(IRepository<Urun> repository)
+        public UrunRepository(IRepository<Urun> urunRepository)
         {
-            _repository = repository;
+            _urunRepository = urunRepository;
         }
 
-        public IList<Urun> GetAll()
+        public IEnumerable<Urun> GetAllProducts() => _urunRepository.Table.ToList();
+
+        public IEnumerable<Urun> GetPublishedProducts() => GetAllProducts().Where(u => u.Yayinlandi).ToList();
+
+        public IList<Urun> GetDeletedProducts() => GetAllProducts().Where(u => u.Silindi).ToList();
+
+        public IList<Urun> GetShowOnHomePageProducts() => GetAllProducts().Where(u => u.AnasayfadaGoster).ToList();
+
+        public IList<Urun> GetPublishedAndHomePageProducts() => GetPublishedProducts()
+            .Where(u => u.AnasayfadaGoster)
+            .ToList();
+
+        public IList<Urun> GetHomePageProducts() => GetAllProducts()
+            .Where(u => u.AnasayfadaGoster && !u.Silindi && u.Yayinlandi && u.Aktif)
+            .ToList();
+
+        public bool IsAvailable(int? id)
         {
-            return _repository.Table.ToList();
+            if (id == null) return false;
+            var urun = _urunRepository.GetById(id);
+            return urun.Aktif && !urun.Silindi && urun.Yayinlandi;
         }
 
-        public void ResimEkle(int urunId, Resim resim)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool IsAvailable(Urun urun) => IsAvailable(urun.Id);
     }
 }

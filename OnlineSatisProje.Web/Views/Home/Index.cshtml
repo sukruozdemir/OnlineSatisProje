@@ -19,21 +19,26 @@
                 }
                 @if (null != urunresim)
                 {
-                    <img class="card-img-top" height="180" style="width: 100%;" src="data:image;base64, @Convert.ToBase64String(urunresim.Resim.ResimBinary)"
-                         alt="Card image cap">
+                    <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
+                        <img class="card-img-top" height="180" style="width: 100%;" src="data:image;base64, @Convert.ToBase64String(urunresim.Resim.ResimBinary)"
+                             alt="Card image cap">
+                    </a>
                 }
                 else
                 {
                     <img class="card-img-top" height="180" style="width: 100%;" src="/Content/Images/product.png"
                          alt="Card image cap">
                 }
+
                 <div class="card-block">
-                    <h4 class="card-title">@urun.Baslik</h4>
+
+                    <h4 class="card-title">
+                        @urun.Baslik
+                    </h4>
                     <p class="card-text">@urun.KisaAciklama</p>
                     <p class="card-text">
-                        <a href="#">
-                            <small class="text-muted">@urun.Satici.Ad</small>
-                        </a>
+
+                        <small class="text-muted">@urun.Satici.Ad</small>
                     </p>
                 </div>
             </div>
