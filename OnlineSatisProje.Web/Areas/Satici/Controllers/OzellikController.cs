@@ -29,7 +29,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Özellik eklenemedi!");
-                return PartialView();
+                return PartialView("_PartialOzellikEkle");
             }
 
             _urunOzellikRepository.Insert(urunOzellik);

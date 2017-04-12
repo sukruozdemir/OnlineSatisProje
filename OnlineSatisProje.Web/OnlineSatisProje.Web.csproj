@@ -214,6 +214,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\product.png" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -252,6 +253,7 @@
     <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\_PartialResimEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\Satici\Index.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />
@@ -297,7 +299,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Satici\" />
     <Folder Include="Content\Images\UrunUploads\" />
   </ItemGroup>
   <ItemGroup>
