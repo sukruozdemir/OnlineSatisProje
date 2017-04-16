@@ -121,6 +121,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Configuration" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -199,9 +200,11 @@
     <Compile Include="Areas\Admin\Models\KullaniciViewModel.cs" />
     <Compile Include="Areas\Satici\Controllers\BaseController.cs" />
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Satici\Controllers\MekanController.cs" />
     <Compile Include="Areas\Satici\Controllers\OzellikController.cs" />
     <Compile Include="Areas\Satici\Controllers\UrunController.cs" />
     <Compile Include="Areas\Satici\CustomActions\ImageResult.cs" />
+    <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
@@ -265,6 +268,8 @@
     <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Satici\Index.cshtml" />
+    <Content Include="Areas\Satici\Views\Mekan\Index.cshtml" />
+    <Content Include="Areas\Satici\Views\Mekan\_PartialMekanEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

@@ -1,0 +1,114 @@
+﻿@using OnlineSatisProje.Web.Areas.Satici.Models
+@model IEnumerable<OnlineSatisProje.Core.Entities.SaticiMekanMapping>
+@{
+    ViewBag.Title = "Mekanlar";
+}
+
+<h1 class="display-4">Mekanlar</h1>
+<hr/>
+<div class="col-12">
+    <button class="btn btn-secondary" data-target="#mekaneklemodal" data-toggle="modal"><i class="fa fa-plus-square-o"></i> Mekan ekle</button>
+</div>
+<hr/>
+@{
+    var any = false;
+    // ReSharper disable once LoopCanBeConvertedToQuery
+    foreach (var unused in Model)
+    {
+        any = true;
+        break;
+    }
+}
+@if (!any)
+{
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Mekan bulunamadı</h1>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>Adres</th>
+            <th>Şehir</th>
+            <th>İlçe</th>
+            <th class="text-center">Silindi</th>
+            <th>Oluşturulma Tarihi</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Adres.Baslik</th>
+                <th>@item.Adres.Ilce.Sehir.Ad</th>
+                <th>@item.Adres.Ilce.Ad</th>
+                <th class="text-center">
+                    @if (item.Silindi)
+                    {
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </th>
+                <th>@item.CreatedDate</th>
+                <th>
+                    @if (!item.Silindi)
+                    {
+                        using (Html.BeginForm("Sil", "Mekan", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", item.Id)
+                            <button id="mekansilid" type="submit" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Sil</button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("Aktif", "Mekan", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", item.Id)
+                            <button id="mekansilid" type="submit" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i> Aktif yap</button>
+                        }
+                    }
+                </th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@Html.Partial("_PartialMekanEkle", new SaticiMekanModel())
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#sehirler").on("change",
+                function() {
+                    var id = $(this).val();
+                    $.ajax({
+                        url: '@Url.Action("Ilceler", "Mekan", new {area = "Satici"})',
+                        type: 'GET',
+                        dataType: 'JSON',
+                        contentType: "application/json; charset=utf-8",
+                        data: { id: id },
+                        success: function(data) {
+                            var ilceddl = $("#IlceId");
+                            if (ilceddl) {
+                                ilceddl.empty();
+                                $.each(data,
+                                    function(i, d) {
+                                        var opt = $("<option>").val(d["id"]).text(d["ad"]);
+                                        ilceddl.append(opt);
+                                    });
+                            }
+                        },
+                        error: function(msg) {
+                            console.error(msg);
+                        }
+                    });
+                });
+        });
+    </script>
+}

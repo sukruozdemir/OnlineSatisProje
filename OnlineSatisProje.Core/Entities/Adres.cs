@@ -30,6 +30,7 @@ namespace OnlineSatisProje.Core.Entities
         [StringLength(15)]
         public string Telefon { get; set; }
 
+        public bool Aktif { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public virtual Ilce Ilce { get; set; }
