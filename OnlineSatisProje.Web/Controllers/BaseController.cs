@@ -14,6 +14,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (!User.Identity.IsAuthenticated) return;
             _identityRepostitory = DependencyResolver.Current.GetService<IIdentityRepostitory>();
             CurrentUser = GetCurrentUser();
             Satici = IsSatici();
