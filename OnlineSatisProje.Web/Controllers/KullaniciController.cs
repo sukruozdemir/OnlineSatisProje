@@ -9,7 +9,7 @@ using OnlineSatisProje.Web.Models;
 namespace OnlineSatisProje.Web.Controllers
 {
     [Authorize]
-    public class KullaniciController : Controller
+    public class KullaniciController : BaseController
     {
         private readonly IKullaniciRepository _kullaniciRepository;
 

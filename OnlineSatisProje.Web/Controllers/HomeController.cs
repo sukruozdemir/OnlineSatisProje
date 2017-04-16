@@ -6,7 +6,7 @@ using OnlineSatisProje.Services.Interfaces;
 
 namespace OnlineSatisProje.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IRepository<Urun> _repositoryUrun;
         private readonly IUrunRepository _urunRepository;

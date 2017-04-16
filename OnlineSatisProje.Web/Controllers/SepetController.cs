@@ -3,7 +3,7 @@
 namespace OnlineSatisProje.Web.Controllers
 {
     [Authorize]
-    public class SepetController : Controller
+    public class SepetController : BaseController
     {
         // GET: Sepet
         public ActionResult Index()

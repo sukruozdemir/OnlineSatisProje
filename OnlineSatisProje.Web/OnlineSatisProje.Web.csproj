@@ -207,6 +207,7 @@
     <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HesabimController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -324,6 +325,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\UrunUploads\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Sepet\" />
   </ItemGroup>
   <ItemGroup>
