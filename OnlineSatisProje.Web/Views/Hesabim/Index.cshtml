@@ -1,0 +1,87 @@
+﻿@model OnlineSatisProje.Web.Models.HesapModel
+@{
+    ViewBag.Title = "Hesabım";
+}
+
+<style>
+    .card {
+        padding-top: 25px;
+    }
+</style>
+
+<h1 class="display-4" style="margin-top: 20px;">Hesabım</h1>
+<hr />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-deck">
+            <div class="card text-center">
+                <i class="fa fa-map-marker fa-3x"></i>
+                <div class="card-block">
+                    <h4 class="card-title">Adreslerim</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Adreslerim", "Hesabim", new { area = "" })" class="btn btn-sm btn-link">Devam et</a>
+                </div>
+            </div>
+
+            <div class="card text-center">
+                <i class="fa fa-shopping-cart fa-3x"></i>
+                <div class="card-block">
+                    <h4 class="card-title">Sepetim</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-sm btn-link">Devam et</a>
+                </div>
+            </div>
+
+            <div class="card text-center">
+                <i class="fa fa-truck fa-3x"></i>
+                <div class="card-block">
+                    <h4 class="card-title">Siparişlerim</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-sm btn-link">Devam et</a>
+                </div>
+            </div>
+
+            @if (Model.SaticiMi)
+            {
+                <div class="card text-center">
+                    <i class="fa fa-user fa-3x"></i>
+                    <div class="card-block">
+                        <h4 class="card-title">Satıcı profilim</h4>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-sm btn-link">Devam et</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-2">
+        <img src="~/Content/Images/user.png" width="175" height="175" class="img-thumbnail rounded-circle" alt="@Model.KullaniciAdi" />
+    </div>
+    <div class="col-10">
+        <div class="row">
+            <div class="col-3 text-right"><strong>Kullanıcı adı: </strong></div>
+            <div class="col-9"><p>@Model.KullaniciAdi</p></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-3 text-right"><strong>Email: </strong></div>
+            <div class="col-9"><p>@Model.Email</p></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-3 text-right"><strong>Hesap oluşturulma tarihi: </strong></div>
+            <div class="col-9"><p>@Model.CreatedDate.ToLongDateString()</p></div>
+        </div>
+
+    </div>
+</div>

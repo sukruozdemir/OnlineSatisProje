@@ -207,14 +207,17 @@
     <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
+    <Compile Include="Controllers\HesabimController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SepetController.cs" />
     <Compile Include="Controllers\UrunController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\HesapModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -230,6 +233,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\product.png" />
+    <Content Include="Content\Images\user.png" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -314,10 +318,13 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Urun\Liste.cshtml" />
     <Content Include="Views\Urun\Detay.cshtml" />
+    <Content Include="Views\Hesabim\Index.cshtml" />
+    <Content Include="Views\Hesabim\Adreslerim.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\UrunUploads\" />
+    <Folder Include="Views\Sepet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

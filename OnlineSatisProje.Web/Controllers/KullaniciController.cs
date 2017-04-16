@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using OnlineSatisProje.Core.Entities;
@@ -38,22 +39,30 @@ namespace OnlineSatisProje.Web.Controllers
         public async Task<ActionResult> Giris(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid) return View(model);
-            var result = await _kullaniciRepository.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
-            switch (result)
+            try
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    break;
-                case SignInStatus.RequiresVerification:
-                    break;
-                case SignInStatus.Failure:
-                    break;
-                default:
-                    ModelState.AddModelError("", "Giriş yapılamadı");
-                    return View(model);
+                var result = await _kullaniciRepository.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        break;
+                    case SignInStatus.RequiresVerification:
+                        break;
+                    case SignInStatus.Failure:
+                        break;
+                    default:
+                        ModelState.AddModelError("", @"Giriş yapılamadı");
+                        return View(model);
+                }
             }
+            catch
+            {
+                ModelState.AddModelError("", @"Giriş yapılamadı");
+                return View(model);
 
+            }
             return View(model);
         }
 
@@ -79,7 +88,7 @@ namespace OnlineSatisProje.Web.Controllers
             var kullanici = new Kullanici {UserName = model.Email, Email = model.Email};
             if (!_kullaniciRepository.Register(kullanici, model.Password))
             {
-                ModelState.AddModelError("", "Kullanıcı oluşturulamadı!");
+                ModelState.AddModelError("", @"Kullanıcı oluşturulamadı!");
                 return View(model);
             }
 
@@ -98,9 +107,6 @@ namespace OnlineSatisProje.Web.Controllers
         }
 
         #region Helpers
-
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

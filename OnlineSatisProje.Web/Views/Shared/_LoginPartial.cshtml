@@ -1,31 +1,33 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new { id = "logoutForm"}))
     {
         @Html.AntiForgeryToken()
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-user"></i> User
+                <i class="fa fa-user"></i> Hesabım
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> @User.Identity.GetUserName()
-                </a>
+                <div class="dropdown-header text-center">
+                    <img src="~/Content/Images/user.png" style="height:65px" class="img-thumbnail rounded-circle" alt="" />
+                </div>
+                <h6 class="dropdown-header">@User.Identity.GetUserName()</h6>
+                <div class="dropdown-divider"></div>
                 @if (User.IsInRole("Admin"))
                 {
                     <a class="dropdown-item" href="@Url.Action("Index", "Home", new {Area = "Admin"})">
-                        <i class="fa fa-chevron-right"></i> Admin Panel
+                        <i class="fa fa-external-link"></i> Admin Panel
                     </a>
                 }
                 @if (User.IsInRole("Satıcı"))
                 {
                     <a class="dropdown-item" href="@Url.Action("Index", "Home", new {Area = "Satici"})">
-                        <i class="fa fa-chevron-right"></i> Satıcı Panel
+                        <i class="fa fa-external-link"></i> Satıcı Panel
                     </a>
                 }
-                <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Ayarlar</a>
+                <a class="dropdown-item" href="@Url.Action("Index", "Hesabim", new {area = ""})"><i class="fa fa-cog"></i> Ayarlar</a>
                 <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Çıkış</a>
             </div>
         </li>
