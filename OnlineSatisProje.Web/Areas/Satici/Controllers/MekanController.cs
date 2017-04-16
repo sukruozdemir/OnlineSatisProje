@@ -45,7 +45,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (!ModelState.IsValid)
             {
                 Logger.Error("Model is not valid!");
-                ModelState.AddModelError("", "Hata");
+                ModelState.AddModelError("", @"Hata");
                 return RedirectToAction("Index");
             }
             try
@@ -56,7 +56,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     Baslik = model.Baslik,
                     Adres1 = model.Adres,
                     IlceId = model.IlceId,
-                    Telefon = model.Aciklama,
+                    Telefon = model.Telefon,
                     CreatedDate = date,
                     Aktif = true
                 };
@@ -77,7 +77,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("", "Mekan eklenemedi");
+                ModelState.AddModelError("", @"Mekan eklenemedi");
                 Logger.Error(e.Message);
                 return RedirectToAction("Index");
             }
@@ -106,6 +106,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public ActionResult Aktif(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);

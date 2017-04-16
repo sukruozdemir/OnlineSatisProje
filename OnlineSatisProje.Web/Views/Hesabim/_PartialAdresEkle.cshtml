@@ -1,0 +1,49 @@
+﻿@using OnlineSatisProje.Core.Entities
+@model Adres
+@{
+    var sehirler = ((IList<Sehir>)ViewBag.Sehirler).Select(s => new SelectListItem
+    {
+        Text = s.Ad,
+        Value = s.Id.ToString()
+    });
+}
+
+<div class="modal fade" id="adreseklemodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Mekan ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("AdresEkle", "Hesabim", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", placeholder = "Başlık" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextAreaFor(x => x.Adres1, new { @class = "form-control", placeholder = "Adres", rows = 5 })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Telefon, new { @class = "form-control", placeholder = "Telefon" })
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownList("sehirler", sehirler, "Şehir seçiniz", new { @class = "custom-select col-12" })
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.IlceId, new List<SelectListItem>(), new { @class = "custom-select col-12" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-danger">Kaydet</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

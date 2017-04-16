@@ -1,11 +1,16 @@
-﻿@model IEnumerable<OnlineSatisProje.Core.Entities.KullaniciAdresMapping>
+﻿@using OnlineSatisProje.Core.Entities
+@model IEnumerable<KullaniciAdresMapping>
 
 @{
     ViewBag.Title = "Adreslerim";
 }
 
-<h2>Adreslerim</h2>
-
+<h1 class="display-4">Adreslerim</h1>
+<hr />
+<div class="col-12">
+    <button class="btn btn-secondary" data-target="#adreseklemodal" data-toggle="modal"><i class="fa fa-plus-square-o"></i> Adres ekle</button>
+</div>
+<hr />
 
 @if (!Model.Any())
 {
@@ -13,5 +18,49 @@
 }
 else
 {
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-4">
+                <h4 class="text-center">@item.Adres.Baslik</h4>
+                <p>@item.Adres.Adres1</p>
+                <p>@item.Adres.Telefon</p>
+            </div>
+        }
+    </div>
+}
 
+@Html.Partial("_PartialAdresEkle", new Adres())
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#sehirler").on("change",
+                function () {
+                    var id = $(this).val();
+                    $.ajax({
+                        url: '@Url.Action("Ilceler", "Mekan", new {area = "Satici"})',
+                        type: 'GET',
+                        dataType: 'JSON',
+                        contentType: "application/json; charset=utf-8",
+                        data: { id: id },
+                        success: function (data) {
+                            var ilceddl = $("#IlceId");
+                            if (ilceddl) {
+                                ilceddl.empty();
+                                $.each(data,
+                                    function (i, d) {
+                                        var opt = $("<option>").val(d["id"]).text(d["ad"]);
+                                        ilceddl.append(opt);
+                                    });
+                            }
+                        },
+                        error: function (msg) {
+                            console.error(msg);
+                        }
+                    });
+                });
+        });
+    </script>
 }
