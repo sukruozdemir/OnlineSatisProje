@@ -1,7 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new { id = "logoutForm"}))
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Index", "Sepet")"><i class="fa fa-shopping-cart"></i> Sepet</a>
+    </li>
+    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new { id = "logoutForm" }))
     {
         @Html.AntiForgeryToken()
 

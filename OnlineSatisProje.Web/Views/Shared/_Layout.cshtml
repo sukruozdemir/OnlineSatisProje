@@ -22,13 +22,13 @@
                     <a href="@Url.Action("Index", "Home")" class="nav-link"><i class="fa fa-home"></i> Anasayfa <span class="sr-only">(şuanki)</span></a>
                 </li>
 
-                @Html.Partial("_LoginPartial")
+                @Html.Partial("_LoginPartial")               
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container">@RenderBody()</div>
+<div class="container pt-3">@RenderBody()</div>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")

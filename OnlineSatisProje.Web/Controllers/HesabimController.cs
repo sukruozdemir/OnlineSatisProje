@@ -18,12 +18,12 @@ namespace OnlineSatisProje.Web.Controllers
 
         public ActionResult Index()
         {
-            var user = GetCurrentUser();
+            var user = CurrentUser;
             var model = new HesapModel
             {
                 Email = user.Email,
                 KullaniciAdi = user.UserName,
-                SaticiMi = IsSatici(),
+                SaticiMi = Satici,
                 CreatedDate = user.CreatedDate
             };
             return View(model);
@@ -31,7 +31,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         public ActionResult Adreslerim()
         {
-            var user = GetCurrentUser();
+            var user = CurrentUser;
             var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
             return View(kullaniciAdresler);
         }

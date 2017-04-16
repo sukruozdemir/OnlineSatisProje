@@ -1,0 +1,47 @@
+﻿@model IEnumerable<OnlineSatisProje.Core.Entities.SepetItem>
+@{
+    ViewBag.Title = "Sepet";
+}
+
+<h1 class="display-4">Sepetim (@Model.Count())</h1>
+<hr/>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>
+                Ürün
+            </th>
+            <th>
+                Miktar
+            </th>
+            <th>
+                Fiyat
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            var fiyat = item.Urun.Fiyat * item.Miktar;
+            <tr>
+                <th>
+                    @item.Urun.Baslik
+                </th>
+                <th>
+                    @item.Miktar
+                </th>
+                <th>
+                    @fiyat.ToString("C")
+                </th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-top: 20px;">Sepetiniz boş</h1>
+}

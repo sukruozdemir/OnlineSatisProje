@@ -321,12 +321,11 @@
     <Content Include="Views\Urun\Detay.cshtml" />
     <Content Include="Views\Hesabim\Index.cshtml" />
     <Content Include="Views\Hesabim\Adreslerim.cshtml" />
+    <Content Include="Views\Sepet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\UrunUploads\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\Sepet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

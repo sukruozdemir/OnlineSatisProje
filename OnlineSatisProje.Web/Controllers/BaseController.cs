@@ -7,21 +7,27 @@ namespace OnlineSatisProje.Web.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly IIdentityRepostitory _identityRepostitory;
+        protected Kullanici CurrentUser { get; set; }
+        protected bool Satici { get; set; }
 
-        public BaseController()
+        private IIdentityRepostitory _identityRepostitory;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             _identityRepostitory = DependencyResolver.Current.GetService<IIdentityRepostitory>();
+            CurrentUser = GetCurrentUser();
+            Satici = IsSatici();
+            base.OnActionExecuting(filterContext);
         }
 
-        public Kullanici GetCurrentUser()
+        private Kullanici GetCurrentUser()
         {
             var id = User.Identity.GetUserId();
             var user = _identityRepostitory.UserManager.FindById(id);
             return user;
         }
 
-        public bool IsSatici()
+        private bool IsSatici()
         {
             return _identityRepostitory.UserManager.IsInRole(GetCurrentUser().Id, "Satıcı");
         }
