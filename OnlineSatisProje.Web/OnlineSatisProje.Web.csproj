@@ -323,6 +323,7 @@
     <Content Include="Views\Hesabim\Adreslerim.cshtml" />
     <Content Include="Views\Sepet\Index.cshtml" />
     <Content Include="Views\Hesabim\_PartialAdresEkle.cshtml" />
+    <Content Include="Views\Sepet\Odeme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

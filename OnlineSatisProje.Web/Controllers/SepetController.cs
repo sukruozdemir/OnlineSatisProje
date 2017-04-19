@@ -15,11 +15,23 @@ namespace OnlineSatisProje.Web.Controllers
             _sepetRepository = sepetRepository;
         }
 
-        // GET: Sepet
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>View</returns>
         public ActionResult Index()
         {
             var liste = _sepetRepository.Table.Where(s => s.KullaniciId == CurrentUser.Id).ToList();
             return View(liste);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>View</returns>
+        public ActionResult Odeme()
+        {
+            return View();
         }
     }
 }
