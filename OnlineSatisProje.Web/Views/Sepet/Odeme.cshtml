@@ -3,5 +3,37 @@
     ViewBag.Title = "Odeme";
 }
 
-<h2>Odeme</h2>
+<style>
+    .form-odeme {
+        margin-top: 3em;
+        padding: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        box-shadow: 1px 1px 10px 0px #949595;
+        background-clip: padding-box;
+    }
+</style>
 
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <h1 class="display-4 text-center pt-5">Ödeme</h1>
+        @using (Html.BeginForm("Odeme", "Sepet", FormMethod.Post, new { @class = "form-odeme" }))
+        {
+            <div class="form-group row">
+                @Html.Label("AD", new { @class = "col-12 col-form-label text-left" })
+                <div class="col-12">
+                    <input type="text" name="name" value="" placeholder="AD" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.Label("KART NUMARASI", new { @class = "col-12 col-form-label text-left" })
+                <div class="col-12">
+                    <input type="text" name="name" value="" placeholder="KART NUMARASI" class="form-control" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-4"></div>
+</div>
