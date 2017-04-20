@@ -202,6 +202,7 @@
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
     <Compile Include="Areas\Satici\Controllers\MekanController.cs" />
     <Compile Include="Areas\Satici\Controllers\OzellikController.cs" />
+    <Compile Include="Areas\Satici\Controllers\SiparisController.cs" />
     <Compile Include="Areas\Satici\Controllers\UrunController.cs" />
     <Compile Include="Areas\Satici\CustomActions\ImageResult.cs" />
     <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
@@ -276,6 +277,7 @@
     <Content Include="Areas\Admin\Views\Satici\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Mekan\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Mekan\_PartialMekanEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Siparis\Index.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

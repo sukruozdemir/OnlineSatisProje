@@ -14,6 +14,7 @@ namespace OnlineSatisProje.Core.Entities
             SaticiIndirimMapping = new HashSet<SaticiIndirimMapping>();
             SaticiMekanMapping = new HashSet<SaticiMekanMapping>();
             Uruns = new HashSet<Urun>();
+            SiparisItems = new HashSet<SiparisItem>();
             CreatedDate = DateTime.Now;
             UpdatedDate = CreatedDate;
         }
@@ -41,5 +42,6 @@ namespace OnlineSatisProje.Core.Entities
         public virtual ICollection<SaticiIndirimMapping> SaticiIndirimMapping { get; set; }
         public virtual ICollection<SaticiMekanMapping> SaticiMekanMapping { get; set; }
         public virtual ICollection<Urun> Uruns { get; set; }
+        public virtual ICollection<SiparisItem> SiparisItems { get; set; }
     }
 }

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<OnlineSatisProje.Core.Entities.SiparisItem>
+@{
+    ViewBag.Title = "Siparişler";
+}
+<h1 class="display-4">Siparişler (@Model.Count())</h1>
+<hr/>
+@if (Model.Any())
+{
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>
+                Ürün
+            </th>
+            <th>
+                Miktar
+            </th>
+            <th>
+                Fiyat
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Urun.Baslik</th>
+                <th>@item.Miktar</th>
+                <th>@item.Fiyat.ToString("C")</th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-top: 20px;">Siparişiniz bulunmamaktadır</h1>
+}

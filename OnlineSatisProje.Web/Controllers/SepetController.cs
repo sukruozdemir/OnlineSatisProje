@@ -96,7 +96,8 @@ namespace OnlineSatisProje.Web.Controllers
                         UrunId = sepetItem.UrunId,
                         Miktar = sepetItem.Miktar,
                         Fiyat = sepetItem.Urun.Fiyat,
-                        IndirimMiktari = 0
+                        IndirimMiktari = 0,
+                        SaticiId = sepetItem.Urun.SaticiId
                     };
                     _siparisItemRepository.Insert(siparisItem);
                     sepetItem.Aktif = false;
