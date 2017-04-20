@@ -17,6 +17,8 @@ namespace OnlineSatisProje.Core.Entities
             SepetItem = new HashSet<SepetItem>();
         }
 
+        public string Ad { get; set; }
+        public string Soyad { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsDeleted { get; set; }

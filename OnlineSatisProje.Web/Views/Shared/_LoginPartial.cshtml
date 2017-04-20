@@ -1,4 +1,12 @@
 ﻿@using Microsoft.AspNet.Identity
+@using OnlineSatisProje.Core.Entities
+@{
+    Kullanici currentuser = null;
+    if (null != ViewBag.CurrentUser)
+    {
+        currentuser = (Kullanici)ViewBag.CurrentUser;
+    }
+}
 @if (Request.IsAuthenticated)
 {
     <li class="nav-item">
@@ -16,7 +24,15 @@
                 <div class="dropdown-header text-center">
                     <img src="~/Content/Images/user.png" style="height:65px" class="img-thumbnail rounded-circle" alt="" />
                 </div>
-                <h6 class="dropdown-header">@User.Identity.GetUserName()</h6>
+                @if (null != currentuser)
+                {
+                    <h6 class="dropdown-header text-center">@currentuser.Ad @currentuser.Soyad</h6>
+                }
+                else
+                {
+                    <h6 class="dropdown-header text-center">@User.Identity.GetUserName()</h6>
+                }
+
                 <div class="dropdown-divider"></div>
                 @if (User.IsInRole("Admin"))
                 {

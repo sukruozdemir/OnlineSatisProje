@@ -31,6 +31,13 @@ namespace OnlineSatisProje.Web.Controllers
         /// <returns>View</returns>
         public ActionResult Odeme()
         {
+            var list = _sepetRepository.Table.Where(s => s.KullaniciId == CurrentUser.Id).ToList();
+            var toplamucret = list.Sum(x => x.Urun.Fiyat * x.Miktar);
+            if (toplamucret <= 0)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.ToplamUcret = toplamucret;
             return View();
         }
     }

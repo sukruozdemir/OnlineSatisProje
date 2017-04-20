@@ -18,6 +18,7 @@ namespace OnlineSatisProje.Web.Controllers
             _identityRepostitory = DependencyResolver.Current.GetService<IIdentityRepostitory>();
             CurrentUser = GetCurrentUser();
             Satici = IsSatici();
+            ViewBag.CurrentUser = CurrentUser;
             base.OnActionExecuting(filterContext);
         }
 

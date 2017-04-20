@@ -114,6 +114,9 @@
     <Compile Include="Entities\UrunOzellikDeger.cs" />
     <Compile Include="Entities\UrunOzellikMapping.cs" />
     <Compile Include="Entities\UrunResimMapping.cs" />
+    <Compile Include="Enums\KargoDurumu.cs" />
+    <Compile Include="Enums\OdemeDurumu.cs" />
+    <Compile Include="Enums\SiparisDurumu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
