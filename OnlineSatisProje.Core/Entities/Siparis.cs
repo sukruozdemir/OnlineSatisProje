@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using OnlineSatisProje.Core.Enums;
 
 namespace OnlineSatisProje.Core.Entities
@@ -28,6 +29,7 @@ namespace OnlineSatisProje.Core.Entities
         public bool Silindi { get; set; }
         public DateTime Tarih { get; set; }
 
+        [NotMapped]
         public SiparisDurumu SiparisDurumu
         {
             get
@@ -37,6 +39,7 @@ namespace OnlineSatisProje.Core.Entities
             set { SiparisDurumId = (int)value; }
         }
 
+        [NotMapped]
         public OdemeDurumu OdemeDurumu
         {
             get
@@ -46,6 +49,7 @@ namespace OnlineSatisProje.Core.Entities
             set { OdemeDurumId = (int)value; }
         }
 
+        [NotMapped]
         public KargoDurumu KargoDurumu
         {
             get { return (KargoDurumu)KargoDurumId; }

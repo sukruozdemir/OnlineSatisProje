@@ -1,32 +1,61 @@
-﻿@{
+﻿@model OnlineSatisProje.Web.Models.OdemeModel
+@{
     ViewBag.Title = "Ödeme";
 }
 <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
+    <div class="col-sm-12 col-lg-6" style="margin: 0 auto;">
         <h1 class="display-4 text-center pt-5">Ödeme</h1>
-        @using (Html.BeginForm("Odeme", "Sepet", FormMethod.Post, new {@class = "form-odeme"}))
+        @using (Html.BeginForm("Odeme", "Sepet", FormMethod.Post, new { @class = "form-odeme" }))
         {
-            <h5>Toplam Ücret: @ViewBag.ToplamUcret.ToString("C")</h5>
-            <hr/>
+            @Html.ValidationSummary(true, "Hata", new { @class = "text-danger" })
+            @Html.AntiForgeryToken()
+            <hr />
+            <h5>Toplam Ücret: @Model.ToplamUcret.ToString("C")</h5>
+            <hr />
             <div class="form-group row">
-                <p class="text-muted"></p>
-            </div>
-
-            <div class="form-group row">
-                @Html.Label("AD", new {@class = "col-12 col-form-label text-left"})
+                @Html.LabelFor(x => x.KartAd, new { @class = "col-12 col-form-label" })
                 <div class="col-12">
-                    <input type="text" name="name" value="" placeholder="AD" class="form-control"/>
+                    @Html.TextBoxFor(x => x.KartAd, new { @class = "form-control", placeholder = "AD" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.KartNumara, new { @class = "col-12 col-form-label" })
+                <div class="col-12">
+                    @Html.TextBoxFor(x => x.KartNumara, new { @class = "form-control", placeholder = "KART NUMARASI", maxlength = 16 })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.KartCvv, new { @class = "col-12 col-form-label" })
+                <div class="col-12">
+                    @Html.TextBoxFor(x => x.KartCvv, new { @class = "form-control", placeholder = "CVV2" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6" style="padding: 0">
+                    @Html.LabelFor(x => x.KartSonKullanimAy, new { @class = "col-12 col-form-label" })
+                    <div class="col-12">
+                        @Html.DropDownListFor(x => x.KartSonKullanimAy, Model.Aylar, "-AY SEÇİNİZ-", new { @class = "custom-select col-12" })
+                    </div>
+                </div>
+                <div class="col-6" style="padding: 0">
+                    @Html.LabelFor(x => x.KartSonKullanimYil, new { @class = "col-12 col-form-label" })
+                    <div class="col-12">
+                        @Html.DropDownListFor(x => x.KartSonKullanimYil, Model.Yillar, "-YIL SEÇİNİZ-", new { @class = "custom-select col-12" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(x => x.KargoAdresi, new { @class = "col-12 col-form-label" })
+                <div class="col-12">
+                    @Html.DropDownListFor(x => x.KargoAdresi, Model.Adresler, "-ADRES SEÇİNİZ-", new { @class = "custom-select col-12" })
                 </div>
             </div>
 
             <div class="form-group row">
-                @Html.Label("KART NUMARASI", new {@class = "col-12 col-form-label text-left"})
-                <div class="col-12">
-                    <input type="text" name="name" value="" placeholder="KART NUMARASI" class="form-control"/>
+                <div class="offset-10 col-2">
+                    <button type="submit" class="btn pull-right btn-secondary">Devam et</button>
                 </div>
             </div>
         }
     </div>
-    <div class="col-3"></div>
 </div>

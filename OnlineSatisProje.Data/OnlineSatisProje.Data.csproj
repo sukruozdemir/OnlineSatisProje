@@ -101,6 +101,14 @@
     <Compile Include="Migrations\201704201536569_SiparisUpdate.Designer.cs">
       <DependentUpon>201704201536569_SiparisUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704201557071_SiparisUpdate1.cs" />
+    <Compile Include="Migrations\201704201557071_SiparisUpdate1.Designer.cs">
+      <DependentUpon>201704201557071_SiparisUpdate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704201800322_SepetItemUpdate.cs" />
+    <Compile Include="Migrations\201704201800322_SepetItemUpdate.Designer.cs">
+      <DependentUpon>201704201800322_SepetItemUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
@@ -127,6 +135,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704201536569_SiparisUpdate.resx">
       <DependentUpon>201704201536569_SiparisUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704201557071_SiparisUpdate1.resx">
+      <DependentUpon>201704201557071_SiparisUpdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704201800322_SepetItemUpdate.resx">
+      <DependentUpon>201704201800322_SepetItemUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

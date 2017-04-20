@@ -15,6 +15,7 @@ namespace OnlineSatisProje.Core.Entities
         public string KullaniciId { get; set; }
         public int UrunId { get; set; }
         public int Miktar { get; set; }
+        public bool Aktif { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
