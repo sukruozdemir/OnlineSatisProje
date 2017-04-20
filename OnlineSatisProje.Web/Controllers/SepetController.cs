@@ -64,6 +64,7 @@ namespace OnlineSatisProje.Web.Controllers
             if (!(CurrentUser.SepetItem.Count > 0))
                 return RedirectToAction("Index");
 
+            var sepetListe = CurrentUser.SepetItem;
             var siparis = new Siparis
             {
                 SiparisGuid = Guid.NewGuid(),
@@ -79,14 +80,14 @@ namespace OnlineSatisProje.Web.Controllers
                 KartCvv = model.KartCvv,
                 KartSonKullanimAy = model.KartSonKullanimAy,
                 KartSonKullanimYil = model.KartSonKullanimYil,
-                Tarih = DateTime.Now
+                Tarih = DateTime.Now,
+                SiparisToplam = sepetListe.Where(x => x.Aktif).Sum(x => x.Urun.Fiyat * x.Miktar)
             };
 
             try
             {
                 _siparisRepository.Insert(siparis);
-                var sepetListe = CurrentUser.SepetItem;
-                foreach (var sepetItem in sepetListe)
+                foreach (var sepetItem in sepetListe.Where(x => x.Aktif))
                 {
                     var siparisItem = new SiparisItem
                     {
@@ -99,9 +100,10 @@ namespace OnlineSatisProje.Web.Controllers
                     };
                     _siparisItemRepository.Insert(siparisItem);
                     sepetItem.Aktif = false;
+                    sepetItem.UpdatedDate = DateTime.Now;
                     _sepetRepository.Update(sepetItem);
                 }
-
+                return RedirectToAction("Siparislerim", "Hesabim");
             }
             catch (Exception)
             {

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<OnlineSatisProje.Core.Entities.Siparis>
+@{
+    ViewBag.Title = "Siparişlerim";
+}
+
+<h1 class="display-4">Siparişlerim</h1>
+<hr />
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead class="thead-default">
+            <tr>
+                <th>
+                    Ürünler
+                </th>
+                <th>
+                    Sipariş Toplamı
+                </th>
+                <th>
+                    Kargo Durumu
+                </th>
+                <th>
+                    Sipariş Toplam
+                </th>
+                <th>
+                    Tarih
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @foreach (var siparisItem in item.SiparisItem)
+                        {
+                            <p class="text-muted">@siparisItem.Urun.Baslik</p>
+                        }
+                    </th>
+                    <th>
+                        @item.SiparisToplam
+                    </th>
+                    <th>
+                        @item.SiparisDurumu
+                    </th>
+                    <th>
+                        @item.KargoDurumu
+                    </th>
+                    <th>
+                        @item.Tarih.ToLongDateString() @item.Tarih.ToShortTimeString()
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-top: 20px;">Siparişiniz bulunmamaktadır</h1>
+}

@@ -17,7 +17,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
             IRepository<Adres> adresRepository,
-            IRepository<Ilce> ilceRepository, 
+            IRepository<Ilce> ilceRepository,
             IRepository<Sehir> sehirRepository)
         {
             _kullaniciAdresRepository = kullaniciAdresRepository;
@@ -37,6 +37,11 @@ namespace OnlineSatisProje.Web.Controllers
                 CreatedDate = user.CreatedDate
             };
             return View(model);
+        }
+
+        public ActionResult Siparislerim()
+        {
+            return View(CurrentUser.Siparis.Where(x => x.Aktif && !x.Silindi).ToList());
         }
 
         public ActionResult Adreslerim()
@@ -74,7 +79,7 @@ namespace OnlineSatisProje.Web.Controllers
                 return View("Adreslerim");
             }
         }
-        
+
         public JsonResult Ilceler(int id)
         {
             var liste = _ilceRepository.Table.Where(x => x.SehirId == id).Select(x => new
