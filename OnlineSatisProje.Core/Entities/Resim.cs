@@ -15,8 +15,9 @@ namespace OnlineSatisProje.Core.Entities
             CreatedDate = DateTime.Now;
         }
 
-        [Required]
         public byte[] ResimBinary { get; set; }
+
+        public string ResimPath { get; set; }
 
         [StringLength(50)]
         public string Baslik { get; set; }

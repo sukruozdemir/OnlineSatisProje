@@ -8,6 +8,9 @@ namespace OnlineSatisProje.Data
     //IdentityDbContext<Kullanici>
     public class ApplicationContext : IdentityDbContext<Kullanici>, IDbContext
     {
+        private const string DomainConnection = "DomainConnection";
+        public ApplicationContext() : base(DomainConnection) { }
+
         public ApplicationContext(string connectionStringName) : base(connectionStringName)
         {      
         }
