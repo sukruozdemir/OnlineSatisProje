@@ -1,39 +1,50 @@
-﻿@model IEnumerable<OnlineSatisProje.Core.Entities.SiparisItem>
+﻿@using OnlineSatisProje.Web.Areas.Satici.Models
+@model IEnumerable<OnlineSatisProje.Core.Entities.SiparisItem>
 @{
     ViewBag.Title = "Siparişler";
 }
 <h1 class="display-4">Siparişler (@Model.Count())</h1>
-<hr />
+<hr/>
+<p>@ViewBag.HataMesaj</p>
+
 @if (Model.Any())
 {
     <table class="table">
         <thead class="thead-default">
-            <tr>
-                <th>
-                    Ürün
-                </th>
-                <th>
-                    Miktar
-                </th>
-                <th>
-                    Fiyat
-                </th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(x => x.UrunId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(x => x.Miktar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(x => x.Fiyat)
+            </th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th>@item.Urun.Baslik</th>
-                    <th>@item.Miktar</th>
-                    <th>@item.Fiyat.ToString("C")</th>
-                    <th class="text-center">
-                        <button class="btn btn-outline-danger btn-sm" data-target="#siparisduzenlemodal-@item.SiparisItemGuid" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
-                        @Html.Partial("_PartialSiparisDuzenle", item)
-                    </th>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Urun.Baslik</th>
+                <th>@item.Miktar</th>
+                <th>@item.Fiyat.ToString("C")</th>
+                <th class="text-center">
+                    <button class="btn btn-secondary btn-sm" data-target="#kullanicidetaymodal-@item.Siparis.KullaniciId" data-toggle="modal"><i class="fa fa-user"></i> Müşteri detayı</button>
+                    <button class="btn btn-secondary btn-sm" data-target="#siparisduzenlemodal-@item.SiparisItemGuid" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
+                </th>
+                @Html.Partial("_PartialSiparisDuzenle", new SiparisModel
+                {
+                    KargoDurumId = item.Siparis.KargoDurumId,
+                    OdemeDurumId = item.Siparis.OdemeDurumId,
+                    SiparisDurumId = item.Siparis.SiparisDurumId,
+                    SiparisItem = item
+                })
+                @Html.Partial("_PartialSiparisKullanici", item)
+            </tr>
+        }
         </tbody>
     </table>
 }

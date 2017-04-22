@@ -1,7 +1,7 @@
-﻿@model OnlineSatisProje.Core.Entities.SiparisItem
+﻿@model OnlineSatisProje.Web.Areas.Satici.Models.SiparisModel
 
-<div class="modal fade" id="siparisduzenlemodal-@Model.SiparisItemGuid" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade modal-lg" id="siparisduzenlemodal-@Model.SiparisItem.SiparisItemGuid" style="margin: 0 auto" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Sipariş düzenle</h5>
@@ -9,27 +9,80 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("Ekle", "Mekan", FormMethod.Post))
+            @using (Html.BeginForm("SiparisDuzenle", "Siparis", FormMethod.Post))
             {
+                <div hidden="hidden">
+                    @Html.EditorForModel()
+                </div>
                 <div class="modal-body">
                     @Html.ValidationSummary(true)
                     @Html.AntiForgeryToken()
-                    
-                    <div class="form-group row">
-                        @Html.LabelFor(x => x.Urun.Baslik)
-                        @Html.TextBoxFor(x => x.Urun.Baslik, new { @class = "form-control", @readonly = true })
-                    </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(x => x.Miktar)
-                        @Html.TextBoxFor(x => x.Miktar, new { @class = "form-control", @readonly = true })
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Urun, new {@class = "text-uppercase text-right"})
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Html.DisplayFor(x => x.SiparisItem.Urun.Baslik)
+                        </div>
                     </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(x => x.Fiyat)
-                        @Html.TextBoxFor(x => x.Fiyat, new { @class = "form-control", @readonly = true })
+                    <hr/>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Miktar, new {@class = "text-uppercase text-right"})
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Html.DisplayFor(x => x.SiparisItem.Miktar)
+                        </div>
                     </div>
-
+                    <hr/>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Fiyat, new {@class = "text-uppercase text-right"})
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Model.SiparisItem.Fiyat.ToString("C")
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Siparis.SiparisDurumId, new { @class = "text-uppercase text-right" })
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Html.DropDownListFor(x=>x.SiparisDurumId, (IList<SelectListItem>) ViewBag.SiparisDurumList, new {@class= "custom-select col-12" })
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Siparis.OdemeDurumId, new { @class = "text-uppercase text-right" })
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Html.DropDownListFor(x=>x.OdemeDurumId, (IList<SelectListItem>) ViewBag.OdemeDurumList, new {@class= "custom-select col-12" })
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <strong>
+                                @Html.LabelFor(x => x.SiparisItem.Siparis.KargoDurumId, new { @class = "text-uppercase text-right" })
+                            </strong>
+                        </div>
+                        <div class="col-8 text-muted text-uppercase">
+                            @Html.DropDownListFor(x => x.KargoDurumId, (IList<SelectListItem>)ViewBag.KargoDurumList, new { @class = "custom-select col-12" })
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>

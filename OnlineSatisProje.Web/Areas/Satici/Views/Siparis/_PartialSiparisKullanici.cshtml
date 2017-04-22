@@ -1,0 +1,56 @@
+﻿@model OnlineSatisProje.Core.Entities.SiparisItem
+
+<div class="modal fade modal-lg" id="kullanicidetaymodal-@Model.Siparis.KullaniciId" style="margin: 0 auto" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Kullanıcı detay</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <strong>
+                            @Html.LabelFor(x => x.Siparis.Kullanici.Ad, new {@class = "text-uppercase text-right"})
+                        </strong>
+                    </div>
+                    <div class="col-8 text-muted text-uppercase">
+                        @Html.DisplayFor(x => x.Siparis.Kullanici.Ad)
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <strong>
+                            @Html.LabelFor(x => x.Siparis.Kullanici.Soyad, new {@class = "text-uppercase text-right"})
+                        </strong>
+                    </div>
+                    <div class="col-8 text-muted text-uppercase">
+                        @Html.DisplayFor(x => x.Siparis.Kullanici.Soyad)
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <strong>
+                            @Html.LabelFor(x => x.Siparis.KargoAdresId, new {@class = "text-uppercase text-right"})
+                        </strong>
+                    </div>
+                    <div class="col-8 text-muted text-uppercase">
+                        @Html.DisplayFor(x => x.Siparis.Adres.Adres1)
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
