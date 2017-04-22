@@ -31,7 +31,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         private bool IsSatici()
         {
-            return _identityRepostitory.UserManager.IsInRole(GetCurrentUser().Id, "Satıcı");
+            return CurrentUser != null && _identityRepostitory.UserManager.IsInRole(GetCurrentUser().Id, "Satıcı");
         }
     }
 }

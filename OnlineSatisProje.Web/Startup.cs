@@ -21,6 +21,7 @@ namespace OnlineSatisProje.Web
 {
     public partial class Startup
     {
+        private const string ConnectionStringName = "DomainConnection";
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
@@ -29,7 +30,7 @@ namespace OnlineSatisProje.Web
             builder.RegisterFilterProvider();
             builder.RegisterSource(new ViewRegistrationSource());
 
-            builder.Register(c => new ApplicationContext()).As<IDbContext>().InstancePerRequest();
+            builder.Register(c => new ApplicationContext(ConnectionStringName)).As<IDbContext>().InstancePerRequest();
             builder.RegisterType<ApplicationUserStore>().As<IUserStore<Kullanici>>().InstancePerRequest();
             builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
             builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
@@ -55,7 +56,7 @@ namespace OnlineSatisProje.Web
 
         private void SeedRoles()
         {
-            var context = new ApplicationContext();
+            var context = new ApplicationContext(ConnectionStringName);
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new ApplicationRoleStore(context);

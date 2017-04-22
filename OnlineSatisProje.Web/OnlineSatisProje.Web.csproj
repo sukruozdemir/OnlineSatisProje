@@ -278,6 +278,7 @@
     <Content Include="Areas\Satici\Views\Mekan\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Mekan\_PartialMekanEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Siparis\Index.cshtml" />
+    <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisDuzenle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

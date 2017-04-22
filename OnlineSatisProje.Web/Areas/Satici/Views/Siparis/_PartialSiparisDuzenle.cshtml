@@ -1,0 +1,41 @@
+﻿@model OnlineSatisProje.Core.Entities.SiparisItem
+
+<div class="modal fade" id="siparisduzenlemodal-@Model.SiparisItemGuid" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Sipariş düzenle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Ekle", "Mekan", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(x => x.Urun.Baslik)
+                        @Html.TextBoxFor(x => x.Urun.Baslik, new { @class = "form-control", @readonly = true })
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(x => x.Miktar)
+                        @Html.TextBoxFor(x => x.Miktar, new { @class = "form-control", @readonly = true })
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(x => x.Fiyat)
+                        @Html.TextBoxFor(x => x.Fiyat, new { @class = "form-control", @readonly = true })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-danger">Kaydet</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

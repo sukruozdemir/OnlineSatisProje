@@ -3,32 +3,37 @@
     ViewBag.Title = "Siparişler";
 }
 <h1 class="display-4">Siparişler (@Model.Count())</h1>
-<hr/>
+<hr />
 @if (Model.Any())
 {
     <table class="table">
         <thead class="thead-default">
-        <tr>
-            <th>
-                Ürün
-            </th>
-            <th>
-                Miktar
-            </th>
-            <th>
-                Fiyat
-            </th>
-        </tr>
+            <tr>
+                <th>
+                    Ürün
+                </th>
+                <th>
+                    Miktar
+                </th>
+                <th>
+                    Fiyat
+                </th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th>@item.Urun.Baslik</th>
-                <th>@item.Miktar</th>
-                <th>@item.Fiyat.ToString("C")</th>
-            </tr>
-        }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@item.Urun.Baslik</th>
+                    <th>@item.Miktar</th>
+                    <th>@item.Fiyat.ToString("C")</th>
+                    <th class="text-center">
+                        <button class="btn btn-outline-danger btn-sm" data-target="#siparisduzenlemodal-@item.SiparisItemGuid" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
+                        @Html.Partial("_PartialSiparisDuzenle", item)
+                    </th>
+                </tr>
+            }
         </tbody>
     </table>
 }
