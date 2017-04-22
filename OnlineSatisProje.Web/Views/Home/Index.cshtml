@@ -41,6 +41,13 @@
                         <small class="text-muted">@urun.Satici.Ad</small>
                     </p>
                 </div>
+                <div class="card-footer" style="background: none; border: none">
+                    @using (Html.BeginForm("Ekle", "Sepet", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", urun.Id)
+                        <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+                    }
+                </div>
             </div>
         }
     </div>

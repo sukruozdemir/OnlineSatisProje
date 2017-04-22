@@ -41,7 +41,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         public ActionResult Siparislerim()
         {
-            return View(CurrentUser.Siparis.Where(x => x.Aktif && !x.Silindi).ToList());
+            return View(CurrentUser.Siparis.Where(x => !x.Silindi).OrderByDescending(x=>x.Tarih).ToList());
         }
 
         public ActionResult Adreslerim()
