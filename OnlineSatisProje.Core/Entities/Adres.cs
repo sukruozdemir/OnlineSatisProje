@@ -25,6 +25,7 @@ namespace OnlineSatisProje.Core.Entities
         [StringLength(250)]
         public string Adres1 { get; set; }
 
+        [Display(Name = "Ýlçe")]
         public int IlceId { get; set; }
 
         [StringLength(15)]

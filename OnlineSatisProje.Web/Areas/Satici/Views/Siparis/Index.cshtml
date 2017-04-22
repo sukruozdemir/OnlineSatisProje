@@ -27,20 +27,29 @@
         <tbody>
         @foreach (var item in Model)
         {
+            var fiyat = item.Fiyat * item.Miktar;
             <tr>
                 <th>@item.Urun.Baslik</th>
                 <th>@item.Miktar</th>
-                <th>@item.Fiyat.ToString("C")</th>
+                <th>@fiyat.ToString("C")</th>
                 <th class="text-center">
                     <button class="btn btn-secondary btn-sm" data-target="#kullanicidetaymodal-@item.Siparis.KullaniciId" data-toggle="modal"><i class="fa fa-user"></i> Müşteri detayı</button>
-                    <button class="btn btn-secondary btn-sm" data-target="#siparisduzenlemodal-@item.SiparisItemGuid" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
+                    <button class="btn btn-secondary btn-sm" data-target="#siparisduzenlemodal-@item.SiparisId" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
+                    @if (item.Siparis.Aktif)
+                    {
+                        using (Html.BeginForm("SiparisTamamlandi", "Siparis", FormMethod.Post, new {style="display:inline-block;"}))
+                        {
+                            @Html.Hidden("id", item.SiparisId)
+                            <button id="buttontamamlandi" type="submit" class="btn btn-secondary btn-sm"><i class="fa fa-check"></i> Sipariş tamamlandı</button>
+                        }
+                    }
                 </th>
                 @Html.Partial("_PartialSiparisDuzenle", new SiparisModel
                 {
                     KargoDurumId = item.Siparis.KargoDurumId,
                     OdemeDurumId = item.Siparis.OdemeDurumId,
                     SiparisDurumId = item.Siparis.SiparisDurumId,
-                    SiparisItem = item
+                    SiparisId = item.SiparisId
                 })
                 @Html.Partial("_PartialSiparisKullanici", item)
             </tr>

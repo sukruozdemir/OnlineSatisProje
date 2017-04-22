@@ -13,7 +13,7 @@ namespace OnlineSatisProje.Core.Entities
             Adres = new HashSet<Adres>();
             CreatedDate = DateTime.Now;
         }
-
+        [Display(Name = "Þehir")]
         public int SehirId { get; set; }
 
         [Required]

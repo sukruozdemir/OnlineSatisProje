@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -44,10 +45,13 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 ModelState.AddModelError("", @"Sipariş düzenlenirken bir hata oluştu");
                 return RedirectToAction("Index");
             }
-            // TODO: HATA
             try
             {
-                _siparisItemRepository.Update(model.SiparisItem);
+                var siparis = _siparisRepository.GetById(model.SiparisId);
+                siparis.KargoDurumId = model.KargoDurumId;
+                siparis.SiparisDurumId = model.SiparisDurumId;
+                siparis.OdemeDurumId = model.OdemeDurumId;
+                _siparisRepository.Update(siparis);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
@@ -57,5 +61,28 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SiparisTamamlandi(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+            var siparis = _siparisRepository.GetById(id);
+            if (siparis == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+            try
+            {
+                siparis.Aktif = false;
+                siparis.KargoDurumu = KargoDurumu.Kargolandi;
+                siparis.OdemeDurumu = OdemeDurumu.Odendi;
+                siparis.SiparisDurumu = SiparisDurumu.Tamamlandi; ;
+                _siparisRepository.Update(siparis);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
