@@ -52,7 +52,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         ///     Urun anasayfa görünümü
         /// </summary>
         /// <returns>Index view</returns>
-        public ActionResult Index() => View(_repository.Table.ToList());
+        public ActionResult Index() => View(_repository.Table.Where(u => u.SaticiId == CurrentSatici.Id).ToList());
 
         /// <summary>
         ///     GET: Satici/Urun/Ekle
@@ -219,16 +219,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             }
         }
 
-        [NoCache]
-        public ActionResult Thumbnail(int? resimId)
-        {
-            if (null == resimId) throw new ArgumentNullException(nameof(resimId));
-            var resim = _resimRepository.GetById(resimId);
-            var image = new WebImage(resim.ResimBinary).Resize(196, 110, false, true).Crop(1, 1);
-            return new ImageResult(new MemoryStream(image.GetBytes()), "binary/octet-stream");
-        }
-
-        [NoCache]
         public ActionResult ResimSil(int? urunId, int? resimId)
         {
             if (null == resimId)

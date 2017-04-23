@@ -74,7 +74,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 siparis.Aktif = false;
                 siparis.KargoDurumu = KargoDurumu.Iletildi;
                 siparis.OdemeDurumu = OdemeDurumu.Odendi;
-                siparis.SiparisDurumu = SiparisDurumu.Tamamlandi; ;
+                siparis.SiparisDurumu = SiparisDurumu.Tamamlandi;
                 _siparisRepository.Update(siparis);
                 return RedirectToAction("Index");
             }
