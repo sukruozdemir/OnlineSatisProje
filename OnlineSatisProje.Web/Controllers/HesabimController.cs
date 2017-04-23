@@ -67,6 +67,30 @@ namespace OnlineSatisProje.Web.Controllers
             return View(satici);
         }
 
+        public ActionResult SaticiDuzenle(SaticiModel model)
+        {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            if (!Satici) return RedirectToAction("Index");
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Bilgileri kontrol ediniz");
+                return PartialView("_PartialSaticiDuzenle", model);
+            }
+
+            var satici = _saticiRepository.Table.FirstOrDefault(s => s.KullaniciId == CurrentUser.Id);
+            if (satici == null) return RedirectToAction("Index");
+
+            satici.Ad = model.Ad;
+            satici.Email = model.Email;
+            satici.Aciklama = model.Aciklama;
+            satici.UpdatedDate = DateTime.Now;
+            _saticiRepository.Update(satici);
+
+            return RedirectToAction("SaticiProfil");
+        }
+
         [HttpPost]
         public ActionResult SaticiResimUpload(HttpPostedFileBase saticiresim)
         {
@@ -90,7 +114,7 @@ namespace OnlineSatisProje.Web.Controllers
                         var filePath = Path.Combine(Server.MapPath(fullPath));
                         saticiresim.SaveAs(filePath);
                         var str = fullPath.Substring(1);
-                        
+
                         var resim = new Resim
                         {
                             ResimBinary = null,

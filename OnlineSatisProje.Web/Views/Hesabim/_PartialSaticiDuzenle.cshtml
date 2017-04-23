@@ -1,0 +1,20 @@
+﻿@model OnlineSatisProje.Web.Models.SaticiModel
+
+@using (Html.BeginForm("SaticiDuzenle", "Hesabim", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Ad)
+        @Html.TextBoxFor(x => x.Ad, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Aciklama)
+        @Html.TextAreaFor(x => x.Aciklama, new { @class = "form-control", rows = 3 })
+    </div>
+    <div class="form-group">
+        <button class="btn btn-outline-danger pull-right">Kaydet</button>
+    </div>
+}
