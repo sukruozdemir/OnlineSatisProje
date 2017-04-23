@@ -134,7 +134,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// <param name="urunId">Resimin ekleneceği ürünün id'si.</param>
         /// <returns></returns>
         [HttpGet]
-        [OutputCache(Duration = 30)]
         public ActionResult Resimler(int? urunId)
         {
             if (urunId == null)
@@ -155,7 +154,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [OutputCache(Duration = 30)]
         public ActionResult Resimler(UrunResimMapping model, HttpPostedFileBase upload)
         {
             if (upload == null)
@@ -173,18 +171,20 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
                         // DOSYAYI Content/Images/UrunUploads KLASORUNE KAYDET.
                         var mapFileName = DateTime.Now.ToString("MM.dd.yyyy");
-                        var filePath = Path.Combine(Server.MapPath(diretoryPath + "/"),
-                            mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName);
+                        var fName = mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName;
+                        var fullPath = diretoryPath + "/" + fName;
+                        var filePath = Path.Combine(Server.MapPath(fullPath));
                         upload.SaveAs(filePath);
 
-                        byte[] fileBytes;
-                        using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                        using (var reader = new BinaryReader(fileStream))
-                            fileBytes = reader.ReadBytes((int)fileStream.Length);
-
+                        //byte[] fileBytes;
+                        //using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                        //using (var reader = new BinaryReader(fileStream))
+                        //    fileBytes = reader.ReadBytes((int)fileStream.Length);
+                        var str = fullPath.Substring(1);
                         var resim = new Resim
                         {
-                            ResimBinary = fileBytes,
+                            ResimBinary = null,
+                            ResimPath = str,
                             AltAttr = "",
                             Baslik = Path.GetFileName(upload.FileName),
                             TitleAttr = "",

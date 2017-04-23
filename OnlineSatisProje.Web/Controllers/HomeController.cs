@@ -18,7 +18,7 @@ namespace OnlineSatisProje.Web.Controllers
             _urunRepository = urunRepository;
         }
 
-        [OutputCache(Duration = 1000, NoStore = true)]
+        [OutputCache(Duration = 30, NoStore = true)]
         public ActionResult Index()
         {
             ViewData["UrunListe"] = _urunRepository.GetHomePageProducts();
