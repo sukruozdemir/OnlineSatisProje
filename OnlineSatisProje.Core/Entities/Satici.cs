@@ -31,8 +31,8 @@ namespace OnlineSatisProje.Core.Entities
         public string Email { get; set; }
 
         public int? LogoId { get; set; }
-        public bool? Aktif { get; set; }
-        public bool? Silindi { get; set; }
+        public bool Aktif { get; set; }
+        public bool Silindi { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 

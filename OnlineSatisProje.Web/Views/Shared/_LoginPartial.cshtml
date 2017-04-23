@@ -26,7 +26,14 @@
                 </div>
                 @if (null != currentuser)
                 {
-                    <h6 class="dropdown-header text-center">@currentuser.Ad @currentuser.Soyad</h6>
+                    if (currentuser.Ad == null || currentuser.Soyad == null)
+                    {
+                        <h6 class="dropdown-header text-center">@currentuser.UserName</h6>
+                    }
+                    else
+                    {
+                        <h6 class="dropdown-header text-center">@currentuser.Ad @currentuser.Soyad</h6>
+                    }
                 }
                 else
                 {

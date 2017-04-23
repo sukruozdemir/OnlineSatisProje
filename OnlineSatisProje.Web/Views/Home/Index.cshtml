@@ -1,12 +1,13 @@
 ﻿@using OnlineSatisProje.Core.Entities
 @{
     ViewBag.Title = "Anasayfa";
-    var urunListe = (IEnumerable<Urun>) ViewData["UrunListe"];
+    var urunListe = (IEnumerable<Urun>)ViewData["UrunListe"];
+    var saticiListe = (IEnumerable<Satici>)ViewData["SaticiListe"];
     urunListe = urunListe.OrderByDescending(x => x.Id).Take(3);
-}
+    saticiListe = saticiListe.OrderByDescending(x => x.Id).Take(3);
 
-@{
     var uruns = urunListe as IList<Urun> ?? urunListe.ToList();
+    var saticis = saticiListe as IList<Satici> ?? saticiListe.ToList();
 }
 @if (uruns.Any())
 {
@@ -20,25 +21,25 @@
                 @if (null != urunresim)
                 {
                     <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
-                        <img class="card-img-top" height="180" style="width: 100%;" src="@urunresim.Resim.ResimPath"
-                             alt="Card image cap">
+                        <img class="card-img-top mt-3 rounded mx-auto d-block" height="180" width="75%" src="@urunresim.Resim.ResimPath" alt="">
                     </a>
                 }
                 else
                 {
-                    <img class="card-img-top" height="180" style="width: 100%;" src="/Content/Images/product.png"
-                         alt="Card image cap">
+                    <img class="card-img-top mt-3 rounded mx-auto d-block" height="180" width="180" src="/Content/Images/product.png" alt="">
                 }
-
                 <div class="card-block">
-
                     <h4 class="card-title">
                         @urun.Baslik
                     </h4>
-                    <p class="card-text">@urun.Fiyat.ToString("C")</p>
                     <p class="card-text">
-
-                        <small class="text-muted">@urun.Satici.Ad</small>
+                        <hr />
+                        <h3>@urun.Fiyat.ToString("C")</h3>
+                    </p>
+                    <p class="card-text">
+                        <a href="#">
+                            <small class="text-muted">@urun.Satici.Ad</small>
+                        </a>
                     </p>
                 </div>
                 <div class="card-footer" style="background: none; border: none">
@@ -48,6 +49,29 @@
                         <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
                     }
                 </div>
+            </div>
+                    }
+    </div>
+                    }
+@if (saticis.Any())
+{
+    <hr style="margin: 2rem 0" />
+    <h1 class="display-4 text-center">En çok satanlar</h1>
+    <hr style="margin: 2rem 0" />
+    <div class="card-group">
+        @foreach (var satici in saticis)
+        {
+            <div class="card m-3 text-center">
+                <div class="card-block">
+
+                    <h4 class="card-title">
+                        @satici.Ad
+                    </h4>
+                </div>
+                <div class="card-footer" style="background: none; border: none">
+                    <a href="#" class="text-muted"><i class="fa fa-user"></i> Profil</a>
+                </div>
+
             </div>
         }
     </div>

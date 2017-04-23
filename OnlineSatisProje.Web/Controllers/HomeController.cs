@@ -10,18 +10,22 @@ namespace OnlineSatisProje.Web.Controllers
     {
         private readonly IRepository<Urun> _repositoryUrun;
         private readonly IUrunRepository _urunRepository;
+        private readonly ISaticiRepository _saticiRepository;
 
         public HomeController(IRepository<Urun> repositoryUrun,
-            IUrunRepository urunRepository)
+            IUrunRepository urunRepository, 
+            ISaticiRepository saticiRepository)
         {
             _repositoryUrun = repositoryUrun;
             _urunRepository = urunRepository;
+            _saticiRepository = saticiRepository;
         }
 
         [OutputCache(Duration = 30, NoStore = true)]
         public ActionResult Index()
         {
             ViewData["UrunListe"] = _urunRepository.GetHomePageProducts();
+            ViewData["SaticiListe"] = _saticiRepository.GetAvailableSaitiSaticis();
             return View();
         }
 

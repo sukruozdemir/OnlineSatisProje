@@ -61,6 +61,9 @@ namespace OnlineSatisProje.Web.Controllers
                 return View("Adreslerim");
             }
 
+            var user = CurrentUser;
+            var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
+
             try
             {
                 adres.CreatedDate = DateTime.Now;
@@ -71,12 +74,14 @@ namespace OnlineSatisProje.Web.Controllers
                     AdresId = adres.Id,
                     KullaniciId = CurrentUser.Id
                 });
-                return RedirectToAction("Adreslerim");
+
+
+                return RedirectToAction("Adreslerim", kullaniciAdresler);
             }
             catch
             {
                 ModelState.AddModelError("", @"Adres eklenirken bir hata oluştu");
-                return View("Adreslerim");
+                return View("Adreslerim", kullaniciAdresler);
             }
         }
 

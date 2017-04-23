@@ -39,6 +39,7 @@ namespace OnlineSatisProje.Web
             builder.RegisterType<KullaniciRepository>().As<IKullaniciRepository>().InstancePerRequest();
             builder.RegisterType<RolRepository>().As<IRolRepository>().InstancePerRequest();
             builder.RegisterType<UrunRepository>().As<IUrunRepository>().InstancePerRequest();
+            builder.RegisterType<SaticiRepository>().As<ISaticiRepository>().InstancePerRequest();
 
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.Register(c => app.GetDataProtectionProvider()).InstancePerRequest();
