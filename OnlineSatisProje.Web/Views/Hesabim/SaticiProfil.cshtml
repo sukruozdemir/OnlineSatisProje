@@ -1,13 +1,22 @@
-﻿@model OnlineSatisProje.Core.Entities.Satici
+﻿@using OnlineSatisProje.Core.Entities
+@model Satici
 @{
     ViewBag.Title = Model.Ad;
+    var resim = (Resim) ViewData["SaticiResim"];
 }
 
 <div class="row">
     <div class="col-md-3 col-sm-12 text-center" style="border-right: 1px solid #ccc">
-        <img id="imgsaticiresim" src="@Url.Content("~/Content/Images/identity.png")" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
+        @if (resim != null)
+        {
+            <img id="imgsaticiresim" src="@resim.ResimPath" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
+        }
+        else
+        {
+            <img id="imgsaticiresim" src="@Url.Content("~/Content/Images/identity.png")" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
+        }
         <hr/>
-        @using (Html.BeginForm("SaticiResimUpload", "Hesabim", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("SaticiResimUpload", "Hesabim", FormMethod.Post, new {enctype = "multipart/form-data"}))
         {
             <div hidden="hidden">
                 <input type="file" id="saticiresim" name="saticiresim" accept="image/*"/>
@@ -17,7 +26,7 @@
     </div>
     <div class="col-md-8 col-sm-12">
         <h1 class="display-4">@Model.Ad</h1>
-        <hr style="margin: 2rem 0"/>
+        <hr class="bg-danger" style="margin: 2rem 0"/>
     </div>
 </div>
 
