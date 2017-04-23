@@ -11,7 +11,7 @@
 }
 @if (uruns.Any())
 {
-    <div class="card-group">
+    <div class="card-deck">
         @foreach (var urun in uruns)
         {
             <div class="card m-3 text-center">
@@ -33,7 +33,7 @@
                         @urun.Baslik
                     </h4>
                     <p class="card-text">
-                        <hr />
+                        <hr class="bg-danger"/>
                         <h3>@urun.Fiyat.ToString("C")</h3>
                     </p>
                     <p class="card-text">
@@ -46,19 +46,19 @@
                     @using (Html.BeginForm("Ekle", "Sepet", FormMethod.Post))
                     {
                         @Html.Hidden("id", urun.Id)
-                        <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+                        <button type="submit" class="btn btn-outline-danger"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
                     }
                 </div>
             </div>
-                    }
+        }
     </div>
-                    }
+}
 @if (saticis.Any())
 {
-    <hr style="margin: 2rem 0" />
+    <hr class="bg-danger" style="margin: 2rem 0" />
     <h1 class="display-4 text-center">En çok satanlar</h1>
-    <hr style="margin: 2rem 0" />
-    <div class="card-group">
+    <hr class="bg-danger" style="margin: 2rem 0" />
+    <div class="card-deck">
         @foreach (var satici in saticis)
         {
             <div class="card m-3 text-center">
@@ -69,7 +69,7 @@
                     </h4>
                 </div>
                 <div class="card-footer" style="background: none; border: none">
-                    <a href="#" class="text-muted"><i class="fa fa-user"></i> Profil</a>
+                    <a href="#" class="btn btn-outline-danger"><i class="fa fa-user"></i> Profil</a>
                 </div>
 
             </div>

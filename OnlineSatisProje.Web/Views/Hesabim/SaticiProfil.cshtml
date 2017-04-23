@@ -1,0 +1,51 @@
+﻿@model OnlineSatisProje.Core.Entities.Satici
+@{
+    ViewBag.Title = Model.Ad;
+}
+
+<div class="row">
+    <div class="col-md-3 col-sm-12 text-center" style="border-right: 1px solid #ccc">
+        <img id="imgsaticiresim" src="@Url.Content("~/Content/Images/identity.png")" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
+        <hr/>
+        @using (Html.BeginForm("SaticiResimUpload", "Hesabim", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div hidden="hidden">
+                <input type="file" id="saticiresim" name="saticiresim" accept="image/*"/>
+            </div>
+            <button id="imageupload" class="btn btn-secondary btn-block"><i class="fa fa-file-image-o"></i> Seç</button>
+        }
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <h1 class="display-4">@Model.Ad</h1>
+        <hr style="margin: 2rem 0"/>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $("#imageupload").on("click",
+                function(e) {
+                    e.preventDefault();
+                    $("#saticiresim").trigger("click");
+                });
+            $("#saticiresim").on("change",
+                function(e) {
+                    var img = URL.createObjectURL(e.target.files[0]);
+                    $("#imgsaticiresim").attr("src", img).css({
+                        "width": "218px",
+                        "height": "218px"
+                    });
+                    if (!$("#resimyuklebutton").length) {
+                        var $button = $("<button>")
+                            .prop("id", "resimyuklebutton")
+                            .attr("type", "submit")
+                            .addClass("btn btn-secondary btn-block")
+                            .text(" Kaydet");
+                        $("<i>").addClass("fa fa-upload").prependTo($button);
+                        $button.insertAfter($("#imageupload"));
+                    }
+                });
+        });
+    </script>
+}

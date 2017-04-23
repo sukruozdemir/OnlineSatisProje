@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
@@ -14,16 +15,19 @@ namespace OnlineSatisProje.Web.Controllers
         private readonly IRepository<Adres> _adresRepository;
         private readonly IRepository<Ilce> _ilceRepository;
         private readonly IRepository<Sehir> _sehirRepository;
+        private readonly IRepository<Satici> _saticiRepository;
 
         public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
             IRepository<Adres> adresRepository,
             IRepository<Ilce> ilceRepository,
-            IRepository<Sehir> sehirRepository)
+            IRepository<Sehir> sehirRepository, 
+            IRepository<Satici> saticiRepository)
         {
             _kullaniciAdresRepository = kullaniciAdresRepository;
             _adresRepository = adresRepository;
             _ilceRepository = ilceRepository;
             _sehirRepository = sehirRepository;
+            _saticiRepository = saticiRepository;
         }
 
         public ActionResult Index()
@@ -42,6 +46,36 @@ namespace OnlineSatisProje.Web.Controllers
         public ActionResult Siparislerim()
         {
             return View(CurrentUser.Siparis.Where(x => !x.Silindi).OrderByDescending(x=>x.Tarih).ToList());
+        }
+
+        public ActionResult SaticiProfil()
+        {
+            if (!Satici)
+            {
+                return RedirectToAction("Index");
+            }
+            var satici = _saticiRepository.Table.FirstOrDefault(s => s.KullaniciId == CurrentUser.Id);
+            return View(satici);
+        }
+
+        [HttpPost]
+        public ActionResult SaticiResimUpload(HttpPostedFileBase saticiresim)
+        {
+            if(saticiresim == null) throw new ArgumentNullException(nameof(saticiresim));
+
+            try
+            {
+                if (saticiresim.ContentLength > 0)
+                {
+                    
+                }
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", @"Resim eklenirken bir hata oluştu");
+            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Adreslerim()
