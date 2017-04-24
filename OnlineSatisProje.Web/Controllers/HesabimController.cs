@@ -2,11 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using log4net;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
+using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.Models;
 
 namespace OnlineSatisProje.Web.Controllers
@@ -14,13 +16,14 @@ namespace OnlineSatisProje.Web.Controllers
     [Authorize]
     public class HesabimController : BaseController
     {
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository<Adres> _adresRepository;
+        private readonly IIdentityRepostitory _identityRepostitory;
         private readonly IRepository<Ilce> _ilceRepository;
         private readonly IRepository<KullaniciAdresMapping> _kullaniciAdresRepository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<Satici> _saticiRepository;
         private readonly IRepository<Sehir> _sehirRepository;
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
@@ -28,7 +31,8 @@ namespace OnlineSatisProje.Web.Controllers
             IRepository<Ilce> ilceRepository,
             IRepository<Sehir> sehirRepository,
             IRepository<Satici> saticiRepository,
-            IRepository<Resim> resimRepository)
+            IRepository<Resim> resimRepository,
+            IIdentityRepostitory identityRepostitory)
         {
             _kullaniciAdresRepository = kullaniciAdresRepository;
             _adresRepository = adresRepository;
@@ -36,6 +40,7 @@ namespace OnlineSatisProje.Web.Controllers
             _sehirRepository = sehirRepository;
             _saticiRepository = saticiRepository;
             _resimRepository = resimRepository;
+            _identityRepostitory = identityRepostitory;
         }
 
         public ActionResult Index()
@@ -43,6 +48,8 @@ namespace OnlineSatisProje.Web.Controllers
             var user = CurrentUser;
             var model = new HesapModel
             {
+                Ad = user.Ad,
+                Soyad = user.Soyad,
                 Email = user.Email,
                 KullaniciAdi = user.UserName,
                 SaticiMi = Satici,
@@ -54,6 +61,33 @@ namespace OnlineSatisProje.Web.Controllers
         public ActionResult Siparislerim()
         {
             return View(CurrentUser.Siparis.Where(x => !x.Silindi).OrderByDescending(x => x.Tarih).ToList());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> KullaniciDuzenle(HesapModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Hata!");
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                CurrentUser.UpdatedDate = DateTime.Now;
+                CurrentUser.Ad = model.Ad;
+                CurrentUser.Soyad = model.Soyad;
+                CurrentUser.Email = model.Email;
+                CurrentUser.UserName = model.KullaniciAdi;
+                await _identityRepostitory.UserManager.UpdateAsync(CurrentUser);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                ModelState.AddModelError("", @"Kullanıcı düzenlenirken bir hata oluştu");
+                return RedirectToAction("Index");
+            }
         }
 
         public ActionResult SaticiProfil()

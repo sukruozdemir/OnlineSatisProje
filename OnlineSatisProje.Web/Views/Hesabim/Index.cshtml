@@ -4,13 +4,11 @@
 }
 
 <style>
-    .card {
-        padding-top: 25px;
-    }
+    .card { padding-top: 25px; }
 </style>
 
 <h1 class="display-4" style="margin-top: 20px;">Hesabım</h1>
-<hr class="bg-danger" />
+<hr class="bg-danger"/>
 
 <div class="row">
     <div class="col-12">
@@ -21,7 +19,7 @@
                     <h4 class="card-title">Adreslerim</h4>
                 </div>
                 <div class="card-footer">
-                    <a href="@Url.Action("Adreslerim", "Hesabim", new { area = "" })" class="btn btn-sm btn-link">Devam et</a>
+                    <a href="@Url.Action("Adreslerim", "Hesabim", new {area = ""})" class="btn btn-sm btn-link">Devam et</a>
                 </div>
             </div>
 
@@ -61,27 +59,94 @@
     </div>
 </div>
 
-<hr />
+<hr/>
 
 <div class="row">
-    <div class="col-2">
-        <img src="~/Content/Images/user.png" width="175" height="175" class="img-thumbnail rounded-circle" alt="@Model.KullaniciAdi" />
+    <div class="col-3 text-center" style="border-right: 1px solid #cccccc; border-right: 1px solid rgba(204, 204, 204, 0.5)">
+        <img id="kullaniciresim" src="~/Content/Images/user.png" style="height: 200px; object-fit: cover; width: 200px;" class="img-thumbnail rounded-circle mb-3" alt="@Model.KullaniciAdi"/>
+        @using (Html.BeginForm("ResimYukle", "Hesabim", FormMethod.Post, new {enctype="multipart/form-data"}))
+        {
+  
+        }
     </div>
-    <div class="col-10">
-        <div class="row">
-            <div class="col-3 text-right"><strong>Kullanıcı adı: </strong></div>
-            <div class="col-9"><p>@Model.KullaniciAdi</p></div>
-        </div>
-        
-        <div class="row">
-            <div class="col-3 text-right"><strong>Email: </strong></div>
-            <div class="col-9"><p>@Model.Email</p></div>
-        </div>
-        
-        <div class="row">
-            <div class="col-3 text-right"><strong>Hesap oluşturulma tarihi: </strong></div>
-            <div class="col-9"><p>@Model.CreatedDate.ToLongDateString()</p></div>
-        </div>
+    <div class="col-9">
 
+        @using (Html.BeginForm("KullaniciDuzenle", "Hesabim", FormMethod.Post))
+        {
+            <div class="row mb-3">
+                <div class="col-3 text-right">
+                    <strong>@Html.DisplayNameFor(x => x.Ad) </strong>
+                </div>
+                <div class="col-9">@Html.TextBoxFor(x => x.Ad, new {@class = "form-control"})</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-3 text-right">
+                    <strong>@Html.DisplayNameFor(x => x.Soyad) </strong>
+                </div>
+                <div class="col-9">@Html.TextBoxFor(x => x.Soyad, new {@class = "form-control"})</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-3 text-right">
+                    <strong>@Html.DisplayNameFor(x => x.KullaniciAdi) </strong>
+                </div>
+                <div class="col-9">@Html.TextBoxFor(x => x.KullaniciAdi, new {@class = "form-control"})</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-3 text-right">
+                    <strong>@Html.DisplayNameFor(x => x.Email) </strong>
+                </div>
+                <div class="col-9">@Html.TextBoxFor(x => x.Email, new {@class = "form-control"})</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-3 text-right">
+                    <strong>@Html.DisplayNameFor(x => x.CreatedDate) </strong>
+                </div>
+                <div class="col-9">
+                    <p>@Model.CreatedDate.ToLongDateString()</p>
+                </div>
+            </div>
+
+            <div class="col-9 offset-3 pl-2">
+                <button type="submit" class="btn btn-outline-danger"><i class="fa fa-check"></i> Kaydet</button>
+            </div>
+        }
     </div>
 </div>
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $("#imageupload").on("click",
+                function(e) {
+                    e.preventDefault();
+                    $("#kulaniciresimfile").trigger("click");
+                });
+
+            $("#kulaniciresimfile").on("change",
+                function(e) {
+                    var img = e.target.files[0];
+                    var obj = URL.createObjectURL(img);
+                    $("#kullaniciresim").css({
+                        "width": "200px",
+                        "height": "200px",
+                        "object-fit": "cover"
+                    }).attr("src", obj);
+
+                    if (!$("#resimyuklebutton").length > 0) {
+                        var $b = $("<button>")
+                            .prop("id", "resimyuklebutton")
+                            .attr("type", "submit")
+                            .addClass("btn btn-secondary btn-block")
+                            .text(" Kaydet");
+                        $("<i>").addClass("fa fa-upload").prependTo($b);
+                        $b.insertAfter($("#imageupload"));
+                    }
+
+                });
+        });
+    </script>
+}
