@@ -46,6 +46,7 @@ namespace OnlineSatisProje.Web.Controllers
         public ActionResult Index()
         {
             var user = CurrentUser;
+            var resim = _resimRepository.GetById(user.ResimId);
             var model = new HesapModel
             {
                 Ad = user.Ad,
@@ -53,7 +54,8 @@ namespace OnlineSatisProje.Web.Controllers
                 Email = user.Email,
                 KullaniciAdi = user.UserName,
                 SaticiMi = Satici,
-                CreatedDate = user.CreatedDate
+                CreatedDate = user.CreatedDate,
+                Resim = resim
             };
             return View(model);
         }
@@ -166,6 +168,60 @@ namespace OnlineSatisProje.Web.Controllers
                             satici.LogoId = resim.Id;
                             _saticiRepository.Update(satici);
                             return RedirectToAction("SaticiProfil");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                ModelState.AddModelError("", @"Resim eklenirken bir hata oluştu");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResimYukle(HttpPostedFileBase kulaniciresimfile)
+        {
+            if (kulaniciresimfile == null) throw new ArgumentNullException(nameof(kulaniciresimfile));
+            if (!Satici) return RedirectToAction("Index");
+
+            try
+            {
+                if (kulaniciresimfile.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(kulaniciresimfile.FileName);
+                    if (fileName != null)
+                    {
+                        const string directoryPath = "~/Content/Images/KullaniciProfilUploads";
+                        if (!Directory.Exists(Server.MapPath(directoryPath)))
+                            Directory.CreateDirectory(Server.MapPath(directoryPath));
+
+                        var mapFileName = DateTime.Now.ToString("MM/dd/yyyy");
+                        var fName = mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName;
+                        var fullPath = directoryPath + "/" + fName;
+                        var filePath = Path.Combine(Server.MapPath(fullPath));
+                        kulaniciresimfile.SaveAs(filePath);
+                        var str = fullPath.Substring(1);
+
+                        var resim = new Resim
+                        {
+                            ResimBinary = null,
+                            ResimPath = str,
+                            AltAttr = "",
+                            TitleAttr = "",
+                            Baslik = Path.GetFileName(kulaniciresimfile.FileName),
+                            CreatedDate = DateTime.Now
+                        };
+                        _resimRepository.Insert(resim);
+
+                        if (CurrentUser != null)
+                        {
+                            CurrentUser.UpdatedDate = DateTime.Now;
+                            CurrentUser.ResimId = resim.Id;
+                            await _identityRepostitory.UserManager.UpdateAsync(CurrentUser);
+                            return RedirectToAction("Index");
                         }
                     }
                 }

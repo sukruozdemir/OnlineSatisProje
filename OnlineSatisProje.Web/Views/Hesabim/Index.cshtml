@@ -63,10 +63,22 @@
 
 <div class="row">
     <div class="col-3 text-center" style="border-right: 1px solid #cccccc; border-right: 1px solid rgba(204, 204, 204, 0.5)">
-        <img id="kullaniciresim" src="~/Content/Images/user.png" style="height: 200px; object-fit: cover; width: 200px;" class="img-thumbnail rounded-circle mb-3" alt="@Model.KullaniciAdi"/>
-        @using (Html.BeginForm("ResimYukle", "Hesabim", FormMethod.Post, new {enctype="multipart/form-data"}))
+        
+        @if (Model.Resim != null)
         {
-  
+            <img id="kullaniciresim" src="@Model.Resim.ResimPath" style="height: 200px; object-fit: cover; width: 200px;" class="rounded-circle img-thumbnail mb-3" alt="@Model.KullaniciAdi" />
+        }
+        else
+        {
+            <img id="kullaniciresim" src="~/Content/Images/user.png" style="height: 200px; object-fit: cover; width: 200px;" class="rounded-circle img-thumbnail mb-3" alt="@Model.KullaniciAdi" />
+        }
+
+        @using (Html.BeginForm("ResimYukle", "Hesabim", FormMethod.Post, new {enctype="multipart/form-data"}))
+        { 
+            <div hidden="hidden">
+                <input type="file" id="kulaniciresimfile" name="kulaniciresimfile" accept="image/*" />
+            </div>
+            <button id="imageupload" class="btn btn-secondary btn-block"><i class="fa fa-file-image-o"></i> Seç</button>
         }
     </div>
     <div class="col-9">

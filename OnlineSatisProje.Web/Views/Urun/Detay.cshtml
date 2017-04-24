@@ -9,8 +9,20 @@
 
 <hr/>
 <div class="row">
-    <div class="col-4">
-        <img style="width: 100%" class="rounded" height="286" src="@Model.UrunResimMapping.FirstOrDefault().Resim.ResimPath" alt=""/>
+    <div class="col-4 text-center">
+        <img class="img-thumbnail" style="height: 350px; object-fit: cover; width: 350px;" src="@Model.UrunResimMapping.FirstOrDefault().Resim.ResimPath" alt=""/>
+        <hr/>
+        <div class="row">
+            @foreach (var resim in Model.UrunResimMapping)
+            {
+                if (resim.ResimId != Model.UrunResimMapping.FirstOrDefault().ResimId)
+                {
+                    <div class="col-4 text-center">
+                        <img class="img-thumbnail" style="height: 100px; object-fit: cover; width: 100%;" src="@resim.Resim.ResimPath" alt="@resim.Resim.Baslik"/>
+                    </div>
+                }
+            }
+        </div>
     </div>
     <div class="col-8">
         <div class="row">
@@ -53,5 +65,17 @@
                 <strong>Kargo</strong> Mevcut değil
             </p>
         }
+        
+        <div class="col-12">
+            <button class="btn btn-outline-danger pull-right"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+        </div>
+
     </div>
 </div>
+@if (Model.KullaniciYorumIzinVer)
+{
+    <hr/>
+    <div class="row">
+        
+    </div>
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using OnlineSatisProje.Core.Entities;
 
 namespace OnlineSatisProje.Web.Models
 {
@@ -15,5 +16,6 @@ namespace OnlineSatisProje.Web.Models
         public bool SaticiMi { get; set; }
         [Display(Name = "Oluşturulma tarihi")]
         public DateTime CreatedDate { get; set; }
+        public Resim Resim { get; set; }
     }
 }

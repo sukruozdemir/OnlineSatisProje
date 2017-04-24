@@ -1,10 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
 @using OnlineSatisProje.Core.Entities
+@using OnlineSatisProje.Data
 @{
+    var resimRepo = DependencyResolver.Current.GetService<IRepository<Resim>>();
     Kullanici currentuser = null;
+    Resim resim = null;
     if (null != ViewBag.CurrentUser)
     {
-        currentuser = (Kullanici)ViewBag.CurrentUser;
+        currentuser = (Kullanici) ViewBag.CurrentUser;
+        resim = resimRepo.GetById(currentuser.ResimId);
     }
 }
 @if (Request.IsAuthenticated)
@@ -12,7 +16,7 @@
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("Index", "Sepet")"><i class="fa fa-shopping-cart"></i> Sepet</a>
     </li>
-    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new { id = "logoutForm" }))
+    using (Html.BeginForm("Cikis", "Kullanici", FormMethod.Post, new {id = "logoutForm"}))
     {
         @Html.AntiForgeryToken()
 
@@ -22,7 +26,14 @@
             </a>
             <div class="dropdown-menu" style="width: 200px" aria-labelledby="navbarDropdownMenuLink">
                 <div class="dropdown-header text-center">
-                    <img src="~/Content/Images/user.png" style="height:65px" class="img-thumbnail rounded-circle" alt="" />
+                    @if (resim == null)
+                    {
+                        <img src="~/Content/Images/user.png" style="height: 65px; width: 65px;" class="img-thumbnail rounded-circle" alt=""/>
+                    }
+                    else
+                    {
+                        <img src="@resim.ResimPath" style="height: 65px; width: 65px;" class="img-thumbnail rounded-circle" alt=""/>
+                    }
                 </div>
                 @if (null != currentuser)
                 {
