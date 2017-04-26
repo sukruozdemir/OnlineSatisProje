@@ -3,63 +3,73 @@
     ViewBag.Title = "Ürünler";
 }
 
-<h1 class="display-4">Ürünler</h1>
-<hr/>
+<h1 class="display-4 text-muted">Ürünler</h1>
+<hr class="bg-inverse" />
 <div class="col-12">
-    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-secondary"><i class="fa fa-plus-square-o"></i> Ürün ekle</a>
-    <a href="@Url.Action("Index", "Ozellik", new {area = "Satici"})" id="buttonOzellikEkle" class="btn btn-secondary"><i class="fa fa-plus-square-o"></i> Ürün özelliği ekle</a>
+    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus-square-o"></i> Ürün ekle</a>
+    <a href="@Url.Action("Index", "Ozellik", new {area = "Satici"})" id="buttonOzellikEkle" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus-square-o"></i> Ürün özelliği ekle</a>
 </div>
-<hr/>
-
 @if (!Model.Any())
 {
     <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Ürün bulunamadı</h1>
 }
 else
 {
-    <table class="table">
+    <table class="col-12 table mt-3">
         <thead class="thead-default">
-        <tr>
-            <th>Başlık</th>
-            <th class="text-center">Yayınlandı</th>
-            <th class="text-center">Silindi</th>
-            <th>Oluşturma Tarihi</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Baslik)</th>
+                <th class="text-center">@Html.DisplayNameFor(x => x.Yayinlandi)</th>
+                <th class="text-center">@Html.DisplayNameFor(x => x.Silindi)</th>
+                <th>@Html.DisplayNameFor(x => x.CreatedDate)</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
 
-                <td class="text-center">
-                    @if (item.Yayinlandi)
-                    {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </td>
-                <td class="text-center">
-                    @if (item.Silindi)
-                    {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td class="text-center">
-                    <a href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})" class="btn btn-sm btn-outline-danger"><i class="fa fa-plus-square-o "></i> Resimler</a>
-                    <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus-square-o "></i> Özellik ekle</a>
-                </td>
-            </tr>
-        }
+                    <td class="text-center">
+                        @if (item.Yayinlandi)
+                        {
+                            <i class="fa fa-check"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times"></i>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (item.Silindi)
+                        {
+                            <i class="fa fa-check"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times"></i>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                    <td class="text-center">
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-danger">İşlemler</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})"><i class="fa fa-image"></i> Resimler</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-tags"></i> Etiketler</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-bars"></i> Kategoriler</a>
+                                <div class="dropdown-divider bg-danger"></div>
+                                <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }

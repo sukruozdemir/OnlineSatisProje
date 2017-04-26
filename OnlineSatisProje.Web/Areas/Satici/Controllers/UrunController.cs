@@ -14,6 +14,7 @@ using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.ActionFilters;
 using OnlineSatisProje.Web.Areas.Satici.CustomActions;
 using OnlineSatisProje.Web.Areas.Satici.Models;
+using System.Net;
 
 #endregion
 
@@ -88,7 +89,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             {
                 // URUNUN EKLENDIGI/GUNCELLENDIGI TARIH
                 var date = DateTime.Now;
-                Logger.Info(CurrentSatici.Id);
                 // YENI BIR URUN NESNESI OLUSTUR VE MODELDEN GELEN VERILERI NESNENIN ALANLARINA SET ET.
                 var urun = new Urun
                 {
@@ -115,12 +115,22 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex.Message);
-                Logger.Error(ex.InnerException);
-                Logger.Error(ex);
-                Logger.Error(ex.StackTrace);
                 ModelState.AddModelError("", @"Ürün eklenemedi!");
                 return View(model);
             }
+        }
+
+        public ActionResult Sil(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "id is null!");
+
+            var urun = _repository.GetById(id);
+            if (urun == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Urun not found");
+
+            urun.Silindi = true;
+            urun.UpdatedDate = DateTime.Now;
+            _repository.Update(urun);
+            return RedirectToAction("Index");
         }
 
         #endregion

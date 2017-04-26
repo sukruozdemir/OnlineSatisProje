@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.UrunId)
     <div class="form-group row">
-        <div class="col-11">
+        <div class="col-10">
             <label class="custom-file col-12">
                 <input type="file" id="file" class="custom-file-input" name="upload" accept=".jpg, .png, .jpeg, .bmp, ">
                 <span class="custom-file-control"></span>
@@ -19,8 +19,8 @@
             <br />
             <p class="text-muted" id="dosyaAdi" style="display: none;"></p>
         </div>
-        <div class="col-1">
-            <button class="btn btn-secondary" type="submit"><i class="fa fa-upload"></i> Yükle</button>
+        <div class="col-2">
+            <button class="btn btn-block btn-secondary" type="submit"><i class="fa fa-upload"></i> Yükle</button>
         </div>
     </div>
 }
@@ -31,7 +31,7 @@
     if (urunResimMappings.Any())
     {
         <table class="table">
-            <thead class="thead-inverse">
+            <thead class="thead-default">
                 <tr>
                     <th class="text-center">Resim</th>
                     <th>Başlık</th>
@@ -44,12 +44,14 @@
                 {
                     <tr>
                         <th class="text-center">
-                            <img src="@resim.Resim.ResimPath" class="img-thumbnail rounded" title="" alt="" width="291" height="285" />
+                            <img src="@resim.Resim.ResimPath" class="img-thumbnail rounded" title="" alt="" width="200" height="200" />
                         </th>
                         <th>@resim.Resim.Baslik</th>
                         <th>
                             @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
-                        {
+                            {
+                                @Html.Hidden("resimId", resim.Resim.Id)
+                                @Html.Hidden("urunId", resim.Urun.Id)
                                 <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
                             }
                         </th>

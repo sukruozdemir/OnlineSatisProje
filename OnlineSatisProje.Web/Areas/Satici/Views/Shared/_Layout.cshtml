@@ -1,69 +1,83 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Satıcı Dashboard</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/css/style")
     @Scripts.Render("~/bundles/modernizr")
 
+    <style>
+        .nav-link {
+            color: rgba(0, 0, 0, 0.7) !important;
+            -moz-transition: 0.5ms all ease-in-out;
+            -o-transition: 0.5ms all ease-in-out;
+            -webkit-transition: 0.5ms all ease-in-out;
+            transition: 0.5ms all ease-in-out;
+        }
 
+            .nav-link:hover {
+                color: black;
+            }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded mb-3">
+        <button class="navbar-toggler navbar-toggler-right" type="button" 
+                data-toggle="collapse" data-target="#navbaricerik" 
+                aria-controls="navbaricerik" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <a href="#" class="navbar-brand">Satıcı</a>
+        <div class="container">
+            <a class="navbar-brand" href="#">Satıcı</a>
 
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a href="@Url.Action("Index", "Home", new {area = "Satici"})" class="nav-link"><i class="fa fa-home"></i> Anasayfa <span class="sr-only">(şuanki)</span></a>
-            </li>
-            <li class="nav-item">
-                <a href="@Url.Action("Index", "Home", new {area = ""})" class="nav-link" target="_blank"><i class="fa fa-external-link"></i> Web Sitesini Aç</a>
-            </li>
-        </ul>
+            <div class="collapse navbar-collapse" id="navbaricerik">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Satici"})"><i class="fa fa-home"></i> Anasayfa <span class="sr-only">(şuanki)</span></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home", new {area = ""})" class="nav-link" target="_blank"><i class="fa fa-external-link"></i> Web Sitesini Aç</a>
+                    </li>
+                    <li class="nav-item pl-2" style="border-left:1px solid #ccc">
+                        <span class="navbar-text">
+                            <i class="fa fa-user-o"></i> @User.Identity.Name
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2" style="border-right:1px solid #ccc">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Urun", new {Area = "Satici"})"><i class="fa fa-list mr-1"></i> Ürünler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Siparis", new {Area = "Satici"})"><i class="fa fa-truck mr-1"></i> Siparişler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Mekan", new {Area = "Satici"})"><i class="fa fa-building-o mr-1"></i> Mekanlar</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="col-sm-9 col-md-10">
+                @RenderBody()
+            </div>
+        </div>
     </div>
 
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-inverse sidebar">
-            <ul class="nav nav-pills flex-column" style="border-top: 3px solid orange">
-                <li class="nav-item">
-                    <a class="nav-link active" href="@Url.Action("Index", "Home", new {area = "Satici"})"><i class="fa fa-home"></i> Dashboard <span class="sr-only">(şuanki)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Urun", new {Area = "Satici"})"><i class="fa fa-list"></i> Ürünler</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Siparis", new {Area = "Satici"})"><i class="fa fa-truck"></i> Siparişler</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Ozellik", new {Area = "Satici"})"><i class="fa fa-tags"></i> Özellikler</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Mekan", new {Area = "Satici"})"><i class="fa fa-building"></i> Mekanlar</a>
-                </li>
-            </ul>
-        </nav>
-        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-            @RenderBody()
-        </main>
-    </div>
-</div>
-
-
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", false)
 </body>
 </html>
