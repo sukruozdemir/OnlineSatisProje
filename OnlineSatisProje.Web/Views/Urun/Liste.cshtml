@@ -3,5 +3,67 @@
     ViewBag.Title = "Ürünler";
 }
 
-<h2>Liste</h2>
+<h1 class="display-4">Ürünler</h1>
+<hr class="bg-danger">
 
+<div class="row">
+    <nav class="col-sm-3 col-md-2" style="border-right:1px solid #ccc">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Urun", new {Area = "Satici"})"><i class="fa fa-list mr-1"></i> Ürünler</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Siparis", new {Area = "Satici"})"><i class="fa fa-truck mr-1"></i> Siparişler</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Mekan", new {Area = "Satici"})"><i class="fa fa-building-o mr-1"></i> Mekanlar</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="col-9">
+        <div class="card-deck">
+            @foreach (var urun in Model)
+            {
+                <div class="card m-3 text-center">
+                    @{
+                        var urunresim = urun.UrunResimMapping.FirstOrDefault();
+                    }
+                    @if (null != urunresim)
+                    {
+                        <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="width: 200px; height: 200px; object-fit: cover" 
+                                 src="@urunresim.Resim.ResimPath" alt="@urunresim.Resim.Baslik">
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="width: 200px; height: 200px; object-fit: cover" src="/Content/Images/product.png" alt="@urun.Baslik">
+                        </a>
+                    }
+                    <div class="card-block">
+                        <h4 class="card-title">
+                            @urun.Baslik
+                        </h4>
+                        <p class="card-text">
+                            <hr class="bg-danger"/>
+                            <h3>@urun.Fiyat.ToString("C")</h3>
+                        </p>
+                        <p class="card-text">
+                            <a href="#">
+                                <small class="text-muted">@urun.Satici.Ad</small>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="card-footer" style="background: none; border: none">
+                        @using (Html.BeginForm("Ekle", "Sepet", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", urun.Id)
+                            <button type="submit" class="btn btn-outline-danger"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -23,7 +23,7 @@
                     <a href="@Url.Action("Index", "Home")" class="nav-link"><i class="fa fa-home"></i> Anasayfa <span class="sr-only">(şuanki)</span></a>
                 </li>
 
-                @Html.Partial("_LoginPartial")               
+                @Html.Partial("_LoginPartial")
             </ul>
         </div>
     </div>
@@ -31,11 +31,15 @@
 
 <div class="container pt-3">
     @RenderBody()
-    
-    <hr style="margin:5rem 0" class="bg-danger" />
+
+    <hr style="margin: 5rem 0" class="bg-danger"/>
     <footer>
-        <p class="float-right"><a href="#"><i class="fa fa-arrow-up"></i> Yukarı dön</a></p>
-        <p>&copy; 2017 OnlineSatis Proje. &middot; <a href="#">Gizlilik</a> &middot; <a href="#">Şartlar</a></p>
+        <p class="float-right">
+            <a href="#"><i class="fa fa-arrow-up"></i> Yukarı dön</a>
+        </p>
+        <p>
+            &copy; 2017 OnlineSatis Proje. &middot; <a href="#">Gizlilik</a> &middot; <a href="#">Şartlar</a>
+        </p>
     </footer>
 
 </div>
@@ -44,5 +48,19 @@
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", false)
+    
+<script>
+    $("img").hover(function() {
+            var img = $(this);
+            img.removeClass("rounded-circle");
+            img.addClass("rounded");
+        },
+        function() {
+            var img = $(this);
+            img.removeClass("rounded");
+            img.addClass("rounded-circle");
+        });
+</script>
+
 </body>
 </html>
