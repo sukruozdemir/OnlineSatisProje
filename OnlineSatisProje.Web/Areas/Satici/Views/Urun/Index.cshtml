@@ -6,8 +6,9 @@
 <h1 class="display-4 text-muted">Ürünler</h1>
 <hr class="bg-inverse" />
 <div class="col-12">
-    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus-square-o"></i> Ürün ekle</a>
-    @*<a href="@Url.Action("Index", "Ozellik", new {area = "Satici"})" id="buttonOzellikEkle" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus-square-o"></i> Ürün özelliği ekle</a>*@
+    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-outline-primary">
+        <i class="fa fa-plus-square-o"></i> Ürün ekle
+    </a>
 </div>
 @if (!Model.Any())
 {
@@ -30,7 +31,6 @@ else
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
-
                     <td class="text-center">
                         @if (item.Yayinlandi)
                         {
@@ -60,9 +60,14 @@ else
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})"><i class="fa fa-image"></i> Resimler</a>
+                                <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})">
+                                    <i class="fa fa-image"></i> Resimler
+                                </a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-tags"></i> Etiketler</a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-bars"></i> Kategoriler</a>
+                                <a class="dropdown-item" href="@Url.Action("Indirim", "Urun", new {id=item.Id })">
+                                    <i class="fa fa-cart-arrow-down"> Indirim</i>
+                                </a>
                                 <div class="dropdown-divider bg-danger"></div>
                                 <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>
                             </div>

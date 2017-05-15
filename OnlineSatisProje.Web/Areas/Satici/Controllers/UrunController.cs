@@ -133,6 +133,18 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Indirim(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var urun = _repository.GetById(id);
+            if (urun == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var model = new IndirimModel
+            {
+                UrunId = (int)id
+            };
+            return View(model);
+        }
+
         #endregion
 
         #region Resim Actions
