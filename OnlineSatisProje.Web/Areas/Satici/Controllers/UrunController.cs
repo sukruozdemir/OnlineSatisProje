@@ -5,14 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using log4net;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
-using OnlineSatisProje.Web.ActionFilters;
-using OnlineSatisProje.Web.Areas.Satici.CustomActions;
 using OnlineSatisProje.Web.Areas.Satici.Models;
 using System.Net;
 
@@ -133,18 +130,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Indirim(int? id)
-        {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var urun = _repository.GetById(id);
-            if (urun == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var model = new IndirimModel
-            {
-                UrunId = (int)id
-            };
-            return View(model);
-        }
-
         #endregion
 
         #region Resim Actions
@@ -221,22 +206,22 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                             return RedirectToAction("Resimler", new { urunId = model.UrunId });
                         }
 
-                        ModelState.AddModelError("", "Ürün id boş!");
+                        ModelState.AddModelError("", @"Ürün id boş!");
                         return View(model);
                     }
 
-                    ModelState.AddModelError("", "Resim yüklenemedi!");
+                    ModelState.AddModelError("", @"Resim yüklenemedi!");
                     return View(model);
                 }
 
-                ModelState.AddModelError("", "Resim upload edilemedi!");
+                ModelState.AddModelError("", @"Resim upload edilemedi!");
                 return View(model);
             }
             catch (Exception e)
             {
                 Logger.Error(e.Message);
                 Logger.Error(e);
-                ModelState.AddModelError("", "Resim eklenirken bir hata oluştu");
+                ModelState.AddModelError("", @"Resim eklenirken bir hata oluştu");
                 return View(model);
             }
         }

@@ -200,6 +200,7 @@
     <Compile Include="Areas\Admin\Models\KullaniciViewModel.cs" />
     <Compile Include="Areas\Satici\Controllers\BaseController.cs" />
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Satici\Controllers\IndirimController.cs" />
     <Compile Include="Areas\Satici\Controllers\MekanController.cs" />
     <Compile Include="Areas\Satici\Controllers\OzellikController.cs" />
     <Compile Include="Areas\Satici\Controllers\SiparisController.cs" />
@@ -284,7 +285,7 @@
     <Content Include="Areas\Satici\Views\Siparis\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisDuzenle.cshtml" />
     <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisKullanici.cshtml" />
-    <Content Include="Areas\Satici\Views\Urun\Indirim.cshtml" />
+    <Content Include="Areas\Satici\Views\Indirim\Index.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

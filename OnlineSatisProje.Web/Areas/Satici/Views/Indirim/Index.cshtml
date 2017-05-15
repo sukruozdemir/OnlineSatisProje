@@ -1,0 +1,41 @@
+﻿@model IEnumerable<OnlineSatisProje.Core.Entities.SaticiIndirimMapping>
+@{
+    ViewBag.Title = "Indirimler";
+}
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>@Html.DisplayNameFor(i => i.Indirim.Baslik)</th>
+            <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.YuzdeKullan)</th>
+            <th>@Html.DisplayNameFor(i => i.Indirim.IndirimYuzdesi)</th>
+            <th>@Html.DisplayNameFor(i => i.Indirim.IndirimMiktari)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Indirim.Baslik</th>
+                <th class="text-center">
+                    @if (item.Indirim.YuzdeKullan)
+                    {
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </th>
+                <th></th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Indirim bulunmamaktadır</h1>
+}

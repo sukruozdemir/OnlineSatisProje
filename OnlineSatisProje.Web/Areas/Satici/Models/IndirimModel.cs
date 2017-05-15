@@ -5,8 +5,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Models
 {
     public class IndirimModel
     {
-        [Display(Name = "Ürün")]
-        public int UrunId { get; set; }
         [Display(Name = "Başlık")]
         public string Baslik { get; set; }
         [Display(Name = "Yüzde kullan")]
