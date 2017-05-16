@@ -14,8 +14,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Models
         [Display(Name = "Indirim miktarı")]
         public decimal IndirimMiktari { get; set; }
         [Display(Name = "Başlangıç tarihi")]
-        public DateTime BaslangicTarihi { get; set; }
+        public string BaslangicTarihi { get; set; }
         [Display(Name = "Bitiş tarihi")]
-        public DateTime BitisTarihi { get; set; }
+        public string BitisTarihi { get; set; }
     }
 }

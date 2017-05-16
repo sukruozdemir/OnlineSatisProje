@@ -286,6 +286,7 @@
     <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisDuzenle.cshtml" />
     <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisKullanici.cshtml" />
     <Content Include="Areas\Satici\Views\Indirim\Index.cshtml" />
+    <Content Include="Areas\Satici\Views\Indirim\Ekle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

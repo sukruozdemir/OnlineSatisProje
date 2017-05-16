@@ -1,0 +1,80 @@
+﻿@model OnlineSatisProje.Web.Areas.Satici.Models.IndirimModel
+@{
+    ViewBag.Title = "Ekle";
+}
+
+<h1 class="display-4 text-muted">Yeni Ekle</h1>
+<hr class="bg-inverse" />
+
+@using (Html.BeginForm("Ekle", "Indirim", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="form-group row">
+        @Html.LabelFor(x => x.Baslik, new { @class = "col-2 col-form-label text-right" })
+        <div class="col-10">
+            @Html.TextBoxFor(x => x.Baslik, new { @class = "form-control", placeholder = "Başlık" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-10 offset-2">
+            <label class="custom-control custom-checkbox">
+                @Html.CheckBoxFor(x => x.YuzdeKullan, new { @class = "custom-control-input" })
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">@Html.DisplayNameFor(x => x.YuzdeKullan)</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group row" id="rowYuzde" style="display: none">
+        @Html.LabelFor(x => x.IndirimYuzdesi, new { @class = "col-2 col-form-label text-right" })
+        <div class="col-10">
+            @Html.TextBoxFor(x => x.IndirimYuzdesi, new { @class = "form-control", placeholder = "İndirim yüzdesi", type = "number" })
+        </div>
+    </div>
+
+    <div class="form-group row" id="rowMiktar">
+        @Html.LabelFor(x => x.IndirimMiktari, new { @class = "col-2 col-form-label text-right" })
+        <div class="col-10">
+            @Html.TextBoxFor(x => x.IndirimMiktari, new { @class = "form-control", placeholder = "İndirim miktarı", type = "number" })
+        </div>
+    </div>
+
+    <div class="form-group row" id="rowMiktar">
+        @Html.LabelFor(x => x.BaslangicTarihi, new { @class = "col-2 col-form-label text-right" })
+        <div class="col-10">
+            @Html.TextBoxFor(x => x.BaslangicTarihi, new { @class = "form-control", placeholder = "Başlangıç tarihi" })
+        </div>
+    </div>
+
+    <div class="form-group row" id="rowMiktar">
+        @Html.LabelFor(x => x.BitisTarihi, new { @class = "col-2 col-form-label text-right" })
+        <div class="col-10">
+            @Html.TextBoxFor(x => x.BitisTarihi, new { @class = "form-control", placeholder = "Bitiş tarihi" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-2 col-sm-10">
+            <button type="submit" class="btn btn-secondary">Kaydet</button>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+    <script>
+        $("#YuzdeKullan").on("change",
+            function (e) {
+                var chk = $(this);
+                if (chk.is(":checked")) {
+                    $("#rowYuzde").css("display", "flex");
+                    $("#rowMiktar").css("display", "none");
+                } else {
+                    $("#rowYuzde").css("display", "none");
+                    $("#rowMiktar").css("display", "flex");
+                }
+            });
+    </script>
+}

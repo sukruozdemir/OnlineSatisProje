@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
@@ -26,31 +27,51 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return View(indirimler);
         }
 
+        public ActionResult Ekle()
+        {
+            var modal = new IndirimModel
+            {
+                BaslangicTarihi = DateTime.Now.ToString("d"),
+
+            };
+            
+
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Ekle(IndirimModel model)
         {
             if(!ModelState.IsValid)
             {
-                ViewBag.EkleHata = "Eklenirken bir hata oluştu";
+                ModelState.AddModelError("", @"Eklenirken bir hata oluştu");
                 return RedirectToAction("Index");
             }
+            try
+            {
+                var i = new Indirim
+                {
+                    Aktif = true,
+                    BaslangicTarihi = Convert.ToDateTime(model.BaslangicTarihi),
+                    BitisTarihi = Convert.ToDateTime(model.BitisTarihi),
+                    IndirimMiktari = model.IndirimMiktari,
+                    IndirimYuzdesi = model.IndirimYuzdesi,
+                    Baslik = model.Baslik
+                };
+                _inidirimRepository.Insert(i);
+                _saticiIndirimRepository.Insert(new SaticiIndirimMapping
+                {
+                    IndirimId = i.Id,
+                    SaticiId = CurrentSatici.Id
+                });
+                return RedirectToAction("Index");
 
-            var i = new Indirim
+            }
+            catch (Exception)
             {
-                Aktif = true,
-                BaslangicTarihi = model.BaslangicTarihi,
-                BitisTarihi = model.BitisTarihi,
-                IndirimMiktari = model.IndirimMiktari,
-                IndirimYuzdesi = model.IndirimYuzdesi,
-                Baslik = model.Baslik
-            };
-            _inidirimRepository.Insert(i);
-            _saticiIndirimRepository.Insert(new SaticiIndirimMapping
-            {
-                IndirimId = i.Id,
-                SaticiId = CurrentSatici.Id
-            });
-            return RedirectToAction("Index");
+                ModelState.AddModelError("", @"Indirim eklenemedi!");
+                return View(model);
+            }       
         }
     }
 }
