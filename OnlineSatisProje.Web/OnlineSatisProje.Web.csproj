@@ -209,6 +209,8 @@
     <Compile Include="Areas\Satici\Models\IndirimModel.cs" />
     <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
     <Compile Include="Areas\Satici\Models\SiparisModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunIndirimModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunIndirimViewModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -287,6 +289,8 @@
     <Content Include="Areas\Satici\Views\Siparis\_PartialSiparisKullanici.cshtml" />
     <Content Include="Areas\Satici\Views\Indirim\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Indirim\Ekle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\Indirimler.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\_PartialUrunIndirimEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

@@ -6,7 +6,7 @@
 <h1 class="display-4 text-muted">Ürünler</h1>
 <hr class="bg-inverse" />
 <div class="col-12">
-    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-outline-primary">
+    <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-secondary">
         <i class="fa fa-plus-square-o"></i> Ürün ekle
     </a>
 </div>
@@ -65,6 +65,7 @@ else
                                 </a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-tags"></i> Etiketler</a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-bars"></i> Kategoriler</a>
+                                <a class="dropdown-item" href="@Url.Action("Indirimler", "Urun", new { id = item.Id})"><i class="fa fa-cart-arrow-down"></i> Indirimler</a>
                                 <div class="dropdown-divider bg-danger"></div>
                                 <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>
                             </div>

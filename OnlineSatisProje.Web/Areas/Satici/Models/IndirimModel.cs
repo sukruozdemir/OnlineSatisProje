@@ -10,9 +10,9 @@ namespace OnlineSatisProje.Web.Areas.Satici.Models
         [Display(Name = "Yüzde kullan")]
         public bool YuzdeKullan { get; set; }
         [Display(Name = "Indirim yüzdesi")]
-        public decimal IndirimYuzdesi { get; set; }
+        public int IndirimYuzdesi { get; set; }
         [Display(Name = "Indirim miktarı")]
-        public decimal IndirimMiktari { get; set; }
+        public int IndirimMiktari { get; set; }
         [Display(Name = "Başlangıç tarihi")]
         public string BaslangicTarihi { get; set; }
         [Display(Name = "Bitiş tarihi")]

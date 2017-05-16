@@ -24,11 +24,15 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         public UrunController(IUrunRepository urunRepository,
             IRepository<Urun> repository,
             IRepository<Resim> resimRepository,
-            IRepository<UrunResimMapping> urunResimRepository)
+            IRepository<UrunResimMapping> urunResimRepository,
+            IRepository<SaticiIndirimMapping> saticiIndirimRepository,
+            IRepository<UrunIndirimMapping> urunIndirimMapping)
         {
             _repository = repository;
             _resimRepository = resimRepository;
             _urunResimRepository = urunResimRepository;
+            _saticiIndirimRepository = saticiIndirimRepository;
+            _urunIndirimMapping = urunIndirimMapping;
         }
 
         #endregion
@@ -40,6 +44,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         private readonly IRepository<Urun> _repository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
+        private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
+        private readonly IRepository<UrunIndirimMapping> _urunIndirimMapping;
 
         #endregion
 
@@ -51,6 +57,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// </summary>
         /// <returns>Index view</returns>
         public ActionResult Index() => View(_repository.Table.Where(u => u.SaticiId == CurrentSatici.Id).ToList());
+
+        #region Ekle/Sil Actions
 
         /// <summary>
         ///     GET: Satici/Urun/Ekle
@@ -243,6 +251,59 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
             return RedirectToAction("Resimler", "Urun", new { urunId });
         }
+
+        #endregion
+
+        #region Indirim Actions
+
+        public ActionResult Indirimler(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var urun = _repository.GetById(id);
+            if (urun == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var liste = _urunIndirimMapping.Table.Where(u => u.UrunId == urun.Id).ToList();
+
+            var urunindirimModel = new UrunIndirimModel
+            {
+                UrunId = urun.Id,
+                Urun = urun,
+                Indirimler = _saticiIndirimRepository.Table.Where(i => i.SaticiId == CurrentSatici.Id).Select(i => i.Indirim).ToList()
+            };
+
+            return View(new UrunIndirimViewModel
+            {
+                UrunIndirimMapping = liste,
+                UrunIndirimModel = urunindirimModel
+            });
+        }
+
+        [HttpPost]
+        public ActionResult IndirimEkle(UrunIndirimModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Indirimler", new { id = model.UrunId });
+            }
+
+            try
+            {
+                _urunIndirimMapping.Insert(new UrunIndirimMapping
+                {
+                    IndirimId = model.IndirimId,
+                    UrunId = model.UrunId
+                });
+                return RedirectToAction("Indirimler", new { id = model.UrunId});
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Indirimler", new { id = model.UrunId });
+            }
+        }
+
+        #endregion
 
         #endregion
     }

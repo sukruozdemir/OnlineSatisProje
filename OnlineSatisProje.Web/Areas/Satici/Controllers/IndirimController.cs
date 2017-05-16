@@ -27,19 +27,20 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             return View(indirimler);
         }
 
+        // GET: Satici/Indirim/Ekle
         public ActionResult Ekle()
         {
-            var modal = new IndirimModel
+            var model = new IndirimModel
             {
                 BaslangicTarihi = DateTime.Now.ToString("d"),
-
+                BitisTarihi = DateTime.Now.ToString("d")
             };
             
-
-            return View();
+            return View(model);
         }
 
-        [HttpPost]
+        // POST: Satici/Indirim/Ekle
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Ekle(IndirimModel model)
         {
             if(!ModelState.IsValid)

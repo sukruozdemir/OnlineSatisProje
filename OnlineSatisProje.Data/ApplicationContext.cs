@@ -93,14 +93,6 @@ namespace OnlineSatisProje.Data
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Indirim>()
-                .Property(e => e.IndirimYuzdesi)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Indirim>()
-                .Property(e => e.IndirimMiktari)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<Indirim>()
                 .HasMany(e => e.KategoriIndirimMapping)
                 .WithRequired(e => e.Indirim)
                 .WillCascadeOnDelete(false);
