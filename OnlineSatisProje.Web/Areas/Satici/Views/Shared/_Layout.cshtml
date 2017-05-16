@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <style>
-        .nav-link {
+        html > /**/ body .nav-link {
             color: rgba(0, 0, 0, 0.7) !important;
             -moz-transition: 0.5ms all ease-in-out;
             -o-transition: 0.5ms all ease-in-out;
@@ -17,7 +17,7 @@
             transition: 0.5ms all ease-in-out;
         }
 
-            .nav-link:hover {
+            html > /**/ body .nav-link:hover {
                 color: black;
             }
     </style>
@@ -66,6 +66,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "Mekan", new {Area = "Satici"})"><i class="fa fa-building-o mr-1"></i> Mekanlar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Indirim", new {Area = "Satici"})"><i class="fa fa-cart-arrow-down mr-1"></i> İndirimler</a>
                     </li>
                 </ul>
             </nav>

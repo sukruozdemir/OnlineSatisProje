@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
+using OnlineSatisProje.Web.Areas.Satici.Models;
 
 namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
@@ -23,6 +24,33 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         {
             var indirimler = _saticiIndirimRepository.Table.Where(i => i.SaticiId == CurrentSatici.Id).ToList();
             return View(indirimler);
+        }
+
+        [HttpPost]
+        public ActionResult Ekle(IndirimModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                ViewBag.EkleHata = "Eklenirken bir hata oluştu";
+                return RedirectToAction("Index");
+            }
+
+            var i = new Indirim
+            {
+                Aktif = true,
+                BaslangicTarihi = model.BaslangicTarihi,
+                BitisTarihi = model.BitisTarihi,
+                IndirimMiktari = model.IndirimMiktari,
+                IndirimYuzdesi = model.IndirimYuzdesi,
+                Baslik = model.Baslik
+            };
+            _inidirimRepository.Insert(i);
+            _saticiIndirimRepository.Insert(new SaticiIndirimMapping
+            {
+                IndirimId = i.Id,
+                SaticiId = CurrentSatici.Id
+            });
+            return RedirectToAction("Index");
         }
     }
 }
