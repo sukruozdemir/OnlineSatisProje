@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
@@ -9,10 +10,12 @@ namespace OnlineSatisProje.Services.Services
     public class UrunRepository : IUrunRepository
     {
         private readonly IRepository<Urun> _urunRepository;
+        private readonly IRepository<UrunIndirimMapping> _urunIndirimRepository;
 
-        public UrunRepository(IRepository<Urun> urunRepository)
+        public UrunRepository(IRepository<Urun> urunRepository, IRepository<UrunIndirimMapping> urunIndirimRepository)
         {
             _urunRepository = urunRepository;
+            _urunIndirimRepository = urunIndirimRepository;
         }
 
         public IEnumerable<Urun> GetAllProducts() => _urunRepository.Table.ToList();
@@ -39,5 +42,24 @@ namespace OnlineSatisProje.Services.Services
         }
 
         public bool IsAvailable(Urun urun) => IsAvailable(urun.Id);
+
+        public Urun GetDiscountPrice(int id)
+        {
+            var urun = _urunRepository.GetById(id);
+            var indirim = _urunIndirimRepository.Table.OrderByDescending(k => k.Indirim.BaslangicTarihi).FirstOrDefault(k => k.UrunId == urun.Id);
+
+            if (indirim != null)
+            {
+                if (indirim.Indirim.YuzdeKullan)
+                {
+                    urun.Fiyat -= ((urun.Fiyat / 100) * indirim.Indirim.IndirimYuzdesi);
+                }
+                else
+                {
+                    urun.Fiyat -= indirim.Indirim.IndirimMiktari;
+                }
+            }
+            return urun;
+        }
     }
 }
