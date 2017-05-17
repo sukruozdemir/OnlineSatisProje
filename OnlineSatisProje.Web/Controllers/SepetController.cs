@@ -8,6 +8,7 @@ using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Core.Enums;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Web.Models;
+using OnlineSatisProje.Services.Interfaces;
 
 namespace OnlineSatisProje.Web.Controllers
 {
@@ -19,16 +20,19 @@ namespace OnlineSatisProje.Web.Controllers
         private readonly IRepository<SiparisItem> _siparisItemRepository;
         private readonly IRepository<Siparis> _siparisRepository;
         private readonly IRepository<Urun> _urunRepository;
+        private readonly IUrunRepository _urunUrunRepository;
 
         public SepetController(IRepository<Siparis> siparisRepository,
             IRepository<SiparisItem> siparisItemRepository,
             IRepository<SepetItem> sepetRepository,
-            IRepository<Urun> urunRepository)
+            IRepository<Urun> urunRepository,
+            IUrunRepository urunUrunRepository)
         {
             _siparisRepository = siparisRepository;
             _siparisItemRepository = siparisItemRepository;
             _sepetRepository = sepetRepository;
             _urunRepository = urunRepository;
+            _urunUrunRepository = urunUrunRepository;
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace OnlineSatisProje.Web.Controllers
         public ActionResult Odeme()
         {
             var list = CurrentUser.SepetItem.Where(x => x.Aktif);
-            var toplamucret = list.Sum(x => x.Urun.Fiyat * x.Miktar);
+            var toplamucret = list.Sum(x => _urunUrunRepository.GetDiscountPrice(x.Id).Fiyat * x.Miktar);
             if (toplamucret <= 0)
                 return RedirectToAction("Index");
 
@@ -130,7 +134,7 @@ namespace OnlineSatisProje.Web.Controllers
                 KartSonKullanimAy = model.KartSonKullanimAy,
                 KartSonKullanimYil = model.KartSonKullanimYil,
                 Tarih = DateTime.Now,
-                SiparisToplam = sepetListe.Where(x => x.Aktif).Sum(x => x.Urun.Fiyat * x.Miktar)
+                SiparisToplam = sepetListe.Where(x => x.Aktif).Sum(x => _urunUrunRepository.GetDiscountPrice(x.Id).Fiyat * x.Miktar)
             };
 
             try
@@ -144,7 +148,7 @@ namespace OnlineSatisProje.Web.Controllers
                         SiparisId = siparis.Id,
                         UrunId = sepetItem.UrunId,
                         Miktar = sepetItem.Miktar,
-                        Fiyat = sepetItem.Urun.Fiyat,
+                        Fiyat = _urunUrunRepository.GetDiscountPrice(sepetItem.Urun.Id).Fiyat,
                         IndirimMiktari = 0,
                         SaticiId = sepetItem.Urun.SaticiId
                     };

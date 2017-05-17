@@ -20,19 +20,31 @@ namespace OnlineSatisProje.Services.Services
 
         public IEnumerable<Urun> GetAllProducts() => _urunRepository.Table.ToList();
 
-        public IEnumerable<Urun> GetPublishedProducts() => GetAllProducts().Where(u => u.Yayinlandi).ToList();
+        public IEnumerable<Urun> GetPublishedProducts() => GetAllProductsWithDiscount().Where(u => u.Yayinlandi).ToList();
 
-        public IList<Urun> GetDeletedProducts() => GetAllProducts().Where(u => u.Silindi).ToList();
+        public IList<Urun> GetDeletedProducts() => GetAllProductsWithDiscount().Where(u => u.Silindi).ToList();
 
-        public IList<Urun> GetShowOnHomePageProducts() => GetAllProducts().Where(u => u.AnasayfadaGoster).ToList();
+        public IList<Urun> GetShowOnHomePageProducts() => GetAllProductsWithDiscount().Where(u => u.AnasayfadaGoster).ToList();
 
-        public IList<Urun> GetPublishedAndHomePageProducts() => GetPublishedProducts()
+        public IList<Urun> GetPublishedAndHomePageProducts() => GetAllProductsWithDiscount()
             .Where(u => u.AnasayfadaGoster)
             .ToList();
 
-        public IList<Urun> GetHomePageProducts() => GetAllProducts()
+        public IList<Urun> GetHomePageProducts() => GetAllProductsWithDiscount()
             .Where(u => u.AnasayfadaGoster && !u.Silindi && u.Yayinlandi && u.Aktif)
             .ToList();
+
+        public IList<Urun> GetAllProductsWithDiscount()
+        {
+            var liste = new List<Urun>();
+
+            foreach (var item in GetAllProducts())
+            {
+                liste.Add(GetDiscountPrice(item.Id));
+            }
+
+            return liste;
+        }
 
         public bool IsAvailable(int? id)
         {
@@ -50,13 +62,16 @@ namespace OnlineSatisProje.Services.Services
 
             if (indirim != null)
             {
-                if (indirim.Indirim.YuzdeKullan)
+                if (indirim.Indirim.BitisTarihi > Convert.ToDateTime(DateTime.Now.ToString("d")) && indirim.Indirim.Aktif)
                 {
-                    urun.Fiyat -= ((urun.Fiyat / 100) * indirim.Indirim.IndirimYuzdesi);
-                }
-                else
-                {
-                    urun.Fiyat -= indirim.Indirim.IndirimMiktari;
+                    if (indirim.Indirim.YuzdeKullan)
+                    {
+                        urun.Fiyat -= ((urun.Fiyat / 100) * indirim.Indirim.IndirimYuzdesi);
+                    }
+                    else
+                    {
+                        urun.Fiyat -= indirim.Indirim.IndirimMiktari;
+                    }
                 }
             }
             return urun;
