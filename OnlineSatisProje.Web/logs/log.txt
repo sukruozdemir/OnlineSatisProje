@@ -28,3 +28,5 @@ Parameter name: length
    at OnlineSatisProje.Web.Areas.Satici.Controllers.UrunController.Resimler(UrunResimMapping model, HttpPostedFileBase upload) in C:\Users\sukru\Documents\Visual Studio 2015\Projects\OnlineSatisProje\OnlineSatisProje.Web\Areas\Satici\Controllers\UrunController.cs:line 184
 INFO  2017-04-23 23:30:24,145 134393ms UrunController         Ekle               - 4
 INFO  2017-04-23 23:34:56,135 406383ms UrunController         Ekle               - 4
+ERROR 2017-05-18 00:06:12,158 496079ms MekanController        Ekle               - Property: Adres1 Error: Adres1 alaný uzunluðu en fazla 250 olan bir dize olmalýdýr.
+ERROR 2017-05-18 00:06:40,408 524329ms MekanController        Ekle               - Property: Adres1 Error: Adres1 alaný uzunluðu en fazla 250 olan bir dize olmalýdýr.
