@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -21,7 +22,7 @@ namespace OnlineSatisProje.Web
 {
     public partial class Startup
     {
-        private const string ConnectionStringName = "DomainConnection";
+        private const string ConnectionStringName = "LocalConnection";
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
@@ -52,43 +53,54 @@ namespace OnlineSatisProje.Web
 
             ConfigureAuth(app);
 
-            //SeedRoles();
+            SeedRoles();
+            CreateAdminUser();
         }
 
         private void SeedRoles()
         {
             var context = new ApplicationContext(ConnectionStringName);
             if (!context.Roles.Any(r => r.Name == "Admin"))
-            {
-                var store = new ApplicationRoleStore(context);
-                var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Admin" };
-                manager.Create(role);
-            }
+                CreateRole("Admin", context);
 
             if (!context.Roles.Any(r => r.Name == "Satıcı"))
-            {
-                var store = new ApplicationRoleStore(context);
-                var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Satıcı" };
-                manager.Create(role);
-            }
+                CreateRole("Satıcı", context);
 
             if (!context.Roles.Any(r => r.Name == "Standard"))
-            {
-                var store = new ApplicationRoleStore(context);
-                var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "Standard" };
-                manager.Create(role);
-            }
+                CreateRole("Standard", context);
+        }
 
-            if (context.Users.Any(u => u.Email == "sukruozdmr97@gmail.com"))
+        private void CreateRole(string roleName, ApplicationContext context)
+        {
+            var store = new ApplicationRoleStore(context);
+            var manager = new RoleManager<IdentityRole>(store);
+            var role = new IdentityRole { Name = roleName };
+            manager.Create(role);
+        }
+
+        private void CreateAdminUser()
+        {
+            var context = new ApplicationContext(ConnectionStringName);
+            var userStore = new UserStore<Kullanici>(context);
+            var userManager = new UserManager<Kullanici>(userStore);
+            if (userManager.FindByEmail("admin@gmail.com") == null)
             {
-                var store = new UserStore<Kullanici>(context);
-                var manager = new UserManager<Kullanici>(store);
-                var user = manager.FindByEmail("sukruozdmr97@gmail.com");
-                if (!manager.IsInRole(user.Id, "Admin"))
-                    manager.AddToRole(user.Id, "Admin");
+                var user = new Kullanici
+                {
+                    Email = "admin@gmail.com",
+                    UserName = "admin@gmail.com",
+                    Ad = "Admin",
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    IsActive = true
+                };
+                var result = userManager.Create(user, "admin123");
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRole(user.Id, "Admin");
+                    userManager.AddToRole(user.Id, "Standard");
+                }
             }
         }
     }
