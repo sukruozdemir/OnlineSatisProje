@@ -63,8 +63,8 @@ else
                                 <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})">
                                     <i class="fa fa-image"></i> Resimler
                                 </a>
-                                <a class="dropdown-item" href="#"><i class="fa fa-tags"></i> Etiketler</a>
-                                <a class="dropdown-item" href="#"><i class="fa fa-bars"></i> Kategoriler</a>
+                                <a class="dropdown-item" href="@Url.Action("Etiketler", "Urun", new { id = item.Id})"><i class="fa fa-tags"></i> Etiketler</a>
+                                <a class="dropdown-item" href="@Url.Action("Kategoriler", "Urun", new { id = item.Id})"><i class="fa fa-bars"></i> Kategoriler</a>
                                 <a class="dropdown-item" href="@Url.Action("Indirimler", "Urun", new { id = item.Id})"><i class="fa fa-cart-arrow-down"></i> Indirimler</a>
                                 <div class="dropdown-divider bg-danger"></div>
                                 <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>

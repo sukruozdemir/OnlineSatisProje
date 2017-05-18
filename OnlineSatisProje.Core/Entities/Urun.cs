@@ -15,7 +15,6 @@ namespace OnlineSatisProje.Core.Entities
             UrunEtiketMapping = new HashSet<UrunEtiketMapping>();
             UrunIndirimMapping = new HashSet<UrunIndirimMapping>();
             UrunKategoriMapping = new HashSet<UrunKategoriMapping>();
-            UrunOzellikMapping = new HashSet<UrunOzellikMapping>();
             UrunResimMapping = new HashSet<UrunResimMapping>();
             CreatedDate = DateTime.Now;
             UpdatedDate = CreatedDate;
@@ -64,7 +63,6 @@ namespace OnlineSatisProje.Core.Entities
         public virtual ICollection<UrunEtiketMapping> UrunEtiketMapping { get; set; }
         public virtual ICollection<UrunIndirimMapping> UrunIndirimMapping { get; set; }
         public virtual ICollection<UrunKategoriMapping> UrunKategoriMapping { get; set; }
-        public virtual ICollection<UrunOzellikMapping> UrunOzellikMapping { get; set; }
         public virtual ICollection<UrunResimMapping> UrunResimMapping { get; set; }
     }
 }

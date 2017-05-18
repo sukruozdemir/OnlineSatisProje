@@ -10,7 +10,6 @@ namespace OnlineSatisProje.Core.Entities
     {
         public Siparis()
         {
-            Kargo = new HashSet<Kargo>();
             SiparisItem = new HashSet<SiparisItem>();
         }
 
@@ -73,7 +72,6 @@ namespace OnlineSatisProje.Core.Entities
 
         public virtual Kullanici Kullanici { get; set; }
         public virtual Adres Adres { get; set; }
-        public virtual ICollection<Kargo> Kargo { get; set; }
         public virtual ICollection<SiparisItem> SiparisItem { get; set; }
     }
 }

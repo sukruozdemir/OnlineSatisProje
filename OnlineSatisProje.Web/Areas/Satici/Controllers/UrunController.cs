@@ -19,24 +19,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
     public class UrunController : BaseController
     {
-        #region Ctor
-
-        public UrunController(IUrunRepository urunRepository,
-            IRepository<Urun> repository,
-            IRepository<Resim> resimRepository,
-            IRepository<UrunResimMapping> urunResimRepository,
-            IRepository<SaticiIndirimMapping> saticiIndirimRepository,
-            IRepository<UrunIndirimMapping> urunIndirimMapping)
-        {
-            _repository = repository;
-            _resimRepository = resimRepository;
-            _urunResimRepository = urunResimRepository;
-            _saticiIndirimRepository = saticiIndirimRepository;
-            _urunIndirimMapping = urunIndirimMapping;
-        }
-
-        #endregion
-
         #region Fields
 
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -45,7 +27,37 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<UrunResimMapping> _urunResimRepository;
         private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
-        private readonly IRepository<UrunIndirimMapping> _urunIndirimMapping;
+        private readonly IRepository<UrunIndirimMapping> _urunIndirimRepository;
+        private readonly IRepository<UrunKategoriMapping> _urunKategoriRepository;
+        private readonly IRepository<UrunEtiketMapping> _urunEtiketRepository;
+        private readonly IRepository<Kategori> _kategoriRepository;
+        private readonly IRepository<Etiket> _etiketRepository;
+
+        #endregion
+
+        #region Ctor
+
+        public UrunController(IUrunRepository urunRepository,
+            IRepository<Urun> repository,
+            IRepository<Resim> resimRepository,
+            IRepository<UrunResimMapping> urunResimRepository,
+            IRepository<SaticiIndirimMapping> saticiIndirimRepository,
+            IRepository<UrunIndirimMapping> urunIndirimRepository,
+            IRepository<Kategori> kategoriRepository,
+            IRepository<UrunKategoriMapping> urunKategoriRepository,
+            IRepository<Etiket> etiketRepository,
+            IRepository<UrunEtiketMapping> urunEtiketRepository)
+        {
+            _repository = repository;
+            _resimRepository = resimRepository;
+            _urunResimRepository = urunResimRepository;
+            _saticiIndirimRepository = saticiIndirimRepository;
+            _urunIndirimRepository = urunIndirimRepository;
+            _kategoriRepository = kategoriRepository;
+            _urunKategoriRepository = urunKategoriRepository;
+            _urunEtiketRepository = urunEtiketRepository;
+            _etiketRepository = etiketRepository;
+        }
 
         #endregion
 
@@ -262,7 +274,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urun = _repository.GetById(id);
             if (urun == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var liste = _urunIndirimMapping.Table.Where(u => u.UrunId == urun.Id).ToList();
+            var liste = _urunIndirimRepository.Table.Where(u => u.UrunId == urun.Id).ToList();
 
             var urunindirimModel = new UrunIndirimModel
             {
@@ -289,17 +301,120 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
             try
             {
-                _urunIndirimMapping.Insert(new UrunIndirimMapping
+                _urunIndirimRepository.Insert(new UrunIndirimMapping
                 {
                     IndirimId = model.IndirimId,
                     UrunId = model.UrunId
                 });
-                return RedirectToAction("Indirimler", new { id = model.UrunId});
+                return RedirectToAction("Indirimler", new { id = model.UrunId });
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
                 return RedirectToAction("Indirimler", new { id = model.UrunId });
+            }
+        }
+
+        #endregion
+
+        #region Kategori Actions
+
+        public ActionResult Kategoriler(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var urun = _repository.GetById(id);
+            if (urun == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var model = new UrunKategoriModel
+            {
+                Kategoriler = _kategoriRepository.Table.ToList(),
+                Urun = urun,
+                UrunId = urun.Id
+            };
+
+            return View(new UrunKategoriViewModel
+            {
+                UrunKategoriMapping = urun.UrunKategoriMapping,
+                UrunKategoriModel = model
+            });
+        }
+
+        [HttpPost]
+        public ActionResult KategoriEkle(UrunKategoriModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+            }
+
+            try
+            {
+                _urunKategoriRepository.Insert(new UrunKategoriMapping
+                {
+                    KategoriId = model.KategoriId,
+                    UrunId = model.UrunId,
+                    CreatedDate = DateTime.Now
+                });
+                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+            }
+        }
+
+        #endregion
+
+        #region Etiket Actions
+
+        public ActionResult Etiketler(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var urun = _repository.GetById(id);
+            if (urun == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var model = new UrunEtiketModel
+            {
+                Etiketler = _etiketRepository.Table.ToList(),
+                Urun = urun,
+                UrunId = urun.Id
+            };
+
+            return View(new UrunEtiketViewModel
+            {
+                UrunEtiketMapping = urun.UrunEtiketMapping,
+                UrunEtiketModel = model
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EtiketEkle(UrunEtiketModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Etiketler", new { id = model.UrunId });
+            }
+
+            try
+            {
+                _urunEtiketRepository.Insert(new UrunEtiketMapping
+                {
+                    EtiketId = model.EtiketId,
+                    UrunId = model.UrunId
+                });
+                return RedirectToAction("Etiketler", new { id = model.UrunId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
+                return RedirectToAction("Etiketler", new { id = model.UrunId });
             }
         }
 

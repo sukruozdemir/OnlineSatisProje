@@ -209,8 +209,12 @@
     <Compile Include="Areas\Satici\Models\IndirimModel.cs" />
     <Compile Include="Areas\Satici\Models\SaticiMekanModel.cs" />
     <Compile Include="Areas\Satici\Models\SiparisModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunEtiketModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunEtiketViewModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunIndirimModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunIndirimViewModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunKategoriModel.cs" />
+    <Compile Include="Areas\Satici\Models\UrunKategoriViewModel.cs" />
     <Compile Include="Areas\Satici\Models\UrunModel.cs" />
     <Compile Include="Areas\Satici\SaticiAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -298,6 +302,10 @@
     <Content Include="Areas\Satici\Views\Indirim\Ekle.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\Indirimler.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\_PartialUrunIndirimEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\Kategoriler.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\_PartialKategoriEkle.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\Etiketler.cshtml" />
+    <Content Include="Areas\Satici\Views\Urun\_PartialEtiketEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

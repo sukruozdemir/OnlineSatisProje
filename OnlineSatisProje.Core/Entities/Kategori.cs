@@ -10,7 +10,6 @@ namespace OnlineSatisProje.Core.Entities
     {
         public Kategori()
         {
-            KategoriIndirimMapping = new HashSet<KategoriIndirimMapping>();
             UrunKategoriMapping = new HashSet<UrunKategoriMapping>();
             CreatedDate = DateTime.Now;
             UpdatedDate = CreatedDate;
@@ -27,7 +26,6 @@ namespace OnlineSatisProje.Core.Entities
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public virtual ICollection<KategoriIndirimMapping> KategoriIndirimMapping { get; set; }
         public virtual ICollection<UrunKategoriMapping> UrunKategoriMapping { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+﻿@model OnlineSatisProje.Web.Areas.Satici.Models.UrunKategoriModel
+@{
+    var kategoriler = Model.Kategoriler.Select(s => new SelectListItem
+    {
+        Text = s.Ad,
+        Value = s.Id.ToString()
+    });
+}
+
+<div class="modal fade" id="urunkategorieklemodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Kategori ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("KategoriEkle", "Urun", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+
+                    @Html.HiddenFor(m => m.UrunId)
+                    <div class="form-group">
+                        <h1 class="display-4">@Model.Urun.Baslik</h1>
+                        <hr class="bg-inverse" />
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.KategoriId, kategoriler, "Kategori seçiniz", new { @class = "custom-select col-12" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-danger">Kaydet</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

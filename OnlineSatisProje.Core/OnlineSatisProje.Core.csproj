@@ -89,14 +89,9 @@
     <Compile Include="Entities\Etiket.cs" />
     <Compile Include="Entities\Ilce.cs" />
     <Compile Include="Entities\Indirim.cs" />
-    <Compile Include="Entities\Kargo.cs" />
-    <Compile Include="Entities\KargoItem.cs" />
     <Compile Include="Entities\Kategori.cs" />
-    <Compile Include="Entities\KategoriIndirimMapping.cs" />
     <Compile Include="Entities\Kullanici.cs" />
     <Compile Include="Entities\KullaniciAdresMapping.cs" />
-    <Compile Include="Entities\Log.cs" />
-    <Compile Include="Entities\Resim.cs" />
     <Compile Include="Entities\Satici.cs" />
     <Compile Include="Entities\SaticiEtiketMapping.cs" />
     <Compile Include="Entities\SaticiIndirimMapping.cs" />
@@ -109,9 +104,6 @@
     <Compile Include="Entities\UrunEtiketMapping.cs" />
     <Compile Include="Entities\UrunIndirimMapping.cs" />
     <Compile Include="Entities\UrunKategoriMapping.cs" />
-    <Compile Include="Entities\UrunOzellik.cs" />
-    <Compile Include="Entities\UrunOzellikDeger.cs" />
-    <Compile Include="Entities\UrunOzellikMapping.cs" />
     <Compile Include="Entities\UrunResimMapping.cs" />
     <Compile Include="Enums\KargoDurumu.cs" />
     <Compile Include="Enums\OdemeDurumu.cs" />

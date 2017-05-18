@@ -10,7 +10,6 @@ namespace OnlineSatisProje.Core.Entities
     {
         public SiparisItem()
         {
-            KargoItem = new HashSet<KargoItem>();
         }
 
         public Guid SiparisItemGuid { get; set; }
@@ -25,7 +24,6 @@ namespace OnlineSatisProje.Core.Entities
         public decimal IndirimMiktari { get; set; }
         public decimal Fiyat { get; set; }
 
-        public virtual ICollection<KargoItem> KargoItem { get; set; }
         public virtual Siparis Siparis { get; set; }
         public virtual Satici Satici { get; set; }
         public virtual Urun Urun { get; set; }

@@ -1,0 +1,44 @@
+﻿@model OnlineSatisProje.Web.Areas.Satici.Models.UrunEtiketViewModel
+@{
+    ViewBag.Title = Model.UrunEtiketModel.Urun.Baslik + " - Etiketler";
+}
+
+<h1 class="display-4 text-muted">Etiketler</h1>
+<hr class="bg-inverse" />
+<div class="col-12">
+    <button data-target="#urunetiketeklemodal" data-toggle="modal" class="btn btn-sm btn-secondary">
+        <i class="fa fa-plus-square-o"></i> Etiket ekle
+    </button>
+    @Html.Partial("_PartialEtiketEkle", Model.UrunEtiketModel)
+</div>
+
+@if (Model.UrunEtiketMapping.Any())
+{
+    <table class="table mt-3">
+        <thead class="thead-default">
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Etiket</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UrunEtiketMapping)
+                {
+                <tr>
+                    <th class="text-center">@item.Id</th>
+                    <th class="text-center">@item.Etiket.Ad</th>
+                    <th class="text-center">
+                        <button type="button" class="btn btn-sm btn-outline-danger">
+                            <i class="fa fa-trash-o"></i> Sil
+                        </button>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Etiket bulunmamaktadır</h1>
+}

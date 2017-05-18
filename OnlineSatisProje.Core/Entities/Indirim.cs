@@ -12,7 +12,6 @@ namespace OnlineSatisProje.Core.Entities
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Indirim()
         {
-            KategoriIndirimMapping = new HashSet<KategoriIndirimMapping>();
             SaticiIndirimMapping = new HashSet<SaticiIndirimMapping>();
             UrunIndirimMapping = new HashSet<UrunIndirimMapping>();
         }
@@ -32,7 +31,6 @@ namespace OnlineSatisProje.Core.Entities
         public DateTime BitisTarihi { get; set; }
         public bool Aktif { get; set; }
 
-        public virtual ICollection<KategoriIndirimMapping> KategoriIndirimMapping { get; set; }
         public virtual ICollection<SaticiIndirimMapping> SaticiIndirimMapping { get; set; }
         public virtual ICollection<UrunIndirimMapping> UrunIndirimMapping { get; set; }
     }
