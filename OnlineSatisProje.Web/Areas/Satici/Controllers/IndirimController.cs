@@ -57,7 +57,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     BitisTarihi = Convert.ToDateTime(model.BitisTarihi),
                     IndirimMiktari = model.IndirimMiktari,
                     IndirimYuzdesi = model.IndirimYuzdesi,
-                    Baslik = model.Baslik
+                    Baslik = model.Baslik,
+                    YuzdeKullan = model.YuzdeKullan
                 };
                 _inidirimRepository.Insert(i);
                 _saticiIndirimRepository.Insert(new SaticiIndirimMapping

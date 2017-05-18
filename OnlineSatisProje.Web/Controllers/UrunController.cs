@@ -1,36 +1,26 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using OnlineSatisProje.Core.Entities;
-using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
+using PagedList;
 
 namespace OnlineSatisProje.Web.Controllers
 {
     public class UrunController : BaseController
     {
-        private readonly IRepository<Urun> _repositoryUrun;
         private readonly IUrunRepository _urunRepository;
-        private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
-        private readonly IRepository<UrunIndirimMapping> _urunIndirimRepository;
 
-        public UrunController(IRepository<Urun> repositoryUrun,
-            IUrunRepository urunRepository,
-            IRepository<SaticiIndirimMapping> saticiIndirimRepository,
-            IRepository<UrunIndirimMapping> urunIndirimRepository)
+        public UrunController(
+            IUrunRepository urunRepository
+            )
         {
-            _repositoryUrun = repositoryUrun;
             _urunRepository = urunRepository;
-            _saticiIndirimRepository = saticiIndirimRepository;
-            _urunIndirimRepository = urunIndirimRepository;
         }
 
         // GET: Urun
         public ActionResult Index()
         {
-            return RedirectToAction("Liste");
+            return RedirectToAction("Urunler");
         }
-
-        public ActionResult Liste() => View(_urunRepository.GetHomePageProducts());
 
         public ActionResult Detay(int? id)
         {
@@ -45,6 +35,12 @@ namespace OnlineSatisProje.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
             return View(urun);
+        }
+
+        public ActionResult Urunler(int sayfa = 1)
+        {
+            var liste = _urunRepository.GetAvailableProductsWithDiscount();
+            return View(liste.ToPagedList(sayfa, 9));
         }
     }
 }

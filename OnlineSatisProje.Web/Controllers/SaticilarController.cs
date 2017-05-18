@@ -21,12 +21,6 @@ namespace OnlineSatisProje.Web.Controllers
             _resimRepository = resimRepository;
         }
 
-        // GET: Satici
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public ActionResult Profil(int? id)
         {
             if (id == null)

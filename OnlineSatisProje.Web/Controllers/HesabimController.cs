@@ -185,7 +185,6 @@ namespace OnlineSatisProje.Web.Controllers
         public async Task<ActionResult> ResimYukle(HttpPostedFileBase kulaniciresimfile)
         {
             if (kulaniciresimfile == null) throw new ArgumentNullException(nameof(kulaniciresimfile));
-            if (!Satici) return RedirectToAction("Index");
 
             try
             {

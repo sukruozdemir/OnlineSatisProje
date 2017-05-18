@@ -76,5 +76,7 @@ namespace OnlineSatisProje.Services.Services
             }
             return urun;
         }
+
+        public IList<Urun> GetAvailableProductsWithDiscount() => GetAllProductsWithDiscount().Where(u => u.Aktif && !u.Silindi && u.Yayinlandi).ToList();
     }
 }

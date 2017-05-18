@@ -1,0 +1,77 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<OnlineSatisProje.Core.Entities.Urun>
+@{
+    ViewBag.Title = "Ürünler";
+}
+
+@if (Model.Any())
+{
+    <h1 class="display-4 text-center">Ürünler</h1>
+    <hr class="bg-inverse" />
+    var liste = Model;
+    <div class="row">
+        @foreach (var urun in liste.OrderByDescending(k =>k.CreatedDate))
+        {
+            <div class="col-4 mb-3">
+                <div class="card text-center">
+                    @{
+                        var urunresim = urun.UrunResimMapping.FirstOrDefault();
+                    }
+                    @if (null != urunresim)
+                    {
+                        <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;"
+                                 src="@urunresim.Resim.ResimPath" alt="@urunresim.Resim.Baslik">
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;" src="/Content/Images/product.png" alt="@urun.Baslik">
+                        </a>
+                    }
+                    <div class="card-block">
+                        @if (urun.Baslik.Length >= 20)
+                        {
+                            <h4 class="card-title">
+                                @urun.Baslik.Substring(0, 20)...
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 class="card-title">
+                                @urun.Baslik
+                            </h4>
+                        }
+                        
+                        <p class="card-text">
+                            <hr class="bg-danger"/>
+                            <h3>@urun.Fiyat.ToString("C")</h3>
+                        </p>
+                        <p class="card-text">
+                            <a href="@Url.Action("Profil", "Saticilar", new {id=urun.SaticiId})">
+                                <small class="text-muted">@urun.Satici.Ad</small>
+                            </a>
+                        </p>
+                    </div>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div class="card-footer" style="background: none; border: none">
+                            @using (Html.BeginForm("Ekle", "Sepet", FormMethod.Post))
+                            {
+                                @Html.Hidden("id", urun.Id)
+                                <button type="submit" class="btn btn-outline-danger"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        } 
+    </div>
+    <div class="row">
+        <div class="mx-auto">
+            @Html.PagedListPager(Model, sayfa => Url.Action("Urunler", "Urun", new { sayfa }), PagedListRenderOptions.Classic)
+        </div>
+    </div>
+}
