@@ -91,7 +91,7 @@ namespace OnlineSatisProje.Web.Controllers
         public ActionResult Odeme()
         {
             var list = CurrentUser.SepetItem.Where(x => x.Aktif);
-            var toplamucret = list.Sum(x => _urunUrunRepository.GetDiscountPrice(x.Id).Fiyat * x.Miktar);
+            var toplamucret = list.Sum(x => _urunUrunRepository.GetDiscountPrice(x.Urun.Id).Fiyat * x.Miktar);
             if (toplamucret <= 0)
                 return RedirectToAction("Index");
 
