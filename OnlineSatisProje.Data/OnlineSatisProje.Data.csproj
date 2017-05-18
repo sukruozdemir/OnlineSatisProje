@@ -85,53 +85,9 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="Identity\IdentityConfig.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="Migrations\201704111435090_InitialCreate.cs" />
-    <Compile Include="Migrations\201704111435090_InitialCreate.Designer.cs">
-      <DependentUpon>201704111435090_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704160117540_Satici_Adres_Update.cs" />
-    <Compile Include="Migrations\201704160117540_Satici_Adres_Update.Designer.cs">
-      <DependentUpon>201704160117540_Satici_Adres_Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704191748180_KullaniciUpdate.cs" />
-    <Compile Include="Migrations\201704191748180_KullaniciUpdate.Designer.cs">
-      <DependentUpon>201704191748180_KullaniciUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704201536569_SiparisUpdate.cs" />
-    <Compile Include="Migrations\201704201536569_SiparisUpdate.Designer.cs">
-      <DependentUpon>201704201536569_SiparisUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704201557071_SiparisUpdate1.cs" />
-    <Compile Include="Migrations\201704201557071_SiparisUpdate1.Designer.cs">
-      <DependentUpon>201704201557071_SiparisUpdate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704201800322_SepetItemUpdate.cs" />
-    <Compile Include="Migrations\201704201800322_SepetItemUpdate.Designer.cs">
-      <DependentUpon>201704201800322_SepetItemUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704201931333_SaticiSiparisItemUpdate.cs" />
-    <Compile Include="Migrations\201704201931333_SaticiSiparisItemUpdate.Designer.cs">
-      <DependentUpon>201704201931333_SaticiSiparisItemUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704221019031_Update1.cs" />
-    <Compile Include="Migrations\201704221019031_Update1.Designer.cs">
-      <DependentUpon>201704221019031_Update1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704222322293_ResimUpdate.cs" />
-    <Compile Include="Migrations\201704222322293_ResimUpdate.Designer.cs">
-      <DependentUpon>201704222322293_ResimUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704231346327_SaticiUpdate.cs" />
-    <Compile Include="Migrations\201704231346327_SaticiUpdate.Designer.cs">
-      <DependentUpon>201704231346327_SaticiUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704240828280_KullaniciUpdate1.cs" />
-    <Compile Include="Migrations\201704240828280_KullaniciUpdate1.Designer.cs">
-      <DependentUpon>201704240828280_KullaniciUpdate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705162129053_Indirim1.cs" />
-    <Compile Include="Migrations\201705162129053_Indirim1.Designer.cs">
-      <DependentUpon>201705162129053_Indirim1.cs</DependentUpon>
+    <Compile Include="Migrations\201705180008212_IlkOlusturma.cs" />
+    <Compile Include="Migrations\201705180008212_IlkOlusturma.Designer.cs">
+      <DependentUpon>201705180008212_IlkOlusturma.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,41 +104,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704111435090_InitialCreate.resx">
-      <DependentUpon>201704111435090_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704160117540_Satici_Adres_Update.resx">
-      <DependentUpon>201704160117540_Satici_Adres_Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704191748180_KullaniciUpdate.resx">
-      <DependentUpon>201704191748180_KullaniciUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201536569_SiparisUpdate.resx">
-      <DependentUpon>201704201536569_SiparisUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201557071_SiparisUpdate1.resx">
-      <DependentUpon>201704201557071_SiparisUpdate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201800322_SepetItemUpdate.resx">
-      <DependentUpon>201704201800322_SepetItemUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201931333_SaticiSiparisItemUpdate.resx">
-      <DependentUpon>201704201931333_SaticiSiparisItemUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704221019031_Update1.resx">
-      <DependentUpon>201704221019031_Update1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704222322293_ResimUpdate.resx">
-      <DependentUpon>201704222322293_ResimUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704231346327_SaticiUpdate.resx">
-      <DependentUpon>201704231346327_SaticiUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704240828280_KullaniciUpdate1.resx">
-      <DependentUpon>201704240828280_KullaniciUpdate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705162129053_Indirim1.resx">
-      <DependentUpon>201705162129053_Indirim1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705180008212_IlkOlusturma.resx">
+      <DependentUpon>201705180008212_IlkOlusturma.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

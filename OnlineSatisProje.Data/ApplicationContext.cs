@@ -8,23 +8,20 @@ namespace OnlineSatisProje.Data
     //IdentityDbContext<Kullanici>
     public class ApplicationContext : IdentityDbContext<Kullanici>, IDbContext
     {
-        private const string DomainConnection = "DomainConnection";
-        public ApplicationContext() : base(DomainConnection) { }
+        public ApplicationContext() : base("LocalConnection")
+        {
+        }
 
         public ApplicationContext(string connectionStringName) : base(connectionStringName)
-        {      
+        {
         }
 
         public virtual DbSet<Adres> Adres { get; set; }
         public virtual DbSet<Etiket> Etiket { get; set; }
         public virtual DbSet<Ilce> Ilce { get; set; }
         public virtual DbSet<Indirim> Indirim { get; set; }
-        public virtual DbSet<Kargo> Kargo { get; set; }
-        public virtual DbSet<KargoItem> KargoItem { get; set; }
         public virtual DbSet<Kategori> Kategori { get; set; }
-        public virtual DbSet<KategoriIndirimMapping> KategoriIndirimMapping { get; set; }
         public virtual DbSet<KullaniciAdresMapping> KullaniciAdresMapping { get; set; }
-        public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<Resim> Resim { get; set; }
         public virtual DbSet<Satici> Satici { get; set; }
         public virtual DbSet<SaticiEtiketMapping> SaticiEtiketMapping { get; set; }
@@ -38,9 +35,6 @@ namespace OnlineSatisProje.Data
         public virtual DbSet<UrunEtiketMapping> UrunEtiketMapping { get; set; }
         public virtual DbSet<UrunIndirimMapping> UrunIndirimMapping { get; set; }
         public virtual DbSet<UrunKategoriMapping> UrunKategoriMapping { get; set; }
-        public virtual DbSet<UrunOzellik> UrunOzellik { get; set; }
-        public virtual DbSet<UrunOzellikDeger> UrunOzellikDeger { get; set; }
-        public virtual DbSet<UrunOzellikMapping> UrunOzellikMapping { get; set; }
         public virtual DbSet<UrunResimMapping> UrunResimMapping { get; set; }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
@@ -93,11 +87,6 @@ namespace OnlineSatisProje.Data
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Indirim>()
-                .HasMany(e => e.KategoriIndirimMapping)
-                .WithRequired(e => e.Indirim)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Indirim>()
                 .HasMany(e => e.SaticiIndirimMapping)
                 .WithRequired(e => e.Indirim)
                 .WillCascadeOnDelete(false);
@@ -105,16 +94,6 @@ namespace OnlineSatisProje.Data
             modelBuilder.Entity<Indirim>()
                 .HasMany(e => e.UrunIndirimMapping)
                 .WithRequired(e => e.Indirim)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Kargo>()
-                .HasMany(e => e.KargoItem)
-                .WithRequired(e => e.Kargo)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Kategori>()
-                .HasMany(e => e.KategoriIndirimMapping)
-                .WithRequired(e => e.Kategori)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Kategori>()
@@ -176,11 +155,6 @@ namespace OnlineSatisProje.Data
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<Siparis>()
-                .HasMany(e => e.Kargo)
-                .WithRequired(e => e.Siparis)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Siparis>()
                 .HasMany(e => e.SiparisItem)
                 .WithRequired(e => e.Siparis)
                 .WillCascadeOnDelete(false);
@@ -192,11 +166,6 @@ namespace OnlineSatisProje.Data
             modelBuilder.Entity<SiparisItem>()
                 .Property(e => e.Fiyat)
                 .HasPrecision(18, 4);
-
-            modelBuilder.Entity<SiparisItem>()
-                .HasMany(e => e.KargoItem)
-                .WithRequired(e => e.SiparisItem)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Urun>()
                 .Property(e => e.Fiyat)
@@ -223,25 +192,9 @@ namespace OnlineSatisProje.Data
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Urun>()
-                .HasMany(e => e.UrunOzellikMapping)
-                .WithRequired(e => e.Urun)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Urun>()
                 .HasMany(e => e.UrunResimMapping)
                 .WithRequired(e => e.Urun)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UrunOzellik>()
-                .HasMany(e => e.UrunOzellikMapping)
-                .WithRequired(e => e.UrunOzellik)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UrunOzellikMapping>()
-                .HasMany(e => e.UrunOzellikDeger)
-                .WithRequired(e => e.UrunOzellikMapping)
-                .WillCascadeOnDelete(false);
-
 
             base.OnModelCreating(modelBuilder);
         }

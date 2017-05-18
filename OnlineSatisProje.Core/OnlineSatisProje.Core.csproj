@@ -92,6 +92,7 @@
     <Compile Include="Entities\Kategori.cs" />
     <Compile Include="Entities\Kullanici.cs" />
     <Compile Include="Entities\KullaniciAdresMapping.cs" />
+    <Compile Include="Entities\Resim.cs" />
     <Compile Include="Entities\Satici.cs" />
     <Compile Include="Entities\SaticiEtiketMapping.cs" />
     <Compile Include="Entities\SaticiIndirimMapping.cs" />

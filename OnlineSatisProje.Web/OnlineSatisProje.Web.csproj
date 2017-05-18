@@ -202,7 +202,6 @@
     <Compile Include="Areas\Satici\Controllers\HomeController.cs" />
     <Compile Include="Areas\Satici\Controllers\IndirimController.cs" />
     <Compile Include="Areas\Satici\Controllers\MekanController.cs" />
-    <Compile Include="Areas\Satici\Controllers\OzellikController.cs" />
     <Compile Include="Areas\Satici\Controllers\SiparisController.cs" />
     <Compile Include="Areas\Satici\Controllers\UrunController.cs" />
     <Compile Include="Areas\Satici\CustomActions\ImageResult.cs" />
@@ -290,8 +289,6 @@
     <Content Include="Areas\Admin\Views\Kategori\_PartialKategoriEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Etiket\_PartialEtiketEkle.cshtml" />
-    <Content Include="Areas\Satici\Views\Ozellik\Index.cshtml" />
-    <Content Include="Areas\Satici\Views\Ozellik\_PartialOzellikEkle.cshtml" />
     <Content Include="Areas\Admin\Views\Satici\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Mekan\Index.cshtml" />
     <Content Include="Areas\Satici\Views\Mekan\_PartialMekanEkle.cshtml" />

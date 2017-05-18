@@ -10,7 +10,6 @@ namespace OnlineSatisProje.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "OnlineSatisProje.Data.ApplicationContext";
         }
 
         protected override void Seed(OnlineSatisProje.Data.ApplicationContext context)
