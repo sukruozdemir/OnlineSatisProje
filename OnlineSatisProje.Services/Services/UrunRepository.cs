@@ -46,6 +46,19 @@ namespace OnlineSatisProje.Services.Services
             return liste;
         }
 
+        public IList<Urun> GetUrunsByCategoryId(int kategoriId)
+        {
+            var liste = new List<Urun>();
+            foreach (var urun in GetAllProductsWithDiscount())
+            {
+                if (urun.UrunKategoriMapping.Any(k => k.KategoriId == kategoriId))
+                {
+                    liste.Add(urun);
+                }
+            }
+            return liste;
+        }
+
         public bool IsAvailable(int? id)
         {
             if (id == null) return false;

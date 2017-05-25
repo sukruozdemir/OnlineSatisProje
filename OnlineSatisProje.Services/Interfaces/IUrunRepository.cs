@@ -13,6 +13,7 @@ namespace OnlineSatisProje.Services.Interfaces
         IList<Urun> GetHomePageProducts();
         IList<Urun> GetAllProductsWithDiscount();
         IList<Urun> GetAvailableProductsWithDiscount();
+        IList<Urun> GetUrunsByCategoryId(int kategoriId);
         Urun GetDiscountPrice(int id);
         bool IsAvailable(int? id);
         bool IsAvailable(Urun urun);

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Linq;
 using System.Web.Mvc;
 using OnlineSatisProje.Services.Interfaces;
 using PagedList;
@@ -37,9 +38,15 @@ namespace OnlineSatisProje.Web.Controllers
             return View(urun);
         }
 
-        public ActionResult Urunler(int sayfa = 1)
+        public ActionResult Urunler(int sayfa = 1, int kategoriId = 0)
         {
             var liste = _urunRepository.GetAvailableProductsWithDiscount();
+
+            if (kategoriId > 0)
+            {
+                liste = _urunRepository.GetUrunsByCategoryId(kategoriId);
+            }
+
             return View(liste.ToPagedList(sayfa, 9));
         }
     }

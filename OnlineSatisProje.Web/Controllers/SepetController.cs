@@ -117,7 +117,14 @@ namespace OnlineSatisProje.Web.Controllers
             if (!(CurrentUser.SepetItem.Count > 0))
                 return RedirectToAction("Index");
 
-            var sepetListe = CurrentUser.SepetItem;
+            var sepetListe = CurrentUser.SepetItem.Where(s => s.Aktif);
+            var toplamucret = 0.0M;
+            foreach (var sepetItem in sepetListe)
+            {
+                var urun = _urunUrunRepository.GetDiscountPrice(sepetItem.UrunId);
+                toplamucret += urun.Fiyat * sepetItem.Miktar;
+            }
+
             var siparis = new Siparis
             {
                 SiparisGuid = Guid.NewGuid(),
@@ -134,7 +141,7 @@ namespace OnlineSatisProje.Web.Controllers
                 KartSonKullanimAy = model.KartSonKullanimAy,
                 KartSonKullanimYil = model.KartSonKullanimYil,
                 Tarih = DateTime.Now,
-                SiparisToplam = sepetListe.Where(x => x.Aktif).Sum(x => _urunUrunRepository.GetDiscountPrice(x.Id).Fiyat * x.Miktar)
+                SiparisToplam = toplamucret
             };
 
             try
