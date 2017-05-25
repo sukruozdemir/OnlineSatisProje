@@ -247,10 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AccessDenied.html" />
-    <Content Include="App_Data\OnlineSatisDB.mdf" />
-    <Content Include="App_Data\OnlineSatisDB_log.ldf">
-      <DependentUpon>OnlineSatisDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -367,6 +363,7 @@
     <Content Include="Views\Urun\Urunler.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Content\Images\KullaniciProfilUploads\" />
     <Folder Include="Content\Images\SaticiProfilUploads\" />
     <Folder Include="Content\Images\UrunUploads\" />

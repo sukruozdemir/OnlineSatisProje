@@ -8,12 +8,9 @@ namespace OnlineSatisProje.Data
     //IdentityDbContext<Kullanici>
     public class ApplicationContext : IdentityDbContext<Kullanici>, IDbContext
     {
-        public ApplicationContext() : base("LocalConnection")
+        public ApplicationContext(string connectionStringName = "LocalConnection") : base(connectionStringName)
         {
-        }
-
-        public ApplicationContext(string connectionStringName) : base(connectionStringName)
-        {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationContext>());
         }
 
         public virtual DbSet<Adres> Adres { get; set; }

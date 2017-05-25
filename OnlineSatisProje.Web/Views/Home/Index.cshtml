@@ -36,9 +36,18 @@
                     </a>
                 }
                 <div class="card-block">
-                    <h4 class="card-title">
-                        @urun.Baslik
-                    </h4>
+                    @if (urun.Baslik.Length >= 20)
+                    {
+                        <h4 class="card-title">
+                            @urun.Baslik.Substring(0, 20)...
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="card-title">
+                            @urun.Baslik
+                        </h4>
+                    }
                     <p class="card-text">
                         <hr class="bg-danger" />
                         <h3>@urun.Fiyat.ToString("C")</h3>

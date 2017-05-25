@@ -34,7 +34,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         // GET: Satici/Mekan
         public ActionResult Index()
         {
-            var liste = _saticiMekanRepository.Table.ToList();
+            var liste = CurrentSatici.SaticiMekanMapping;
             ViewBag.Sehirler = _sehirRepository.Table.OrderBy(x => x.Ad).ToList();
             return View(liste);
         }
