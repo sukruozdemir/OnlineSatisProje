@@ -1,0 +1,39 @@
+﻿@using OnlineSatisProje.Core.Entities
+@model IEnumerable<Sehir>
+@{
+    ViewBag.Title = "Şehirler";
+}
+<h1 class="display-4">Şehirler</h1>
+<hr />
+<div class="col-12">
+    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalsehirekle">
+        <i class="fa fa-plus-square-o"></i> Şehir ekle
+    </button>
+</div>
+<hr />
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead class="thead-default">
+        <tr>
+            <th>Ad</th>
+            <th>Plaka</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Ad</th>
+                <th>@item.Plaka</th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-top: 20px;">Şehir bulunamadı</h1>
+}
+@Html.Partial("_PartialSehirEkle", new Sehir())

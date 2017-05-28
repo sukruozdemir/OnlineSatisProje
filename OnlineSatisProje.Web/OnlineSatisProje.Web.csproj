@@ -199,9 +199,11 @@
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\EtiketController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\IlceController.cs" />
     <Compile Include="Areas\Admin\Controllers\KategoriController.cs" />
     <Compile Include="Areas\Admin\Controllers\KullaniciController.cs" />
     <Compile Include="Areas\Admin\Controllers\SaticiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SehirController.cs" />
     <Compile Include="Areas\Admin\Models\EtiketModel.cs" />
     <Compile Include="Areas\Admin\Models\KategoriModel.cs" />
     <Compile Include="Areas\Admin\Models\KullaniciRolModel.cs" />
@@ -307,6 +309,10 @@
     <Content Include="Areas\Satici\Views\Urun\_PartialKategoriEkle.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\Etiketler.cshtml" />
     <Content Include="Areas\Satici\Views\Urun\_PartialEtiketEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\Sehir\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Ilce\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Sehir\_PartialSehirEkle.cshtml" />
+    <Content Include="Areas\Admin\Views\Ilce\_PartialIlceEkle.cshtml" />
     <None Include="Properties\PublishProfiles\sukruozdmr.com.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="logs\log.txt" />

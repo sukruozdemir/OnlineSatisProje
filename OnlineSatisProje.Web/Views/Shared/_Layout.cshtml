@@ -26,7 +26,12 @@
                     </li>
                     <li class="nav-item">
                         <a href="@Url.Action("Urunler", "Urun", new {area=""})" class="nav-link">
-                            <i class="fa fa-list"></i> Ürünler
+                            <i class="fa fa-bars"></i> Ürünler
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Listele", "Saticilar", new {area=""})" class="nav-link">
+                            <i class="fa fa-bars"></i> Satıcılar
                         </a>
                     </li>
                     @{
@@ -68,19 +73,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", false)
-
-    @*<script>
-            $("img").hover(function() {
-                    var img = $(this);
-                    img.removeClass("rounded-circle");
-                    img.addClass("rounded");
-                },
-                function() {
-                    var img = $(this);
-                    img.removeClass("rounded");
-                    img.addClass("rounded-circle");
-                });
-        </script>*@
-
 </body>
 </html>
