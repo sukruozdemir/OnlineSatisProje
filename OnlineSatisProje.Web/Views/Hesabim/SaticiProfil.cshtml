@@ -24,17 +24,20 @@
             </div>
             <button id="imageupload" class="btn btn-secondary btn-block"><i class="fa fa-file-image-o"></i> Seç</button>
         }
+        <hr />
+        <button type="button" data-target="#saticietiketmodal" data-toggle="modal" class="btn btn-block btn-secondary"><i class="fa fa-tag"></i> Etiket ekle</button>
+        @Html.Partial("_PartialSaticiEtiketEkle")
     </div>
     <div class="col-md-8 col-sm-12">
         <h1 class="display-4">@Model.Ad</h1>
         <hr class="bg-danger" style="margin: 2rem 0" />
 
         @Html.Partial("_PartialSaticiDuzenle", new SaticiModel
-        {
-            Ad = Model.Ad,
-            Aciklama = Model.Aciklama,
-            Email = Model.Email
-        })
+   {
+       Ad = Model.Ad,
+       Aciklama = Model.Aciklama,
+       Email = Model.Email
+   })
 
     </div>
 </div>

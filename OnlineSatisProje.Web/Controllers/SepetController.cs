@@ -15,12 +15,18 @@ namespace OnlineSatisProje.Web.Controllers
     [Authorize]
     public class SepetController : BaseController
     {
+        #region Alanlar
+
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository<SepetItem> _sepetRepository;
         private readonly IRepository<SiparisItem> _siparisItemRepository;
         private readonly IRepository<Siparis> _siparisRepository;
         private readonly IRepository<Urun> _urunRepository;
         private readonly IUrunRepository _urunUrunRepository;
+
+        #endregion
+
+        #region Ctor
 
         public SepetController(IRepository<Siparis> siparisRepository,
             IRepository<SiparisItem> siparisItemRepository,
@@ -34,6 +40,11 @@ namespace OnlineSatisProje.Web.Controllers
             _urunRepository = urunRepository;
             _urunUrunRepository = urunUrunRepository;
         }
+
+
+        #endregion
+
+        #region Actionlar
 
         /// <summary>
         /// </summary>
@@ -173,5 +184,7 @@ namespace OnlineSatisProje.Web.Controllers
 
             return View(model);
         }
+
+        #endregion
     }
 }

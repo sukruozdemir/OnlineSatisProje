@@ -7,10 +7,14 @@ namespace OnlineSatisProje.Web.Controllers
 {
     public class BaseController : Controller
     {
+        #region Alanlar
+
         protected Kullanici CurrentUser { get; set; }
         protected bool Satici { get; set; }
 
         private IIdentityRepostitory _identityRepostitory;
+
+        #endregion
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -21,6 +25,8 @@ namespace OnlineSatisProje.Web.Controllers
             ViewBag.CurrentUser = CurrentUser;
             base.OnActionExecuting(filterContext);
         }
+
+        #region Araçlar
 
         private Kullanici GetCurrentUser()
         {
@@ -33,5 +39,7 @@ namespace OnlineSatisProje.Web.Controllers
         {
             return CurrentUser != null && _identityRepostitory.UserManager.IsInRole(GetCurrentUser().Id, "Satıcı");
         }
+
+        #endregion
     }
 }

@@ -47,7 +47,7 @@ namespace OnlineSatisProje.Web.Controllers
                 liste = _urunRepository.GetUrunsByCategoryId(kategoriId);
             }
 
-            return View(liste.ToPagedList(sayfa, 9));
+            return View(liste.OrderByDescending(l => l.CreatedDate).ToPagedList(sayfa, 9));
         }
     }
 }

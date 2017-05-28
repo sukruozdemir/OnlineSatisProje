@@ -16,6 +16,8 @@ namespace OnlineSatisProje.Web.Controllers
     [Authorize]
     public class HesabimController : BaseController
     {
+        #region Alanlar
+
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository<Adres> _adresRepository;
         private readonly IIdentityRepostitory _identityRepostitory;
@@ -25,6 +27,9 @@ namespace OnlineSatisProje.Web.Controllers
         private readonly IRepository<Satici> _saticiRepository;
         private readonly IRepository<Sehir> _sehirRepository;
 
+        #endregion
+
+        #region Ctor
 
         public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
             IRepository<Adres> adresRepository,
@@ -42,6 +47,10 @@ namespace OnlineSatisProje.Web.Controllers
             _resimRepository = resimRepository;
             _identityRepostitory = identityRepostitory;
         }
+
+        #endregion
+
+        #region Hesap İşlemleri
 
         public ActionResult Index()
         {
@@ -92,6 +101,10 @@ namespace OnlineSatisProje.Web.Controllers
             }
         }
 
+        #endregion
+
+        #region Satıcı İşlemleri
+
         public ActionResult SaticiProfil()
         {
             if (!Satici)
@@ -125,6 +138,109 @@ namespace OnlineSatisProje.Web.Controllers
             _saticiRepository.Update(satici);
 
             return RedirectToAction("SaticiProfil");
+        }
+
+        #endregion
+
+        #region Adres İşlemleri
+
+        public ActionResult Adreslerim()
+        {
+            ViewBag.Sehirler = _sehirRepository.Table.OrderBy(x => x.Ad).ToList();
+            var user = CurrentUser;
+            var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
+            return View(kullaniciAdresler);
+        }
+
+        [HttpPost]
+        public ActionResult AdresEkle(Adres adres)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", @"Adres eklenemedi");
+                return View("Adreslerim");
+            }
+
+            var user = CurrentUser;
+            var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
+
+            try
+            {
+                adres.CreatedDate = DateTime.Now;
+                adres.Aktif = true;
+                _adresRepository.Insert(adres);
+                _kullaniciAdresRepository.Insert(new KullaniciAdresMapping
+                {
+                    AdresId = adres.Id,
+                    KullaniciId = CurrentUser.Id
+                });
+
+
+                return RedirectToAction("Adreslerim", kullaniciAdresler);
+            }
+            catch
+            {
+                ModelState.AddModelError("", @"Adres eklenirken bir hata oluştu");
+                return View("Adreslerim", kullaniciAdresler);
+            }
+        }
+
+
+        #endregion
+
+        #region Resim İşlemleri
+
+        [HttpPost]
+        public async Task<ActionResult> ResimYukle(HttpPostedFileBase kulaniciresimfile)
+        {
+            if (kulaniciresimfile == null) throw new ArgumentNullException(nameof(kulaniciresimfile));
+
+            try
+            {
+                if (kulaniciresimfile.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(kulaniciresimfile.FileName);
+                    if (fileName != null)
+                    {
+                        const string directoryPath = "~/Content/Images/KullaniciProfilUploads";
+                        if (!Directory.Exists(Server.MapPath(directoryPath)))
+                            Directory.CreateDirectory(Server.MapPath(directoryPath));
+
+                        var mapFileName = DateTime.Now.ToString("MM/dd/yyyy");
+                        var fName = mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName;
+                        var fullPath = directoryPath + "/" + fName;
+                        var filePath = Path.Combine(Server.MapPath(fullPath));
+                        kulaniciresimfile.SaveAs(filePath);
+                        var str = fullPath.Substring(1);
+
+                        var resim = new Resim
+                        {
+                            ResimBinary = null,
+                            ResimPath = str,
+                            AltAttr = "",
+                            TitleAttr = "",
+                            Baslik = Path.GetFileName(kulaniciresimfile.FileName),
+                            CreatedDate = DateTime.Now
+                        };
+                        _resimRepository.Insert(resim);
+
+                        if (CurrentUser != null)
+                        {
+                            CurrentUser.UpdatedDate = DateTime.Now;
+                            CurrentUser.ResimId = resim.Id;
+                            await _identityRepostitory.UserManager.UpdateAsync(CurrentUser);
+                            return RedirectToAction("Index");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                ModelState.AddModelError("", @"Resim eklenirken bir hata oluştu");
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -181,99 +297,10 @@ namespace OnlineSatisProje.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public async Task<ActionResult> ResimYukle(HttpPostedFileBase kulaniciresimfile)
-        {
-            if (kulaniciresimfile == null) throw new ArgumentNullException(nameof(kulaniciresimfile));
 
-            try
-            {
-                if (kulaniciresimfile.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(kulaniciresimfile.FileName);
-                    if (fileName != null)
-                    {
-                        const string directoryPath = "~/Content/Images/KullaniciProfilUploads";
-                        if (!Directory.Exists(Server.MapPath(directoryPath)))
-                            Directory.CreateDirectory(Server.MapPath(directoryPath));
+        #endregion
 
-                        var mapFileName = DateTime.Now.ToString("MM/dd/yyyy");
-                        var fName = mapFileName + "-" + Guid.NewGuid().ToString().Substring(0, 5) + "-" + fileName;
-                        var fullPath = directoryPath + "/" + fName;
-                        var filePath = Path.Combine(Server.MapPath(fullPath));
-                        kulaniciresimfile.SaveAs(filePath);
-                        var str = fullPath.Substring(1);
-
-                        var resim = new Resim
-                        {
-                            ResimBinary = null,
-                            ResimPath = str,
-                            AltAttr = "",
-                            TitleAttr = "",
-                            Baslik = Path.GetFileName(kulaniciresimfile.FileName),
-                            CreatedDate = DateTime.Now
-                        };
-                        _resimRepository.Insert(resim);
-
-                        if (CurrentUser != null)
-                        {
-                            CurrentUser.UpdatedDate = DateTime.Now;
-                            CurrentUser.ResimId = resim.Id;
-                            await _identityRepostitory.UserManager.UpdateAsync(CurrentUser);
-                            return RedirectToAction("Index");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-                ModelState.AddModelError("", @"Resim eklenirken bir hata oluştu");
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult Adreslerim()
-        {
-            ViewBag.Sehirler = _sehirRepository.Table.OrderBy(x => x.Ad).ToList();
-            var user = CurrentUser;
-            var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
-            return View(kullaniciAdresler);
-        }
-
-        [HttpPost]
-        public ActionResult AdresEkle(Adres adres)
-        {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", @"Adres eklenemedi");
-                return View("Adreslerim");
-            }
-
-            var user = CurrentUser;
-            var kullaniciAdresler = _kullaniciAdresRepository.Table.Where(k => k.KullaniciId == user.Id).ToList();
-
-            try
-            {
-                adres.CreatedDate = DateTime.Now;
-                adres.Aktif = true;
-                _adresRepository.Insert(adres);
-                _kullaniciAdresRepository.Insert(new KullaniciAdresMapping
-                {
-                    AdresId = adres.Id,
-                    KullaniciId = CurrentUser.Id
-                });
-
-
-                return RedirectToAction("Adreslerim", kullaniciAdresler);
-            }
-            catch
-            {
-                ModelState.AddModelError("", @"Adres eklenirken bir hata oluştu");
-                return View("Adreslerim", kullaniciAdresler);
-            }
-        }
+        #region Araçlar
 
         public JsonResult Ilceler(int id)
         {
@@ -286,5 +313,8 @@ namespace OnlineSatisProje.Web.Controllers
                 .ToList();
             return Json(liste, JsonRequestBehavior.AllowGet);
         }
+
+
+        #endregion
     }
 }

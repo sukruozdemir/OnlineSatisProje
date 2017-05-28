@@ -354,6 +354,7 @@
     <Content Include="Views\Hesabim\_PartialSaticiDuzenle.cshtml" />
     <Content Include="Views\Saticilar\Profil.cshtml" />
     <Content Include="Views\Urun\Urunler.cshtml" />
+    <Content Include="Views\Hesabim\_PartialSaticiEtiketEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
