@@ -38,13 +38,18 @@ namespace OnlineSatisProje.Web.Controllers
             return View(urun);
         }
 
-        public ActionResult Urunler(int sayfa = 1, int kategoriId = 0)
+        public ActionResult Urunler(int sayfa = 1, int kategoriId = 0, int saticiId = 0)
         {
             var liste = _urunRepository.GetAvailableProductsWithDiscount();
 
             if (kategoriId > 0)
             {
                 liste = _urunRepository.GetUrunsByCategoryId(kategoriId);
+            }
+
+            if (saticiId > 0)
+            {
+                liste = liste.Where(u => u.SaticiId == saticiId).ToList();
             }
 
             return View(liste.OrderByDescending(l => l.CreatedDate).ToPagedList(sayfa, 9));

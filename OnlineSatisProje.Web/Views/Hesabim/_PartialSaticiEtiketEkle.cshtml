@@ -1,6 +1,7 @@
-﻿@using (Html.BeginForm("SaticiEtiketEkle", "Hesabim", FormMethod.Post))
-{
-
+﻿@using OnlineSatisProje.Core.Entities
+@{
+    var etiketler = (IEnumerable<Etiket>) ViewData["Etiketler"];
+    var selectList = new SelectList(etiketler, "Id", "Ad");
 }
 
 <div class="modal fade" id="saticietiketmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -12,9 +13,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            @using (Html.BeginForm("SaticiEtiketEkle", "Hesabim", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
 
-            </div>
+                    <div class="form-group">
+                        @Html.DropDownList("etiketId", selectList, new {@class = "custom-select col-12"})
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-danger">Kaydet</button>
+                </div>
+            }
         </div>
     </div>
 </div>

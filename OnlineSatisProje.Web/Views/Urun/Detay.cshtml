@@ -1,24 +1,21 @@
 ﻿@model OnlineSatisProje.Core.Entities.Urun
 
 @{
-    ViewBag.Title = "Detay";
+    ViewBag.Title = Model.Baslik;
 }
-@*<style>
-        p { font-size: 22px; }
-    </style>*@
 
-<hr />
+<hr/>
 <div class="row">
     <div class="col-4 text-center">
-        <img class="img-thumbnail" style="height: 350px; object-fit: cover; width: 350px;" src="@Model.UrunResimMapping.FirstOrDefault().Resim.ResimPath" alt="" />
-        <hr />
+        <img class="img-thumbnail" style="height: 350px; object-fit: cover; width: 350px;" src="@Model.UrunResimMapping.FirstOrDefault().Resim.ResimPath" alt=""/>
+        <hr/>
         <div class="row">
             @foreach (var resim in Model.UrunResimMapping)
             {
                 if (resim.ResimId != Model.UrunResimMapping.FirstOrDefault().ResimId)
                 {
                     <div class="col-4 text-center">
-                        <img class="img-thumbnail" style="height: 100px; object-fit: cover; width: 100%;" src="@resim.Resim.ResimPath" alt="@resim.Resim.Baslik" />
+                        <img class="img-thumbnail" style="height: 100px; object-fit: cover; width: 100%;" src="@resim.Resim.ResimPath" alt="@resim.Resim.Baslik"/>
                     </div>
                 }
             }
@@ -35,47 +32,29 @@
                 <h1 class="display-4 text-lg-right">@Model.Fiyat.ToString("C")</h1>
             </div>
         </div>
-        <hr />
+        <hr/>
         <p>
             <strong>Satıcı</strong> <a class="text-muted" href="#">@Model.Satici.Ad</a>
         </p>
         <p>
             <strong>Açıklama</strong> @Model.KisaAciklama
         </p>
-        @*@if (Model.KargoAktif)
-            {
-                <p>
-                    <strong>Kargo</strong> Mevcut
-                </p>
-                <p>
-                    <strong>Ücretsiz Kargo</strong>
-                    @if (Model.UcretsizKargo)
-                    {
-                        <i class="fa fa-check"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-times"></i>
-                    }
-                </p>
-            }
-            else
-            {
-                <p>
-                    <strong>Kargo</strong> Mevcut değil
-                </p>
-            }*@
-
-        <div class="col-12">
-            <button class="btn btn-outline-danger pull-right"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
-        </div>
-
+        @if (Request.IsAuthenticated)
+        {
+            <div class="col-12 pl-0">
+                @using (Html.BeginForm("Ekle", "Sepet", FormMethod.Post))
+                {
+                    @Html.Hidden("id", Model.Id)
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-shopping-cart"></i> Sepete ekle</button>
+                }
+            </div>
+        }
     </div>
 </div>
 @if (Model.KullaniciYorumIzinVer)
 {
-    <hr />
-        <div class="row">
+    <hr/>
+    <div class="row">
 
-        </div>
+    </div>
 }

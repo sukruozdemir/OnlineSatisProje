@@ -16,6 +16,46 @@ namespace OnlineSatisProje.Web.Controllers
     [Authorize]
     public class HesabimController : BaseController
     {
+        #region Ctor
+
+        public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
+            IRepository<Adres> adresRepository,
+            IRepository<Ilce> ilceRepository,
+            IRepository<Sehir> sehirRepository,
+            IRepository<Satici> saticiRepository,
+            IRepository<Resim> resimRepository,
+            IIdentityRepostitory identityRepostitory,
+            IRepository<Etiket> etiketRepository, IRepository<SaticiEtiketMapping> saticiEtiketRepository)
+        {
+            _kullaniciAdresRepository = kullaniciAdresRepository;
+            _adresRepository = adresRepository;
+            _ilceRepository = ilceRepository;
+            _sehirRepository = sehirRepository;
+            _saticiRepository = saticiRepository;
+            _resimRepository = resimRepository;
+            _identityRepostitory = identityRepostitory;
+            _etiketRepository = etiketRepository;
+            _saticiEtiketRepository = saticiEtiketRepository;
+        }
+
+        #endregion
+
+        #region Araçlar
+
+        public JsonResult Ilceler(int id)
+        {
+            var liste = _ilceRepository.Table.Where(x => x.SehirId == id)
+                .Select(x => new
+                {
+                    id = x.Id,
+                    ad = x.Ad
+                })
+                .ToList();
+            return Json(liste, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
         #region Alanlar
 
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -26,27 +66,8 @@ namespace OnlineSatisProje.Web.Controllers
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<Satici> _saticiRepository;
         private readonly IRepository<Sehir> _sehirRepository;
-
-        #endregion
-
-        #region Ctor
-
-        public HesabimController(IRepository<KullaniciAdresMapping> kullaniciAdresRepository,
-            IRepository<Adres> adresRepository,
-            IRepository<Ilce> ilceRepository,
-            IRepository<Sehir> sehirRepository,
-            IRepository<Satici> saticiRepository,
-            IRepository<Resim> resimRepository,
-            IIdentityRepostitory identityRepostitory)
-        {
-            _kullaniciAdresRepository = kullaniciAdresRepository;
-            _adresRepository = adresRepository;
-            _ilceRepository = ilceRepository;
-            _sehirRepository = sehirRepository;
-            _saticiRepository = saticiRepository;
-            _resimRepository = resimRepository;
-            _identityRepostitory = identityRepostitory;
-        }
+        private readonly IRepository<Etiket> _etiketRepository;
+        private readonly IRepository<SaticiEtiketMapping> _saticiEtiketRepository;
 
         #endregion
 
@@ -113,6 +134,7 @@ namespace OnlineSatisProje.Web.Controllers
             if (satici?.LogoId == null) return View(satici);
             var saticiResim = _resimRepository.GetById(satici.LogoId);
             ViewData["SaticiResim"] = saticiResim;
+            ViewData["Etiketler"] = _etiketRepository.Table.OrderBy(e => e.Ad).ToList();
             return View(satici);
         }
 
@@ -137,6 +159,27 @@ namespace OnlineSatisProje.Web.Controllers
             satici.UpdatedDate = DateTime.Now;
             _saticiRepository.Update(satici);
 
+            return RedirectToAction("SaticiProfil");
+        }
+
+        [HttpPost]
+        public ActionResult SaticiEtiketEkle(int etiketId)
+        {
+            var etiket = _etiketRepository.GetById(etiketId);
+            if (etiket == null) throw new ArgumentNullException(nameof(etiket));
+
+            if (!Satici) return RedirectToAction("Index");
+
+            var satici = _saticiRepository.Table.FirstOrDefault(s => s.KullaniciId == CurrentUser.Id);
+            if (satici == null) return null;
+
+            var saticiEtiket = new SaticiEtiketMapping
+            {
+                CreatedDate = DateTime.Now,
+                EtiketId = etiket.Id,
+                SaticiId = satici.Id
+            };
+            _saticiEtiketRepository.Insert(saticiEtiket);
             return RedirectToAction("SaticiProfil");
         }
 
@@ -184,7 +227,6 @@ namespace OnlineSatisProje.Web.Controllers
                 return View("Adreslerim", kullaniciAdresler);
             }
         }
-
 
         #endregion
 
@@ -296,24 +338,6 @@ namespace OnlineSatisProje.Web.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-        #endregion
-
-        #region Araçlar
-
-        public JsonResult Ilceler(int id)
-        {
-            var liste = _ilceRepository.Table.Where(x => x.SehirId == id)
-                .Select(x => new
-                {
-                    id = x.Id,
-                    ad = x.Ad
-                })
-                .ToList();
-            return Json(liste, JsonRequestBehavior.AllowGet);
-        }
-
 
         #endregion
     }

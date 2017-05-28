@@ -1,6 +1,5 @@
-﻿@using PagedList
-@using PagedList.Mvc
-@model IPagedList<OnlineSatisProje.Core.Entities.Urun>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<OnlineSatisProje.Core.Entities.Urun>
 @{
     ViewBag.Title = "Ürünler";
 }
@@ -8,10 +7,10 @@
 @if (Model.Any())
 {
     <h1 class="display-4 text-center">Ürünler</h1>
-    <hr class="bg-inverse" />
+    <hr class="bg-inverse"/>
     var liste = Model;
     <div class="row">
-        @foreach (var urun in liste.OrderByDescending(k =>k.CreatedDate))
+        @foreach (var urun in liste.OrderByDescending(k => k.CreatedDate))
         {
             <div class="col-4 mb-3">
                 <div class="card text-center">
@@ -44,13 +43,13 @@
                                 @urun.Baslik
                             </h4>
                         }
-                        
+
                         <p class="card-text">
                             <hr class="bg-danger"/>
                             <h3>@urun.Fiyat.ToString("C")</h3>
                         </p>
                         <p class="card-text">
-                            <a href="@Url.Action("Profil", "Saticilar", new {id=urun.SaticiId})">
+                            <a href="@Url.Action("Profil", "Saticilar", new {id = urun.SaticiId})">
                                 <small class="text-muted">@urun.Satici.Ad</small>
                             </a>
                         </p>
@@ -67,11 +66,11 @@
                     }
                 </div>
             </div>
-        } 
+        }
     </div>
     <div class="row">
         <div class="mx-auto">
-            @Html.PagedListPager(Model, sayfa => Url.Action("Urunler", "Urun", new { sayfa }), PagedListRenderOptions.Classic)
+            @Html.PagedListPager(Model, sayfa => Url.Action("Urunler", "Urun", new {sayfa}), PagedListRenderOptions.Classic)
         </div>
     </div>
 }

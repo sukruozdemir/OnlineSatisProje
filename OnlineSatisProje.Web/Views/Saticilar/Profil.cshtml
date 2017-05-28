@@ -8,18 +8,20 @@
     <div class="col-md-3 col-sm-12 text-center" style="border-right: 1px solid #ccc">
         @if (Model.SaticiResim != null)
         {
-            <img id="imgsaticiresim" src="@Model.SaticiResim.ResimPath" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt="" />
+            <img id="imgsaticiresim" src="@Model.SaticiResim.ResimPath" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
         }
         else
         {
-            <img id="imgsaticiresim" src="@Url.Content("~/Content/Images/identity.png")" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt="" />
+            <img id="imgsaticiresim" src="@Url.Content("~/Content/Images/identity.png")" style="height: 218px; width: 218px;" class="rounded-circle img-thumbnail" alt=""/>
         }
     </div>
     <div class="col-md-8 col-sm-12">
         <h1 class="display-4">@Model.Satici.Ad</h1>
-        <hr class="bg-danger" style="margin: 2rem 0" />
-        <p class="text-muted"><i class="fa fa-align-justify"></i> @Model.Satici.Aciklama</p>
-        <p class="text-muted"><i class="fa fa-envelope-o"></i> @Model.Satici.Email</p>
+        <hr class="bg-danger" style="margin: 2rem 0"/>
+        <p class="text-muted">
+            <i class="fa fa-align-justify"></i> @Model.Satici.Aciklama</p>
+        <p class="text-muted">
+            <i class="fa fa-envelope-o"></i> @Model.Satici.Email</p>
         @if (Model.Satici.SaticiEtiketMapping.Any())
         {
             <p>
@@ -30,12 +32,13 @@
                 }
             </p>
         }
+        <a href="@Url.Action("Urunler", "Urun", new {saticiId = Model.Satici.Id})" class="text-muted"><i class="fa fa-list"></i> Satıcıya ait ürünleri listele</a>
     </div>
     @if (Model.Satici.SaticiMekanMapping.Any())
     {
         <div class="col-md-12">
             <h1 class="display-4">Mekanlar</h1>
-            <hr />
+            <hr/>
             <div class="card-deck">
                 @foreach (var mekan in Model.Satici.SaticiMekanMapping.OrderBy(x => x.Adres.Baslik))
                 {
@@ -45,7 +48,7 @@
                             <p class="card-text text-muted">
                                 @mekan.Aciklama
                             </p>
-                            <hr class="bg-danger" />
+                            <hr class="bg-danger"/>
                             <p class="card-text">
                                 <i class="fa fa-map-marker"></i> @mekan.Adres.Ilce.Sehir.Ad
                             </p>

@@ -20,6 +20,7 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         private readonly IRepository<IdentityRole> _roleRepository;
         private readonly IRepository<Siparis> _siparisRepository;
         private readonly IRepository<Urun> _urunRepository;
+        private readonly IRepository<Core.Entities.Satici> _saticiRepository;
 
         /// <summary>
         ///     Ctor
@@ -33,6 +34,7 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         /// <param name="resimRepository"></param>
         /// <param name="siparisRepository"></param>
         /// <param name="adresRepository"></param>
+        /// <param name="saticiRepository"></param>
         public HomeController(IRepository<Kullanici> kullaniciRepository,
             IRepository<Urun> urunRepository,
             IRepository<Kategori> kategoriRepository,
@@ -41,7 +43,8 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             IRepository<IdentityRole> roleRepository,
             IRepository<Resim> resimRepository,
             IRepository<Siparis> siparisRepository,
-            IRepository<Adres> adresRepository)
+            IRepository<Adres> adresRepository, 
+            IRepository<Core.Entities.Satici> saticiRepository)
         {
             _kullaniciRepository = kullaniciRepository;
             _urunRepository = urunRepository;
@@ -51,6 +54,7 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             _resimRepository = resimRepository;
             _siparisRepository = siparisRepository;
             _adresRepository = adresRepository;
+            _saticiRepository = saticiRepository;
         }
 
         /// <summary>
@@ -63,9 +67,10 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             if (saticiRol != null)
             {
                 var list = _kullaniciRepository.Table.ToList().Where(k => k.Roles.Any(a => a.RoleId == saticiRol.Id));
-                ViewData["TotalSatici"] = list.Count();
+                
             }
 
+            ViewData["TotalSatici"] = _saticiRepository.Table.ToList().Count;
             ViewData["TotalUser"] = _kullaniciRepository.Table.ToList().Count;
             ViewData["TotalProduct"] = _urunRepository.Table.ToList().Count;
             ViewData["TotalCategory"] = _kategoriRepository.Table.ToList().Count;

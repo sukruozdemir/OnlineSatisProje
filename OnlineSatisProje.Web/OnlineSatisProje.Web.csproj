@@ -355,6 +355,7 @@
     <Content Include="Views\Saticilar\Profil.cshtml" />
     <Content Include="Views\Urun\Urunler.cshtml" />
     <Content Include="Views\Hesabim\_PartialSaticiEtiketEkle.cshtml" />
+    <Content Include="Views\Saticilar\Listele.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

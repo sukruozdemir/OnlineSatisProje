@@ -1,0 +1,56 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<OnlineSatisProje.Web.Models.SaticiViewModel>
+@{
+    ViewBag.Title = "Satıcılar";
+}
+
+@if (Model.Any())
+{
+    <h1 class="display-4 text-center">Satıcılar</h1>
+    <hr class="bg-inverse"/>
+    var liste = Model;
+    <div class="row">
+        @foreach (var satici in liste)
+        {
+            <div class="col-4 mb-3">
+                <div class="card text-center">
+
+                    <a href="@Url.Action("Profil", "Saticilar", new {area = "", id = satici.Satici.Id})">
+                        @if (satici.SaticiResim != null)
+                        {
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;"
+                                 src="@satici.SaticiResim.ResimPath" alt="@satici.Satici.Ad">
+                        }
+                        else
+                        {
+                            <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;"
+                                 src="/Content/Images/product.png" alt="@satici.Satici.Ad">
+                        }
+                    </a>
+
+
+                    <div class="card-block">
+                        @if (satici.Satici.Ad.Length >= 20)
+                        {
+                            <h4 class="card-title">
+                                @satici.Satici.Ad.Substring(0, 20)...
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 class="card-title">
+                                @satici.Satici.Ad
+                            </h4>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="mx-auto">
+            @Html.PagedListPager(Model, sayfa => Url.Action("Listele", "Saticilar", new {sayfa}), PagedListRenderOptions.Classic)
+        </div>
+    </div>
+}

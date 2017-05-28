@@ -5,76 +5,65 @@
 <h1 class="display-4">Dashboard</h1>
 <hr/>
 
-<div class="row">
-    <!-- TOPLAM KULLANICI -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-primary text-center">
-            <div class="card-block">
-                <h4 class="card-title">Toplam Kullanıcı</h4>
-                <p class="card-text">@ViewData["TotalUser"].ToString()</p>
-            </div>
-        </div>
-    </div>
-    <!-- TOPLAM URUN -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-info text-center">
+<div class="row text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Toplam Ürün</h4>
                 <p class="card-text">@ViewData["TotalProduct"].ToString()</p>
             </div>
         </div>
     </div>
-    <!-- TOPLAM KATEGORI -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-danger text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
-                <h4 class="card-title">Toplam Kategori</h4>
-                <p class="card-text">@ViewData["TotalCategory"].ToString()</p>
+                <h4 class="card-title">Toplam Kullanıcı</h4>
+                <p class="card-text">@ViewData["TotalUser"].ToString()</p>
             </div>
         </div>
     </div>
-    <!-- TOPLAM ETIKET -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-secondary text-center">
-            <div class="card-block">
-                <h4 class="card-title">Toplam Etiket</h4>
-                <p class="card-text">@ViewData["TotalTag"].ToString()</p>
-            </div>
-        </div>
-    </div>
-</div>
-<HR/>
-<div class="row">
-    <!-- TOPLAM SATICI -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-primary text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Toplam Satıcı</h4>
                 <p class="card-text">@ViewData["TotalSatici"].ToString()</p>
             </div>
         </div>
     </div>
-    <!-- TOPLAM RESIM -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-info text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Toplam Kategori</h4>
+                <p class="card-text">@ViewData["TotalCategory"].ToString()</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Toplam Etiket</h4>
+                <p class="card-text">@ViewData["TotalTag"].ToString()</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Toplam Resim</h4>
                 <p class="card-text">@ViewData["TotalPicture"].ToString()</p>
             </div>
         </div>
     </div>
-    <!-- TOPLAM SIPARIS -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-danger text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Toplam Sipariş</h4>
                 <p class="card-text">@ViewData["TotalOrder"].ToString()</p>
             </div>
         </div>
     </div>
-    <!-- TOPLAM ADRES -->
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-        <div class="card card-outline-secondary text-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Toplam Adres</h4>
                 <p class="card-text">@ViewData["TotalAddress"].ToString()</p>
