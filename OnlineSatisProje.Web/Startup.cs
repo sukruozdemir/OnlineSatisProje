@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -23,6 +23,7 @@ namespace OnlineSatisProje.Web
     public partial class Startup
     {
         private const string ConnectionStringName = "LocalConnection";
+
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
@@ -74,7 +75,7 @@ namespace OnlineSatisProje.Web
         {
             var store = new ApplicationRoleStore(context);
             var manager = new RoleManager<IdentityRole>(store);
-            var role = new IdentityRole { Name = roleName };
+            var role = new IdentityRole {Name = roleName};
             manager.Create(role);
         }
 

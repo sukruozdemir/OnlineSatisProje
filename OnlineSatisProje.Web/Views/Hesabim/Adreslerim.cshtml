@@ -1,16 +1,16 @@
 ﻿@using OnlineSatisProje.Core.Entities
-@model IEnumerable<KullaniciAdresMapping>
+@model IEnumerable<OnlineSatisProje.Core.Entities.KullaniciAdresMapping>
 
 @{
     ViewBag.Title = "Adreslerim";
 }
 
 <h1 class="display-4">Adreslerim</h1>
-<hr />
+<hr/>
 <div class="col-12">
     <button class="btn btn-secondary" data-target="#adreseklemodal" data-toggle="modal"><i class="fa fa-plus-square-o"></i> Adres ekle</button>
 </div>
-<hr class="bg-danger" />
+<hr class="bg-danger"/>
 
 @if (!Model.Any())
 {
@@ -35,9 +35,9 @@ else
 @section scripts
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#sehirler").on("change",
-                function () {
+                function() {
                     var id = $(this).val();
                     $.ajax({
                         url: '@Url.Action("Ilceler", "Hesabim")',
@@ -45,18 +45,18 @@ else
                         dataType: 'JSON',
                         contentType: "application/json; charset=utf-8",
                         data: { id: id },
-                        success: function (data) {
+                        success: function(data) {
                             var ilceddl = $("#IlceId");
                             if (ilceddl) {
                                 ilceddl.empty();
                                 $.each(data,
-                                    function (i, d) {
+                                    function(i, d) {
                                         var opt = $("<option>").val(d["id"]).text(d["ad"]);
                                         ilceddl.append(opt);
                                     });
                             }
                         },
-                        error: function (msg) {
+                        error: function(msg) {
                             console.error(msg);
                         }
                     });

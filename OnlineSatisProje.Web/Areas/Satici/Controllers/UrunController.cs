@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,6 @@ using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
 using OnlineSatisProje.Services.Interfaces;
 using OnlineSatisProje.Web.Areas.Satici.Models;
-using System.Net;
 
 #endregion
 
@@ -19,22 +19,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
     public class UrunController : BaseController
     {
-        #region Fields
-
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private readonly IRepository<Urun> _repository;
-        private readonly IRepository<Resim> _resimRepository;
-        private readonly IRepository<UrunResimMapping> _urunResimRepository;
-        private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
-        private readonly IRepository<UrunIndirimMapping> _urunIndirimRepository;
-        private readonly IRepository<UrunKategoriMapping> _urunKategoriRepository;
-        private readonly IRepository<UrunEtiketMapping> _urunEtiketRepository;
-        private readonly IRepository<Kategori> _kategoriRepository;
-        private readonly IRepository<Etiket> _etiketRepository;
-
-        #endregion
-
         #region Ctor
 
         public UrunController(IUrunRepository urunRepository,
@@ -61,6 +45,22 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
         #endregion
 
+        #region Fields
+
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private readonly IRepository<Urun> _repository;
+        private readonly IRepository<Resim> _resimRepository;
+        private readonly IRepository<UrunResimMapping> _urunResimRepository;
+        private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
+        private readonly IRepository<UrunIndirimMapping> _urunIndirimRepository;
+        private readonly IRepository<UrunKategoriMapping> _urunKategoriRepository;
+        private readonly IRepository<UrunEtiketMapping> _urunEtiketRepository;
+        private readonly IRepository<Kategori> _kategoriRepository;
+        private readonly IRepository<Etiket> _etiketRepository;
+
+        #endregion
+
         #region Actions
 
         /// <summary>
@@ -68,7 +68,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         ///     Urun anasayfa görünümü
         /// </summary>
         /// <returns>Index view</returns>
-        public ActionResult Index() => View(_repository.Table.Where(u => u.SaticiId == CurrentSatici.Id).ToList());
+        public ActionResult Index()
+        {
+            return View(_repository.Table.Where(u => u.SaticiId == CurrentSatici.Id).ToList());
+        }
 
         #region Ekle/Sil Actions
 
@@ -78,7 +81,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         /// </summary>
         /// <returns>Ekle view</returns>
         [HttpGet]
-        public ActionResult Ekle() => View();
+        public ActionResult Ekle()
+        {
+            return View();
+        }
 
         /// <summary>
         ///     POST: Satiici/Urun/Ekle
@@ -168,9 +174,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 
             var urun = _repository.GetById(urunId);
             if (urun == null)
-            {
                 return HttpNotFound();
-            }
             var model = new UrunResimMapping
             {
                 UrunId = urun.Id
@@ -223,7 +227,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                         {
                             model.ResimId = resim.Id;
                             _urunResimRepository.Insert(model);
-                            return RedirectToAction("Resimler", new { urunId = model.UrunId });
+                            return RedirectToAction("Resimler", new {urunId = model.UrunId});
                         }
 
                         ModelState.AddModelError("", @"Ürün id boş!");
@@ -256,12 +260,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             var urunResim =
                 _urunResimRepository.Table.SingleOrDefault(u => u.UrunId == urunId.Value && u.ResimId == resimId.Value);
             if (null == urunResim)
-                return RedirectToAction("Resimler", "Urun", new { urunId });
+                return RedirectToAction("Resimler", "Urun", new {urunId});
 
             _urunResimRepository.Delete(urunResim);
             _resimRepository.Delete(_resimRepository.GetById(resimId));
 
-            return RedirectToAction("Resimler", "Urun", new { urunId });
+            return RedirectToAction("Resimler", "Urun", new {urunId});
         }
 
         #endregion
@@ -280,7 +284,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             {
                 UrunId = urun.Id,
                 Urun = urun,
-                Indirimler = _saticiIndirimRepository.Table.Where(i => i.SaticiId == CurrentSatici.Id).Select(i => i.Indirim).ToList()
+                Indirimler = _saticiIndirimRepository.Table.Where(i => i.SaticiId == CurrentSatici.Id)
+                    .Select(i => i.Indirim).ToList()
             };
 
             return View(new UrunIndirimViewModel
@@ -296,7 +301,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Indirimler", new { id = model.UrunId });
+                return RedirectToAction("Indirimler", new {id = model.UrunId});
             }
 
             try
@@ -306,12 +311,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     IndirimId = model.IndirimId,
                     UrunId = model.UrunId
                 });
-                return RedirectToAction("Indirimler", new { id = model.UrunId });
+                return RedirectToAction("Indirimler", new {id = model.UrunId});
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Indirimler", new { id = model.UrunId });
+                return RedirectToAction("Indirimler", new {id = model.UrunId});
             }
         }
 
@@ -347,7 +352,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+                return RedirectToAction("Kategoriler", new {id = model.UrunId});
             }
 
             try
@@ -358,12 +363,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     UrunId = model.UrunId,
                     CreatedDate = DateTime.Now
                 });
-                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+                return RedirectToAction("Kategoriler", new {id = model.UrunId});
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Kategoriler", new { id = model.UrunId });
+                return RedirectToAction("Kategoriler", new {id = model.UrunId});
             }
         }
 
@@ -399,7 +404,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Etiketler", new { id = model.UrunId });
+                return RedirectToAction("Etiketler", new {id = model.UrunId});
             }
 
             try
@@ -409,12 +414,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     EtiketId = model.EtiketId,
                     UrunId = model.UrunId
                 });
-                return RedirectToAction("Etiketler", new { id = model.UrunId });
+                return RedirectToAction("Etiketler", new {id = model.UrunId});
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", @"Eklenme sırasında bir hata oluştu!");
-                return RedirectToAction("Etiketler", new { id = model.UrunId });
+                return RedirectToAction("Etiketler", new {id = model.UrunId});
             }
         }
 

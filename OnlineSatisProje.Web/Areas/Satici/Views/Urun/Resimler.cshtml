@@ -1,11 +1,11 @@
 ﻿@using OnlineSatisProje.Core.Entities
-@model UrunResimMapping
+@model OnlineSatisProje.Core.Entities.UrunResimMapping
 @{
     ViewBag.Title = "Resimler";
-    var resimListe = (IEnumerable<UrunResimMapping>)ViewData["ResimListe"];
+    var resimListe = (IEnumerable<UrunResimMapping>) ViewData["ResimListe"];
 }
 
-@using (Html.BeginForm("Resimler", "Urun", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Resimler", "Urun", FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
@@ -16,7 +16,7 @@
                 <input type="file" id="file" class="custom-file-input" name="upload" accept=".jpg, .png, .jpeg, .bmp, ">
                 <span class="custom-file-control"></span>
             </label>
-            <br />
+            <br/>
             <p class="text-muted" id="dosyaAdi" style="display: none;"></p>
         </div>
         <div class="col-2">
@@ -32,31 +32,31 @@
     {
         <table class="table">
             <thead class="thead-default">
-                <tr>
-                    <th class="text-center">Resim</th>
-                    <th>Başlık</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th class="text-center">Resim</th>
+                <th>Başlık</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
-                <!-- ÜRÜNE AİT RESİMLERİ LİSTELE -->
-                @foreach (var resim in urunResimMappings)
-                {
-                    <tr>
-                        <th class="text-center">
-                            <img src="@resim.Resim.ResimPath" class="img-thumbnail rounded" title="" alt="" width="200" height="200" />
-                        </th>
-                        <th>@resim.Resim.Baslik</th>
-                        <th>
-                            @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
-                            {
-                                @Html.Hidden("resimId", resim.Resim.Id)
-                                @Html.Hidden("urunId", resim.Urun.Id)
-                                <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
-                            }
-                        </th>
-                    </tr>
-                }
+            <!-- ÜRÜNE AİT RESİMLERİ LİSTELE -->
+            @foreach (var resim in urunResimMappings)
+            {
+                <tr>
+                    <th class="text-center">
+                        <img src="@resim.Resim.ResimPath" class="img-thumbnail rounded" title="" alt="" width="200" height="200"/>
+                    </th>
+                    <th>@resim.Resim.Baslik</th>
+                    <th>
+                        @using (Html.BeginForm("ResimSil", "Urun", FormMethod.Post))
+                        {
+                            @Html.Hidden("resimId", resim.Resim.Id)
+                            @Html.Hidden("urunId", resim.Urun.Id)
+                            <button type="submit" class="btn btn-outline-danger btn-block"><i class="fa fa-trash-o"></i> Sil</button>
+                        }
+                    </th>
+                </tr>
+            }
             </tbody>
         </table>
     }

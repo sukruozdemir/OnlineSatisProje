@@ -4,7 +4,7 @@
 }
 
 <h1 class="display-4 text-muted">İndirimler</h1>
-<hr class="bg-inverse" />
+<hr class="bg-inverse"/>
 <div class="col-12">
     <a href="@Url.Action("Ekle", "Indirim", new {area = "Satici"})" class="btn btn-sm btn-secondary">
         <i class="fa fa-plus-square-o"></i> İndirim ekle
@@ -15,32 +15,32 @@
 {
     <table class="table mt-3">
         <thead class="thead-default">
-            <tr>
-                <th>@Html.DisplayNameFor(i => i.Indirim.Baslik)</th>
-                <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.YuzdeKullan)</th>
-                <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.IndirimYuzdesi) (%)</th>
-                <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.IndirimMiktari)</th>
-            </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(i => i.Indirim.Baslik)</th>
+            <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.YuzdeKullan)</th>
+            <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.IndirimYuzdesi) (%)</th>
+            <th class="text-center">@Html.DisplayNameFor(i => i.Indirim.IndirimMiktari)</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th>@item.Indirim.Baslik</th>
-                    <th class="text-center">
-                        @if (item.Indirim.YuzdeKullan)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Indirim.Baslik</th>
+                <th class="text-center">
+                    @if (item.Indirim.YuzdeKullan)
                     {
-                            <i class="fa fa-check"></i>
-                        }
-                        else
-                        {
-                            <i class="fa fa-times"></i>
-                        }
-                    </th>
-                    <th class="text-center">@item.Indirim.IndirimYuzdesi</th>
-                    <th class="text-center">@item.Indirim.IndirimMiktari</th>
-                </tr>
-            }
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </th>
+                <th class="text-center">@item.Indirim.IndirimYuzdesi</th>
+                <th class="text-center">@item.Indirim.IndirimMiktari</th>
+            </tr>
+        }
         </tbody>
     </table>
 }

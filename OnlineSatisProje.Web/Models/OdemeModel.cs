@@ -78,10 +78,10 @@ namespace OnlineSatisProje.Web.Models
             get
             {
                 return CurrentUser.KullaniciAdresMapping.Select(kullaniciAdresMapping => new SelectListItem
-                {
-                    Text = kullaniciAdresMapping.Adres.Baslik,
-                    Value = kullaniciAdresMapping.AdresId.ToString()
-                })
+                    {
+                        Text = kullaniciAdresMapping.Adres.Baslik,
+                        Value = kullaniciAdresMapping.AdresId.ToString()
+                    })
                     .ToList();
             }
         }

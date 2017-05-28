@@ -9,7 +9,6 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
     public class IndirimController : BaseController
     {
-
         private readonly IRepository<Indirim> _inidirimRepository;
         private readonly IRepository<SaticiIndirimMapping> _saticiIndirimRepository;
 
@@ -35,15 +34,16 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                 BaslangicTarihi = DateTime.Now.ToString("d"),
                 BitisTarihi = DateTime.Now.ToString("d")
             };
-            
+
             return View(model);
         }
 
         // POST: Satici/Indirim/Ekle
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Ekle(IndirimModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", @"Eklenirken bir hata oluştu");
                 return RedirectToAction("Index");
@@ -67,13 +67,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
                     SaticiId = CurrentSatici.Id
                 });
                 return RedirectToAction("Index");
-
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", @"Indirim eklenemedi!");
                 return View(model);
-            }       
+            }
         }
     }
 }

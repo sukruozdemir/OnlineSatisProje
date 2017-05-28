@@ -4,10 +4,7 @@ namespace OnlineSatisProje.Web.Areas.Satici
 {
     public class SaticiAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get { return "Satici"; }
-        }
+        public override string AreaName => "Satici";
 
         public override void RegisterArea(AreaRegistrationContext context)
         {

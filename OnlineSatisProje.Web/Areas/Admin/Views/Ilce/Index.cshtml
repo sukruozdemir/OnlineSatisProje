@@ -1,37 +1,37 @@
 ﻿@using OnlineSatisProje.Core.Entities
-@model IEnumerable<Ilce>
+@model IEnumerable<OnlineSatisProje.Core.Entities.Ilce>
 @{
     ViewBag.Title = "İlçeler";
 }
 
 <h1 class="display-4">İlçeler</h1>
-<hr />
+<hr/>
 <div class="col-12">
     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalilceekle">
         <i class="fa fa-plus-square-o"></i> İlçe ekle
     </button>
 </div>
-<hr />
+<hr/>
 
 @if (Model.Any())
 {
     <table class="table">
         <thead class="thead-default">
-            <tr>
-                <th>Ad</th>
-                <th>Şehir</th>
-                <th>Posta kodu</th>
-            </tr>
+        <tr>
+            <th>Ad</th>
+            <th>Şehir</th>
+            <th>Posta kodu</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th>@item.Ad</th>
-                    <th>@item.Sehir.Ad</th>
-                    <th>@item.PostaKodu</th>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Ad</th>
+                <th>@item.Sehir.Ad</th>
+                <th>@item.PostaKodu</th>
+            </tr>
+        }
         </tbody>
     </table>
 }

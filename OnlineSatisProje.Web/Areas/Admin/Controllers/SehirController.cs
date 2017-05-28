@@ -34,6 +34,5 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             _sehirRepository.Insert(sehir);
             return RedirectToAction("Index");
         }
-
     }
 }

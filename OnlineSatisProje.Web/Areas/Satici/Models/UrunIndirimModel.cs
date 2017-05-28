@@ -1,6 +1,6 @@
-﻿using OnlineSatisProje.Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OnlineSatisProje.Core.Entities;
 
 namespace OnlineSatisProje.Web.Areas.Satici.Models
 {
@@ -9,6 +9,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Models
         [Display(Name = "Ürün")]
         [Required]
         public int UrunId { get; set; }
+
         [Display(Name = "İndirim")]
         [Required]
         public int IndirimId { get; set; }

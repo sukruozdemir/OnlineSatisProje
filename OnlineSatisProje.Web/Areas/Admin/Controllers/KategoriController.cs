@@ -20,7 +20,10 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         ///     GET: Satici/Kategori
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index() => View(_kategoriRepository.Table.ToList());
+        public ActionResult Index()
+        {
+            return View(_kategoriRepository.Table.ToList());
+        }
 
         [HttpPost]
         public ActionResult Ekle(KategoriModel model)

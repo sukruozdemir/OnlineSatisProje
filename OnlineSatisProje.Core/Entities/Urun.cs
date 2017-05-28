@@ -32,26 +32,34 @@ namespace OnlineSatisProje.Core.Entities
 
         [Required(ErrorMessage = "{0} alaný zorunludur")]
         [Display(Name = "Tam açýklama")]
-        [MaxLength(Int32.MaxValue)]
+        [MaxLength(int.MaxValue)]
         public string TamAciklama { get; set; }
 
         [Display(Name = "Anasayfada göster")]
         public bool AnasayfadaGoster { get; set; }
+
         [Display(Name = "Kullanýcý yorumlarýna izin ver")]
         public bool KullaniciYorumIzinVer { get; set; }
+
         [Display(Name = "Kargo aktif")]
         public bool KargoAktif { get; set; }
+
         [Display(Name = "Ücretsiz kargo")]
         public bool UcretsizKargo { get; set; }
+
         public decimal Fiyat { get; set; }
         public bool Aktif { get; set; }
         public bool Silindi { get; set; }
+
         [Display(Name = "Yayýnlandý")]
         public bool Yayinlandi { get; set; }
+
         [Display(Name = "Oluþturulma tarihi")]
         public DateTime CreatedDate { get; set; }
+
         [Display(Name = "Güncellenme tarihi")]
         public DateTime UpdatedDate { get; set; }
+
         [Display(Name = "Satýcý")]
         public int SaticiId { get; set; }
 

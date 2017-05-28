@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using OnlineSatisProje.Core.Entities;
@@ -41,7 +40,8 @@ namespace OnlineSatisProje.Web.Controllers
             if (!ModelState.IsValid) return View(model);
             try
             {
-                var result = await _kullaniciRepository.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
+                var result =
+                    await _kullaniciRepository.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -61,7 +61,6 @@ namespace OnlineSatisProje.Web.Controllers
             {
                 ModelState.AddModelError("", @"Giriş yapılamadı");
                 return View(model);
-
             }
             return View(model);
         }

@@ -4,54 +4,54 @@
 }
 
 <h1 class="display-4">Siparişlerim</h1>
-<hr class="bg-danger" />
+<hr class="bg-danger"/>
 
 @if (Model.Any())
 {
     <table class="table">
         <thead class="thead-default">
-            <tr>
-                <th>
-                    Ürünler
-                </th>
-                <th>
-                    Sipariş Toplamı
-                </th>
-                <th>
-                    Sipariş Durumu
-                </th>
-                <th>
-                    Kargo Durumu
-                </th>
-                <th>
-                    Tarih
-                </th>
-            </tr>
+        <tr>
+            <th>
+                Ürünler
+            </th>
+            <th>
+                Sipariş Toplamı
+            </th>
+            <th>
+                Sipariş Durumu
+            </th>
+            <th>
+                Kargo Durumu
+            </th>
+            <th>
+                Tarih
+            </th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th>
-                        @foreach (var siparisItem in item.SiparisItem)
-                        {
-                            <p class="text-muted">@siparisItem.Urun.Baslik</p>
-                        }
-                    </th>
-                    <th>
-                        @item.SiparisToplam.ToString("C")
-                    </th>
-                    <th>
-                        @item.SiparisDurumu
-                    </th>
-                    <th>
-                        @item.KargoDurumu
-                    </th>
-                    <th>
-                        @item.Tarih.ToLongDateString() @item.Tarih.ToShortTimeString()
-                    </th>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @foreach (var siparisItem in item.SiparisItem)
+                    {
+                        <p class="text-muted">@siparisItem.Urun.Baslik</p>
+                    }
+                </th>
+                <th>
+                    @item.SiparisToplam.ToString("C")
+                </th>
+                <th>
+                    @item.SiparisDurumu
+                </th>
+                <th>
+                    @item.KargoDurumu
+                </th>
+                <th>
+                    @item.Tarih.ToLongDateString() @item.Tarih.ToShortTimeString()
+                </th>
+            </tr>
+        }
         </tbody>
     </table>
 }

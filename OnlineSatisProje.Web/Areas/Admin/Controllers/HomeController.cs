@@ -18,9 +18,9 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
         private readonly IRepository<Kullanici> _kullaniciRepository;
         private readonly IRepository<Resim> _resimRepository;
         private readonly IRepository<IdentityRole> _roleRepository;
+        private readonly IRepository<Core.Entities.Satici> _saticiRepository;
         private readonly IRepository<Siparis> _siparisRepository;
         private readonly IRepository<Urun> _urunRepository;
-        private readonly IRepository<Core.Entities.Satici> _saticiRepository;
 
         /// <summary>
         ///     Ctor
@@ -43,7 +43,7 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             IRepository<IdentityRole> roleRepository,
             IRepository<Resim> resimRepository,
             IRepository<Siparis> siparisRepository,
-            IRepository<Adres> adresRepository, 
+            IRepository<Adres> adresRepository,
             IRepository<Core.Entities.Satici> saticiRepository)
         {
             _kullaniciRepository = kullaniciRepository;
@@ -67,7 +67,6 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
             if (saticiRol != null)
             {
                 var list = _kullaniciRepository.Table.ToList().Where(k => k.Roles.Any(a => a.RoleId == saticiRol.Id));
-                
             }
 
             ViewData["TotalSatici"] = _saticiRepository.Table.ToList().Count;

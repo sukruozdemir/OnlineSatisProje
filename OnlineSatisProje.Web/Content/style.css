@@ -1,22 +1,59 @@
 ﻿.form-odeme {
-    margin-top: 3em;
-    padding: 20px;
+    background-clip: padding-box;
     border: 1px solid #000000;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     box-shadow: 1px 1px 10px 0 #949595;
-    background-clip: padding-box;
+    margin-top: 3em;
+    padding: 20px;
 }
 
 
-#loginForm{width:100%; height:auto; }
-.form-horizontal{ margin:0 auto;}
-h1.logo-text{font-weight:600; text-align:center; padding:10px 0 0; font-size:40px;}
-h5.giris-text{text-align:center;}
-.control-label{font-weight:600; }
-h1.logo-text>span{color:#2980b9;}
-div.islem{ position:relative;}
-div>input[type="submit"]{background-color:#d9534f; color:#fff;}
-div>input[type="submit"]:hover{cursor:pointer; opacity:0.8;}
-#loginForm div.form-group a{position:absolute; bottom:0; right:0;  width:98.61px; height:38px; text-decoration:none; text-align:center; margin-top:10px; background-color:#546e7a; color:#fff; padding:7px; border-radius:3px;}
-#loginForm div.form-group a:hover{opacity:0.8;}
+#loginForm {
+    height: auto;
+    width: 100%;
+}
+
+.form-horizontal { margin: 0 auto; }
+
+h1.logo-text {
+    font-size: 40px;
+    font-weight: 600;
+    padding: 10px 0 0;
+    text-align: center;
+}
+
+h5.giris-text { text-align: center; }
+
+.control-label { font-weight: 600; }
+
+h1.logo-text > span { color: #2980b9; }
+
+div.islem { position: relative; }
+
+div > input[type="submit"] {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+div > input[type="submit"]:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#loginForm div.form-group a {
+    background-color: #546e7a;
+    border-radius: 3px;
+    bottom: 0;
+    color: #fff;
+    height: 38px;
+    margin-top: 10px;
+    padding: 7px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    width: 98.61px;
+}
+
+#loginForm div.form-group a:hover { opacity: 0.8; }

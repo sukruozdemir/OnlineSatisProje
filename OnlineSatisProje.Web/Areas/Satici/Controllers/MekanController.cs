@@ -12,12 +12,12 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
 {
     public class MekanController : BaseController
     {
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly IRepository<Adres> _adresRepository;
+        private readonly IRepository<Ilce> _ilceRepository;
 
         private readonly IRepository<SaticiMekanMapping> _saticiMekanRepository;
         private readonly IRepository<Sehir> _sehirRepository;
-        private readonly IRepository<Ilce> _ilceRepository;
-        private readonly IRepository<Adres> _adresRepository;
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public MekanController(IRepository<SaticiMekanMapping> saticiMekanRepository,

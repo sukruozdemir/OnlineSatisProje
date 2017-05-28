@@ -8,8 +8,8 @@ namespace OnlineSatisProje.Web.Areas.Admin.Controllers
 {
     public class IlceController : Controller
     {
-        private readonly IRepository<Sehir> _sehirRepository;
         private readonly IRepository<Ilce> _ilceRepository;
+        private readonly IRepository<Sehir> _sehirRepository;
 
         public IlceController(IRepository<Sehir> sehirRepository,
             IRepository<Ilce> ilceRepository)

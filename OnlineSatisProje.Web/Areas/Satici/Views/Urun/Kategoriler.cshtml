@@ -1,45 +1,45 @@
 ﻿@model OnlineSatisProje.Web.Areas.Satici.Models.UrunKategoriViewModel
 
-    @{
-        ViewBag.Title = Model.UrunKategoriModel.Urun.Baslik + " - Kategoriler";
-    }
+@{
+    ViewBag.Title = Model.UrunKategoriModel.Urun.Baslik + " - Kategoriler";
+}
 
-    <h1 class="display-4 text-muted">@Model.UrunKategoriModel.Urun.Baslik - Kategoriler</h1>
-    <hr class="bg-inverse" />
-    <div class="col-12">
-        <button data-target="#urunkategorieklemodal" data-toggle="modal" class="btn btn-sm btn-secondary">
-            <i class="fa fa-plus-square-o"></i> Kategori ekle
-        </button>
-        @Html.Partial("_PartialKategoriEkle", Model.UrunKategoriModel)
-    </div>
+<h1 class="display-4 text-muted">@Model.UrunKategoriModel.Urun.Baslik - Kategoriler</h1>
+<hr class="bg-inverse"/>
+<div class="col-12">
+    <button data-target="#urunkategorieklemodal" data-toggle="modal" class="btn btn-sm btn-secondary">
+        <i class="fa fa-plus-square-o"></i> Kategori ekle
+    </button>
+    @Html.Partial("_PartialKategoriEkle", Model.UrunKategoriModel)
+</div>
 
-    @if (Model.UrunKategoriMapping.Any())
-    {
-        <table class="table mt-3">
-            <thead class="thead-default">
-                <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">Kategori</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.UrunKategoriMapping)
-                {
-                    <tr>
-                        <th class="text-center">@item.Id</th>
-                        <th class="text-center">@item.Kategori.Ad</th>
-                        <th class="text-center">
-                            <button type="button" class="btn btn-sm btn-outline-danger">
-                                <i class="fa fa-trash-o"></i> Sil
-                            </button>
-                        </th>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Kategori bulunmamaktadır</h1>
-    }
+@if (Model.UrunKategoriMapping.Any())
+{
+    <table class="table mt-3">
+        <thead class="thead-default">
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Kategori</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.UrunKategoriMapping)
+        {
+            <tr>
+                <th class="text-center">@item.Id</th>
+                <th class="text-center">@item.Kategori.Ad</th>
+                <th class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger">
+                        <i class="fa fa-trash-o"></i> Sil
+                    </button>
+                </th>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-4 text-center" style="margin-bottom: 50px; margin-top: 50px;">Kategori bulunmamaktadır</h1>
+}

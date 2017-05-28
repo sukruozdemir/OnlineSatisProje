@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using OnlineSatisProje.Core.Attributes;
 using OnlineSatisProje.Core.Entities;
@@ -15,6 +13,7 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
     {
         // SATICI CONTROLLERININ HEPSINDE ERISILECEK ALANLAR
         public Kullanici CurrentKullanici { get; set; }
+
         public Core.Entities.Satici CurrentSatici { get; set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)

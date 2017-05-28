@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Web.Helpers;
+﻿using System.Linq;
 using System.Web.Mvc;
 using OnlineSatisProje.Core.Entities;
 using OnlineSatisProje.Data;
@@ -11,15 +8,6 @@ namespace OnlineSatisProje.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        #region Alanlar
-
-        private readonly IRepository<Urun> _repositoryUrun;
-        private readonly IRepository<Resim> _resimRepository;
-        private readonly ISaticiRepository _saticiRepository;
-        private readonly IUrunRepository _urunRepository;
-
-        #endregion
-
         #region Ctor
 
         public HomeController(IRepository<Urun> repositoryUrun,
@@ -32,6 +20,15 @@ namespace OnlineSatisProje.Web.Controllers
             _saticiRepository = saticiRepository;
             _resimRepository = resimRepository;
         }
+
+        #endregion
+
+        #region Alanlar
+
+        private readonly IRepository<Urun> _repositoryUrun;
+        private readonly IRepository<Resim> _resimRepository;
+        private readonly ISaticiRepository _saticiRepository;
+        private readonly IUrunRepository _urunRepository;
 
         #endregion
 

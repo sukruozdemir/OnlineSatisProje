@@ -1,11 +1,10 @@
-﻿@using OnlineSatisProje.Web.Areas.Satici.Models
-@model  UrunIndirimViewModel
+﻿@model OnlineSatisProje.Web.Areas.Satici.Models.UrunIndirimViewModel
 @{
-    ViewBag.Title = Model.UrunIndirimModel.Urun.Baslik+ " - İndirimler";
+    ViewBag.Title = Model.UrunIndirimModel.Urun.Baslik + " - İndirimler";
 }
 
 <h1 class="display-4 text-muted">@Model.UrunIndirimModel.Urun.Baslik - İndirimler</h1>
-<hr class="bg-inverse" />
+<hr class="bg-inverse"/>
 <div class="col-12">
     <button data-target="#urunindirimeklemodal" data-toggle="modal" class="btn btn-sm btn-secondary">
         <i class="fa fa-plus-square-o"></i> İndirim ekle
@@ -17,19 +16,19 @@
 {
     <table class="table mt-3">
         <thead class="thead-default">
-            <tr>
-                <th>Ürün</th>
-                <th>İndirim</th>
-            </tr>
+        <tr>
+            <th>Ürün</th>
+            <th>İndirim</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.UrunIndirimMapping)
-            {
-                <tr>
-                    <th>@item.Urun.Baslik</th>
-                    <th>@item.Indirim.Baslik</th>
-                </tr>
-            }
+        @foreach (var item in Model.UrunIndirimMapping)
+        {
+            <tr>
+                <th>@item.Urun.Baslik</th>
+                <th>@item.Indirim.Baslik</th>
+            </tr>
+        }
         </tbody>
     </table>
 }

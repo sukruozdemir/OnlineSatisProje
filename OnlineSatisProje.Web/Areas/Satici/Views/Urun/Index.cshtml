@@ -4,7 +4,7 @@
 }
 
 <h1 class="display-4 text-muted">Ürünler</h1>
-<hr class="bg-inverse" />
+<hr class="bg-inverse"/>
 <div class="col-12">
     <a href="@Url.Action("Ekle", "Urun", new {area = "Satici"})" id="buttonUrunEkle" class="btn btn-sm btn-secondary">
         <i class="fa fa-plus-square-o"></i> Ürün ekle
@@ -18,61 +18,61 @@ else
 {
     <table class="col-12 table mt-3">
         <thead class="thead-default">
-            <tr>
-                <th>@Html.DisplayNameFor(x => x.Baslik)</th>
-                <th class="text-center">@Html.DisplayNameFor(x => x.Yayinlandi)</th>
-                <th class="text-center">@Html.DisplayNameFor(x => x.Silindi)</th>
-                <th>@Html.DisplayNameFor(x => x.CreatedDate)</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Baslik)</th>
+            <th class="text-center">@Html.DisplayNameFor(x => x.Yayinlandi)</th>
+            <th class="text-center">@Html.DisplayNameFor(x => x.Silindi)</th>
+            <th>@Html.DisplayNameFor(x => x.CreatedDate)</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
-                    <td class="text-center">
-                        @if (item.Yayinlandi)
-                        {
-                            <i class="fa fa-check"></i>
-                        }
-                        else
-                        {
-                            <i class="fa fa-times"></i>
-                        }
-                    </td>
-                    <td class="text-center">
-                        @if (item.Silindi)
-                        {
-                            <i class="fa fa-check"></i>
-                        }
-                        else
-                        {
-                            <i class="fa fa-times"></i>
-                        }
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                    <td class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Baslik)</td>
+                <td class="text-center">
+                    @if (item.Yayinlandi)
+                    {
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.Silindi)
+                    {
+                        <i class="fa fa-check"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-times"></i>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td class="text-center">
 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-danger">İşlemler</button>
-                            <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})">
-                                    <i class="fa fa-image"></i> Resimler
-                                </a>
-                                <a class="dropdown-item" href="@Url.Action("Etiketler", "Urun", new { id = item.Id})"><i class="fa fa-tags"></i> Etiketler</a>
-                                <a class="dropdown-item" href="@Url.Action("Kategoriler", "Urun", new { id = item.Id})"><i class="fa fa-bars"></i> Kategoriler</a>
-                                <a class="dropdown-item" href="@Url.Action("Indirimler", "Urun", new { id = item.Id})"><i class="fa fa-cart-arrow-down"></i> Indirimler</a>
-                                <div class="dropdown-divider bg-danger"></div>
-                                <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>
-                            </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-danger">İşlemler</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="@Url.Action("Resimler", "Urun", new {urunId = item.Id})">
+                                <i class="fa fa-image"></i> Resimler
+                            </a>
+                            <a class="dropdown-item" href="@Url.Action("Etiketler", "Urun", new {id = item.Id})"><i class="fa fa-tags"></i> Etiketler</a>
+                            <a class="dropdown-item" href="@Url.Action("Kategoriler", "Urun", new {id = item.Id})"><i class="fa fa-bars"></i> Kategoriler</a>
+                            <a class="dropdown-item" href="@Url.Action("Indirimler", "Urun", new {id = item.Id})"><i class="fa fa-cart-arrow-down"></i> Indirimler</a>
+                            <div class="dropdown-divider bg-danger"></div>
+                            <a class="dropdown-item" href="#"><i class="fa fa-trash-o"></i> Sil</a>
                         </div>
-                    </td>
-                </tr>
-            }
+                    </div>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 }

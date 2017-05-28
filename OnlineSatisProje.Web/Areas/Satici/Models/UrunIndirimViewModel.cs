@@ -1,5 +1,5 @@
-﻿using OnlineSatisProje.Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OnlineSatisProje.Core.Entities;
 
 namespace OnlineSatisProje.Web.Areas.Satici.Models
 {

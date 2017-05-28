@@ -15,8 +15,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
     public class SiparisController : BaseController
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IRepository<Siparis> _siparisRepository;
         private readonly IRepository<SiparisItem> _siparisItemRepository;
+        private readonly IRepository<Siparis> _siparisRepository;
 
         public SiparisController(IRepository<Siparis> siparisRepository,
             IRepository<SiparisItem> siparisItemRepository)
@@ -28,7 +28,8 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         // GET: Satici/Siparis
         public ActionResult Index()
         {
-            var liste = _siparisItemRepository.Table.Where(x => x.SaticiId == CurrentSatici.Id && x.Siparis.Aktif && !x.Siparis.Silindi);
+            var liste = _siparisItemRepository.Table.Where(
+                x => x.SaticiId == CurrentSatici.Id && x.Siparis.Aktif && !x.Siparis.Silindi);
 
             ViewBag.SiparisDurumList = EnumHelper.GetSelectList(typeof(SiparisDurumu));
             ViewBag.OdemeDurumList = EnumHelper.GetSelectList(typeof(OdemeDurumu));

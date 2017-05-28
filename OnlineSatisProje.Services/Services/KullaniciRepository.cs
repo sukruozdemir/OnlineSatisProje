@@ -74,7 +74,8 @@ namespace OnlineSatisProje.Services.Services
 
         public Kullanici GetLoggedUser()
         {
-            return _identityRepostitory.UserManager.FindById(_identityRepostitory.AuthManager.User.Identity.GetUserId());
+            return _identityRepostitory.UserManager.FindById(_identityRepostitory.AuthManager.User.Identity
+                .GetUserId());
         }
     }
 }

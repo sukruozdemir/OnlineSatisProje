@@ -37,7 +37,7 @@
                     <button class="btn btn-secondary btn-sm" data-target="#siparisduzenlemodal-@item.SiparisId" data-toggle="modal"><i class="fa fa-pencil"></i> Düzenle</button>
                     @if (item.Siparis.Aktif)
                     {
-                        using (Html.BeginForm("SiparisTamamlandi", "Siparis", FormMethod.Post, new {style="display:inline-block;"}))
+                        using (Html.BeginForm("SiparisTamamlandi", "Siparis", FormMethod.Post, new {style = "display:inline-block;"}))
                         {
                             @Html.Hidden("id", item.SiparisId)
                             <button id="buttontamamlandi" type="submit" class="btn btn-secondary btn-sm"><i class="fa fa-check"></i> Sipariş tamamlandı</button>

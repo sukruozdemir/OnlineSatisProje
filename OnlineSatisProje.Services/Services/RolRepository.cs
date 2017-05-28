@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using log4net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,7 +13,7 @@ namespace OnlineSatisProje.Services.Services
 {
     public class RolRepository : IRolRepository
     {
-        private static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IIdentityRepostitory _identityRepostitory;
         private readonly IRepository<IdentityRole> _repository;
         private readonly IRepository<Satici> _saticiRepository;

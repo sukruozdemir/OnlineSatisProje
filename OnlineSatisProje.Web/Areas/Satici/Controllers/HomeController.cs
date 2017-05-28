@@ -7,7 +7,10 @@ namespace OnlineSatisProje.Web.Areas.Satici.Controllers
         #region Actions
 
         // GET: Satici/Home
-        public ActionResult Index() => View();
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         #endregion
 

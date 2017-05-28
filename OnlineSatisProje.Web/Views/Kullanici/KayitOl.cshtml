@@ -8,7 +8,9 @@
 @using (Html.BeginForm("KayitOl", "Kullanici", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
 {
     @Html.AntiForgeryToken()
-    <h1 class="logo-text">online<span>satış</span></h1>
+    <h1 class="logo-text">
+        online<span>satış</span>
+    </h1>
     <h5 class="giris-text">Kayıt Ol</h5>
     <hr/>
     @Html.ValidationSummary("", new {@class = "text-danger"})

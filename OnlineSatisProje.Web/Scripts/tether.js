@@ -134,11 +134,11 @@
                 node = document.createElement("div");
                 node.setAttribute("data-tether-id", uniqueId());
                 extend(node.style,
-                {
-                    top: 0,
-                    left: 0,
-                    position: "absolute"
-                });
+                    {
+                        top: 0,
+                        left: 0,
+                        position: "absolute"
+                    });
 
                 document.body.appendChild(node);
 
@@ -209,16 +209,16 @@
 
             var outer = document.createElement("div");
             extend(outer.style,
-            {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                pointerEvents: "none",
-                visibility: "hidden",
-                width: "200px",
-                height: "150px",
-                overflow: "hidden"
-            });
+                {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    pointerEvents: "none",
+                    visibility: "hidden",
+                    width: "200px",
+                    height: "150px",
+                    overflow: "hidden"
+                });
 
             outer.appendChild(inner);
 
@@ -343,80 +343,80 @@
             }
 
             _createClass(Evented,
-            [
-                {
-                    key: "on",
-                    value: function on(event, handler, ctx) {
-                        var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+                [
+                    {
+                        key: "on",
+                        value: function on(event, handler, ctx) {
+                            var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-                        if (typeof this.bindings === "undefined") {
-                            this.bindings = {};
+                            if (typeof this.bindings === "undefined") {
+                                this.bindings = {};
+                            }
+                            if (typeof this.bindings[event] === "undefined") {
+                                this.bindings[event] = [];
+                            }
+                            this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
                         }
-                        if (typeof this.bindings[event] === "undefined") {
-                            this.bindings[event] = [];
+                    }, {
+                        key: "once",
+                        value: function once(event, handler, ctx) {
+                            this.on(event, handler, ctx, true);
                         }
-                        this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
-                    }
-                }, {
-                    key: "once",
-                    value: function once(event, handler, ctx) {
-                        this.on(event, handler, ctx, true);
-                    }
-                }, {
-                    key: "off",
-                    value: function off(event, handler) {
-                        if (typeof this.bindings === "undefined" || typeof this.bindings[event] === "undefined") {
-                            return;
-                        }
+                    }, {
+                        key: "off",
+                        value: function off(event, handler) {
+                            if (typeof this.bindings === "undefined" || typeof this.bindings[event] === "undefined") {
+                                return;
+                            }
 
-                        if (typeof handler === "undefined") {
-                            delete this.bindings[event];
-                        } else {
-                            var i = 0;
-                            while (i < this.bindings[event].length) {
-                                if (this.bindings[event][i].handler === handler) {
-                                    this.bindings[event].splice(i, 1);
-                                } else {
-                                    ++i;
+                            if (typeof handler === "undefined") {
+                                delete this.bindings[event];
+                            } else {
+                                var i = 0;
+                                while (i < this.bindings[event].length) {
+                                    if (this.bindings[event][i].handler === handler) {
+                                        this.bindings[event].splice(i, 1);
+                                    } else {
+                                        ++i;
+                                    }
+                                }
+                            }
+                        }
+                    }, {
+                        key: "trigger",
+                        value: function trigger(event) {
+                            if (typeof this.bindings !== "undefined" && this.bindings[event]) {
+                                var i = 0;
+
+                                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1;
+                                    _key < _len;
+                                    _key++) {
+                                    args[_key - 1] = arguments[_key];
+                                }
+
+                                while (i < this.bindings[event].length) {
+                                    var _bindings$event$i = this.bindings[event][i];
+                                    var handler = _bindings$event$i.handler;
+                                    var ctx = _bindings$event$i.ctx;
+                                    var once = _bindings$event$i.once;
+
+                                    var context = ctx;
+                                    if (typeof context === "undefined") {
+                                        context = this;
+                                    }
+
+                                    handler.apply(context, args);
+
+                                    if (once) {
+                                        this.bindings[event].splice(i, 1);
+                                    } else {
+                                        ++i;
+                                    }
                                 }
                             }
                         }
                     }
-                }, {
-                    key: "trigger",
-                    value: function trigger(event) {
-                        if (typeof this.bindings !== "undefined" && this.bindings[event]) {
-                            var i = 0;
-
-                            for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1;
-                                _key < _len;
-                                _key++) {
-                                args[_key - 1] = arguments[_key];
-                            }
-
-                            while (i < this.bindings[event].length) {
-                                var _bindings$event$i = this.bindings[event][i];
-                                var handler = _bindings$event$i.handler;
-                                var ctx = _bindings$event$i.ctx;
-                                var once = _bindings$event$i.once;
-
-                                var context = ctx;
-                                if (typeof context === "undefined") {
-                                    context = this;
-                                }
-
-                                handler.apply(context, args);
-
-                                if (once) {
-                                    this.bindings[event].splice(i, 1);
-                                } else {
-                                    ++i;
-                                }
-                            }
-                        }
-                    }
-                }
-            ]);
+                ]);
 
             return Evented;
         })();
@@ -759,677 +759,684 @@
             }
 
             _createClass(TetherClass,
-            [
-                {
-                    key: "getClass",
-                    value: function getClass() {
-                        var key = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-                        var classes = this.options.classes;
+                [
+                    {
+                        key: "getClass",
+                        value: function getClass() {
+                            var key = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
+                            var classes = this.options.classes;
 
-                        if (typeof classes !== "undefined" && classes[key]) {
-                            return this.options.classes[key];
-                        } else if (this.options.classPrefix) {
-                            return this.options.classPrefix + "-" + key;
-                        } else {
-                            return key;
+                            if (typeof classes !== "undefined" && classes[key]) {
+                                return this.options.classes[key];
+                            } else if (this.options.classPrefix) {
+                                return this.options.classPrefix + "-" + key;
+                            } else {
+                                return key;
+                            }
                         }
-                    }
-                }, {
-                    key: "setOptions",
-                    value: function setOptions(options) {
-                        var _this2 = this;
+                    }, {
+                        key: "setOptions",
+                        value: function setOptions(options) {
+                            var _this2 = this;
 
-                        var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+                            var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
-                        var defaults = {
-                            offset: "0 0",
-                            targetOffset: "0 0",
-                            targetAttachment: "auto auto",
-                            classPrefix: "tether"
-                        };
+                            var defaults = {
+                                offset: "0 0",
+                                targetOffset: "0 0",
+                                targetAttachment: "auto auto",
+                                classPrefix: "tether"
+                            };
 
-                        this.options = extend(defaults, options);
+                            this.options = extend(defaults, options);
 
-                        var _options = this.options;
-                        var element = _options.element;
-                        var target = _options.target;
-                        var targetModifier = _options.targetModifier;
+                            var _options = this.options;
+                            var element = _options.element;
+                            var target = _options.target;
+                            var targetModifier = _options.targetModifier;
 
-                        this.element = element;
-                        this.target = target;
-                        this.targetModifier = targetModifier;
+                            this.element = element;
+                            this.target = target;
+                            this.targetModifier = targetModifier;
 
-                        if (this.target === "viewport") {
-                            this.target = document.body;
-                            this.targetModifier = "visible";
-                        } else if (this.target === "scroll-handle") {
-                            this.target = document.body;
-                            this.targetModifier = "scroll-handle";
-                        }
-
-                        ["element", "target"].forEach(function(key) {
-                            if (typeof _this2[key] === "undefined") {
-                                throw new Error("Tether Error: Both element and target must be defined");
+                            if (this.target === "viewport") {
+                                this.target = document.body;
+                                this.targetModifier = "visible";
+                            } else if (this.target === "scroll-handle") {
+                                this.target = document.body;
+                                this.targetModifier = "scroll-handle";
                             }
 
-                            if (typeof _this2[key].jquery !== "undefined") {
-                                _this2[key] = _this2[key][0];
-                            } else if (typeof _this2[key] === "string") {
-                                _this2[key] = document.querySelector(_this2[key]);
+                            ["element", "target"].forEach(function(key) {
+                                if (typeof _this2[key] === "undefined") {
+                                    throw new Error("Tether Error: Both element and target must be defined");
+                                }
+
+                                if (typeof _this2[key].jquery !== "undefined") {
+                                    _this2[key] = _this2[key][0];
+                                } else if (typeof _this2[key] === "string") {
+                                    _this2[key] = document.querySelector(_this2[key]);
+                                }
+                            });
+
+                            addClass(this.element, this.getClass("element"));
+                            if (!(this.options.addTargetClasses === false)) {
+                                addClass(this.target, this.getClass("target"));
                             }
-                        });
 
-                        addClass(this.element, this.getClass("element"));
-                        if (!(this.options.addTargetClasses === false)) {
-                            addClass(this.target, this.getClass("target"));
+                            if (!this.options.attachment) {
+                                throw new Error("Tether Error: You must provide an attachment");
+                            }
+
+                            this.targetAttachment = parseAttachment(this.options.targetAttachment);
+                            this.attachment = parseAttachment(this.options.attachment);
+                            this.offset = parseOffset(this.options.offset);
+                            this.targetOffset = parseOffset(this.options.targetOffset);
+
+                            if (typeof this.scrollParents !== "undefined") {
+                                this.disable();
+                            }
+
+                            if (this.targetModifier === "scroll-handle") {
+                                this.scrollParents = [this.target];
+                            } else {
+                                this.scrollParents = getScrollParents(this.target);
+                            }
+
+                            if (!(this.options.enabled === false)) {
+                                this.enable(pos);
+                            }
                         }
+                    }, {
+                        key: "getTargetBounds",
+                        value: function getTargetBounds() {
+                            if (typeof this.targetModifier !== "undefined") {
+                                if (this.targetModifier === "visible") {
+                                    if (this.target === document.body) {
+                                        return {
+                                            top: pageYOffset,
+                                            left: pageXOffset,
+                                            height: innerHeight,
+                                            width: innerWidth
+                                        };
+                                    } else {
+                                        var bounds = getBounds(this.target);
 
-                        if (!this.options.attachment) {
-                            throw new Error("Tether Error: You must provide an attachment");
-                        }
+                                        var out = {
+                                            height: bounds.height,
+                                            width: bounds.width,
+                                            top: bounds.top,
+                                            left: bounds.left
+                                        };
 
-                        this.targetAttachment = parseAttachment(this.options.targetAttachment);
-                        this.attachment = parseAttachment(this.options.attachment);
-                        this.offset = parseOffset(this.options.offset);
-                        this.targetOffset = parseOffset(this.options.targetOffset);
+                                        out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
+                                        out.height = Math.min(out.height,
+                                            bounds.height - (bounds.top + bounds.height - (pageYOffset + innerHeight)));
+                                        out.height = Math.min(innerHeight, out.height);
+                                        out.height -= 2;
 
-                        if (typeof this.scrollParents !== "undefined") {
-                            this.disable();
-                        }
+                                        out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
+                                        out.width = Math.min(out.width,
+                                            bounds.width - (bounds.left + bounds.width - (pageXOffset + innerWidth)));
+                                        out.width = Math.min(innerWidth, out.width);
+                                        out.width -= 2;
 
-                        if (this.targetModifier === "scroll-handle") {
-                            this.scrollParents = [this.target];
-                        } else {
-                            this.scrollParents = getScrollParents(this.target);
-                        }
+                                        if (out.top < pageYOffset) {
+                                            out.top = pageYOffset;
+                                        }
+                                        if (out.left < pageXOffset) {
+                                            out.left = pageXOffset;
+                                        }
 
-                        if (!(this.options.enabled === false)) {
-                            this.enable(pos);
-                        }
-                    }
-                }, {
-                    key: "getTargetBounds",
-                    value: function getTargetBounds() {
-                        if (typeof this.targetModifier !== "undefined") {
-                            if (this.targetModifier === "visible") {
-                                if (this.target === document.body) {
-                                    return {
-                                        top: pageYOffset,
-                                        left: pageXOffset,
-                                        height: innerHeight,
-                                        width: innerWidth
-                                    };
-                                } else {
-                                    var bounds = getBounds(this.target);
+                                        return out;
+                                    }
+                                } else if (this.targetModifier === "scroll-handle") {
+                                    var bounds = undefined;
+                                    var target = this.target;
+                                    if (target === document.body) {
+                                        target = document.documentElement;
+
+                                        bounds = {
+                                            left: pageXOffset,
+                                            top: pageYOffset,
+                                            height: innerHeight,
+                                            width: innerWidth
+                                        };
+                                    } else {
+                                        bounds = getBounds(target);
+                                    }
+
+                                    var style = getComputedStyle(target);
+
+                                    var hasBottomScroll = target.scrollWidth > target.clientWidth ||
+                                        [style.overflow, style.overflowX].indexOf("scroll") >= 0 ||
+                                        this.target !== document.body;
+
+                                    var scrollBottom = 0;
+                                    if (hasBottomScroll) {
+                                        scrollBottom = 15;
+                                    }
+
+                                    var height = bounds.height -
+                                        parseFloat(style.borderTopWidth) -
+                                        parseFloat(style.borderBottomWidth) -
+                                        scrollBottom;
 
                                     var out = {
-                                        height: bounds.height,
-                                        width: bounds.width,
-                                        top: bounds.top,
-                                        left: bounds.left
+                                        width: 15,
+                                        height: height * 0.975 * (height / target.scrollHeight),
+                                        left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
                                     };
 
-                                    out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
-                                    out.height = Math.min(out.height,
-                                        bounds.height - (bounds.top + bounds.height - (pageYOffset + innerHeight)));
-                                    out.height = Math.min(innerHeight, out.height);
-                                    out.height -= 2;
-
-                                    out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
-                                    out.width = Math.min(out.width,
-                                        bounds.width - (bounds.left + bounds.width - (pageXOffset + innerWidth)));
-                                    out.width = Math.min(innerWidth, out.width);
-                                    out.width -= 2;
-
-                                    if (out.top < pageYOffset) {
-                                        out.top = pageYOffset;
+                                    var fitAdj = 0;
+                                    if (height < 408 && this.target === document.body) {
+                                        fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
                                     }
-                                    if (out.left < pageXOffset) {
-                                        out.left = pageXOffset;
+
+                                    if (this.target !== document.body) {
+                                        out.height = Math.max(out.height, 24);
+                                    }
+
+                                    var scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
+                                    out.top = scrollPercentage * (height - out.height - fitAdj) +
+                                        bounds.top +
+                                        parseFloat(style.borderTopWidth);
+
+                                    if (this.target === document.body) {
+                                        out.height = Math.max(out.height, 24);
                                     }
 
                                     return out;
                                 }
-                            } else if (this.targetModifier === "scroll-handle") {
-                                var bounds = undefined;
-                                var target = this.target;
-                                if (target === document.body) {
-                                    target = document.documentElement;
-
-                                    bounds = {
-                                        left: pageXOffset,
-                                        top: pageYOffset,
-                                        height: innerHeight,
-                                        width: innerWidth
-                                    };
-                                } else {
-                                    bounds = getBounds(target);
-                                }
-
-                                var style = getComputedStyle(target);
-
-                                var hasBottomScroll = target.scrollWidth > target.clientWidth ||
-                                    [style.overflow, style.overflowX].indexOf("scroll") >= 0 ||
-                                    this.target !== document.body;
-
-                                var scrollBottom = 0;
-                                if (hasBottomScroll) {
-                                    scrollBottom = 15;
-                                }
-
-                                var height = bounds.height -
-                                    parseFloat(style.borderTopWidth) -
-                                    parseFloat(style.borderBottomWidth) -
-                                    scrollBottom;
-
-                                var out = {
-                                    width: 15,
-                                    height: height * 0.975 * (height / target.scrollHeight),
-                                    left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
-                                };
-
-                                var fitAdj = 0;
-                                if (height < 408 && this.target === document.body) {
-                                    fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
-                                }
-
-                                if (this.target !== document.body) {
-                                    out.height = Math.max(out.height, 24);
-                                }
-
-                                var scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
-                                out.top = scrollPercentage * (height - out.height - fitAdj) +
-                                    bounds.top +
-                                    parseFloat(style.borderTopWidth);
-
-                                if (this.target === document.body) {
-                                    out.height = Math.max(out.height, 24);
-                                }
-
-                                return out;
+                            } else {
+                                return getBounds(this.target);
                             }
-                        } else {
-                            return getBounds(this.target);
                         }
-                    }
-                }, {
-                    key: "clearCache",
-                    value: function clearCache() {
-                        this._cache = {};
-                    }
-                }, {
-                    key: "cache",
-                    value: function cache(k, getter) {
-                        // More than one module will often need the same DOM info, so
-                        // we keep a cache which is cleared on each position call
-                        if (typeof this._cache === "undefined") {
+                    }, {
+                        key: "clearCache",
+                        value: function clearCache() {
                             this._cache = {};
                         }
-
-                        if (typeof this._cache[k] === "undefined") {
-                            this._cache[k] = getter.call(this);
-                        }
-
-                        return this._cache[k];
-                    }
-                }, {
-                    key: "enable",
-                    value: function enable() {
-                        var _this3 = this;
-
-                        var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-
-                        if (!(this.options.addTargetClasses === false)) {
-                            addClass(this.target, this.getClass("enabled"));
-                        }
-                        addClass(this.element, this.getClass("enabled"));
-                        this.enabled = true;
-
-                        this.scrollParents.forEach(function(parent) {
-                            if (parent !== _this3.target.ownerDocument) {
-                                parent.addEventListener("scroll", _this3.position);
+                    }, {
+                        key: "cache",
+                        value: function cache(k, getter) {
+                            // More than one module will often need the same DOM info, so
+                            // we keep a cache which is cleared on each position call
+                            if (typeof this._cache === "undefined") {
+                                this._cache = {};
                             }
-                        });
 
-                        if (pos) {
-                            this.position();
+                            if (typeof this._cache[k] === "undefined") {
+                                this._cache[k] = getter.call(this);
+                            }
+
+                            return this._cache[k];
                         }
-                    }
-                }, {
-                    key: "disable",
-                    value: function disable() {
-                        var _this4 = this;
+                    }, {
+                        key: "enable",
+                        value: function enable() {
+                            var _this3 = this;
 
-                        removeClass(this.target, this.getClass("enabled"));
-                        removeClass(this.element, this.getClass("enabled"));
-                        this.enabled = false;
+                            var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
-                        if (typeof this.scrollParents !== "undefined") {
+                            if (!(this.options.addTargetClasses === false)) {
+                                addClass(this.target, this.getClass("enabled"));
+                            }
+                            addClass(this.element, this.getClass("enabled"));
+                            this.enabled = true;
+
                             this.scrollParents.forEach(function(parent) {
-                                parent.removeEventListener("scroll", _this4.position);
+                                if (parent !== _this3.target.ownerDocument) {
+                                    parent.addEventListener("scroll", _this3.position);
+                                }
+                            });
+
+                            if (pos) {
+                                this.position();
+                            }
+                        }
+                    }, {
+                        key: "disable",
+                        value: function disable() {
+                            var _this4 = this;
+
+                            removeClass(this.target, this.getClass("enabled"));
+                            removeClass(this.element, this.getClass("enabled"));
+                            this.enabled = false;
+
+                            if (typeof this.scrollParents !== "undefined") {
+                                this.scrollParents.forEach(function(parent) {
+                                    parent.removeEventListener("scroll", _this4.position);
+                                });
+                            }
+                        }
+                    }, {
+                        key: "destroy",
+                        value: function destroy() {
+                            var _this5 = this;
+
+                            this.disable();
+
+                            tethers.forEach(function(tether, i) {
+                                if (tether === _this5) {
+                                    tethers.splice(i, 1);
+                                }
+                            });
+
+                            // Remove any elements we were using for convenience from the DOM
+                            if (tethers.length === 0) {
+                                removeUtilElements();
+                            }
+                        }
+                    }, {
+                        key: "updateAttachClasses",
+                        value: function updateAttachClasses(elementAttach, targetAttach) {
+                            var _this6 = this;
+
+                            elementAttach = elementAttach || this.attachment;
+                            targetAttach = targetAttach || this.targetAttachment;
+                            var sides = ["left", "top", "bottom", "right", "middle", "center"];
+
+                            if (typeof this._addAttachClasses !== "undefined" && this._addAttachClasses.length) {
+                                // updateAttachClasses can be called more than once in a position call, so
+                                // we need to clean up after ourselves such that when the last defer gets
+                                // ran it doesn't add any extra classes from previous calls.
+                                this._addAttachClasses.splice(0, this._addAttachClasses.length);
+                            }
+
+                            if (typeof this._addAttachClasses === "undefined") {
+                                this._addAttachClasses = [];
+                            }
+                            var add = this._addAttachClasses;
+
+                            if (elementAttach.top) {
+                                add.push(this.getClass("element-attached") + "-" + elementAttach.top);
+                            }
+                            if (elementAttach.left) {
+                                add.push(this.getClass("element-attached") + "-" + elementAttach.left);
+                            }
+                            if (targetAttach.top) {
+                                add.push(this.getClass("target-attached") + "-" + targetAttach.top);
+                            }
+                            if (targetAttach.left) {
+                                add.push(this.getClass("target-attached") + "-" + targetAttach.left);
+                            }
+
+                            var all = [];
+                            sides.forEach(function(side) {
+                                all.push(_this6.getClass("element-attached") + "-" + side);
+                                all.push(_this6.getClass("target-attached") + "-" + side);
+                            });
+
+                            defer(function() {
+                                if (!(typeof _this6._addAttachClasses !== "undefined")) {
+                                    return;
+                                }
+
+                                updateClasses(_this6.element, _this6._addAttachClasses, all);
+                                if (!(_this6.options.addTargetClasses === false)) {
+                                    updateClasses(_this6.target, _this6._addAttachClasses, all);
+                                }
+
+                                delete _this6._addAttachClasses;
                             });
                         }
-                    }
-                }, {
-                    key: "destroy",
-                    value: function destroy() {
-                        var _this5 = this;
+                    }, {
+                        key: "position",
+                        value: function position() {
+                            var _this7 = this;
 
-                        this.disable();
+                            var flushChanges = arguments.length <= 0 || arguments[0] === undefined
+                                ? true
+                                : arguments[0];
 
-                        tethers.forEach(function(tether, i) {
-                            if (tether === _this5) {
-                                tethers.splice(i, 1);
-                            }
-                        });
+                            // flushChanges commits the changes immediately, leave true unless you are positioning multiple
+                            // tethers (in which case call Tether.Utils.flush yourself when you're done)
 
-                        // Remove any elements we were using for convenience from the DOM
-                        if (tethers.length === 0) {
-                            removeUtilElements();
-                        }
-                    }
-                }, {
-                    key: "updateAttachClasses",
-                    value: function updateAttachClasses(elementAttach, targetAttach) {
-                        var _this6 = this;
-
-                        elementAttach = elementAttach || this.attachment;
-                        targetAttach = targetAttach || this.targetAttachment;
-                        var sides = ["left", "top", "bottom", "right", "middle", "center"];
-
-                        if (typeof this._addAttachClasses !== "undefined" && this._addAttachClasses.length) {
-                            // updateAttachClasses can be called more than once in a position call, so
-                            // we need to clean up after ourselves such that when the last defer gets
-                            // ran it doesn't add any extra classes from previous calls.
-                            this._addAttachClasses.splice(0, this._addAttachClasses.length);
-                        }
-
-                        if (typeof this._addAttachClasses === "undefined") {
-                            this._addAttachClasses = [];
-                        }
-                        var add = this._addAttachClasses;
-
-                        if (elementAttach.top) {
-                            add.push(this.getClass("element-attached") + "-" + elementAttach.top);
-                        }
-                        if (elementAttach.left) {
-                            add.push(this.getClass("element-attached") + "-" + elementAttach.left);
-                        }
-                        if (targetAttach.top) {
-                            add.push(this.getClass("target-attached") + "-" + targetAttach.top);
-                        }
-                        if (targetAttach.left) {
-                            add.push(this.getClass("target-attached") + "-" + targetAttach.left);
-                        }
-
-                        var all = [];
-                        sides.forEach(function(side) {
-                            all.push(_this6.getClass("element-attached") + "-" + side);
-                            all.push(_this6.getClass("target-attached") + "-" + side);
-                        });
-
-                        defer(function() {
-                            if (!(typeof _this6._addAttachClasses !== "undefined")) {
+                            if (!this.enabled) {
                                 return;
                             }
 
-                            updateClasses(_this6.element, _this6._addAttachClasses, all);
-                            if (!(_this6.options.addTargetClasses === false)) {
-                                updateClasses(_this6.target, _this6._addAttachClasses, all);
-                            }
+                            this.clearCache();
 
-                            delete _this6._addAttachClasses;
-                        });
-                    }
-                }, {
-                    key: "position",
-                    value: function position() {
-                        var _this7 = this;
+                            // Turn 'auto' attachments into the appropriate corner or edge
+                            var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
 
-                        var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+                            this.updateAttachClasses(this.attachment, targetAttachment);
 
-                        // flushChanges commits the changes immediately, leave true unless you are positioning multiple
-                        // tethers (in which case call Tether.Utils.flush yourself when you're done)
-
-                        if (!this.enabled) {
-                            return;
-                        }
-
-                        this.clearCache();
-
-                        // Turn 'auto' attachments into the appropriate corner or edge
-                        var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
-
-                        this.updateAttachClasses(this.attachment, targetAttachment);
-
-                        var elementPos = this.cache("element-bounds",
-                            function() {
-                                return getBounds(_this7.element);
-                            });
-
-                        var width = elementPos.width;
-                        var height = elementPos.height;
-
-                        if (width === 0 && height === 0 && typeof this.lastSize !== "undefined") {
-                            var _lastSize = this.lastSize;
-
-                            // We cache the height and width to make it possible to position elements that are
-                            // getting hidden.
-                            width = _lastSize.width;
-                            height = _lastSize.height;
-                        } else {
-                            this.lastSize = { width: width, height: height };
-                        }
-
-                        var targetPos = this.cache("target-bounds",
-                            function() {
-                                return _this7.getTargetBounds();
-                            });
-                        var targetSize = targetPos;
-
-                        // Get an actual px offset from the attachment
-                        var offset = offsetToPx(attachmentToOffset(this.attachment), { width: width, height: height });
-                        var targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
-
-                        var manualOffset = offsetToPx(this.offset, { width: width, height: height });
-                        var manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
-
-                        // Add the manually provided offset
-                        offset = addOffset(offset, manualOffset);
-                        targetOffset = addOffset(targetOffset, manualTargetOffset);
-
-                        // It's now our goal to make (element position + offset) == (target position + target offset)
-                        var left = targetPos.left + targetOffset.left - offset.left;
-                        var top = targetPos.top + targetOffset.top - offset.top;
-
-                        for (var i = 0; i < TetherBase.modules.length; ++i) {
-                            var _module2 = TetherBase.modules[i];
-                            var ret = _module2.position.call(this,
-                            {
-                                left: left,
-                                top: top,
-                                targetAttachment: targetAttachment,
-                                targetPos: targetPos,
-                                elementPos: elementPos,
-                                offset: offset,
-                                targetOffset: targetOffset,
-                                manualOffset: manualOffset,
-                                manualTargetOffset: manualTargetOffset,
-                                scrollbarSize: scrollbarSize,
-                                attachment: this.attachment
-                            });
-
-                            if (ret === false) {
-                                return false;
-                            } else if (typeof ret === "undefined" || typeof ret !== "object") {
-                                continue;
-                            } else {
-                                top = ret.top;
-                                left = ret.left;
-                            }
-                        }
-
-                        // We describe the position three different ways to give the optimizer
-                        // a chance to decide the best possible way to position the element
-                        // with the fewest repaints.
-                        var next = {
-                            // It's position relative to the page (absolute positioning when
-                            // the element is a child of the body)
-                            page: {
-                                top: top,
-                                left: left
-                            },
-
-                            // It's position relative to the viewport (fixed positioning)
-                            viewport: {
-                                top: top - pageYOffset,
-                                bottom: pageYOffset - top - height + innerHeight,
-                                left: left - pageXOffset,
-                                right: pageXOffset - left - width + innerWidth
-                            }
-                        };
-
-                        var doc = this.target.ownerDocument;
-                        var win = doc.defaultView;
-
-                        var scrollbarSize = undefined;
-                        if (doc.body.scrollWidth > win.innerWidth) {
-                            scrollbarSize = this.cache("scrollbar-size", getScrollBarSize);
-                            next.viewport.bottom -= scrollbarSize.height;
-                        }
-
-                        if (doc.body.scrollHeight > win.innerHeight) {
-                            scrollbarSize = this.cache("scrollbar-size", getScrollBarSize);
-                            next.viewport.right -= scrollbarSize.width;
-                        }
-
-                        if (["", "static"].indexOf(doc.body.style.position) === -1 ||
-                            ["", "static"].indexOf(doc.body.parentElement.style.position) === -1) {
-                            // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
-                            next.page.bottom = doc.body.scrollHeight - top - height;
-                            next.page.right = doc.body.scrollWidth - left - width;
-                        }
-
-                        if (typeof this.options.optimizations !== "undefined" &&
-                            this.options.optimizations.moveElement !== false &&
-                            !(typeof this.targetModifier !== "undefined")) {
-                            (function() {
-                                var offsetParent = _this7.cache("target-offsetparent",
-                                    function() {
-                                        return getOffsetParent(_this7.target);
-                                    });
-                                var offsetPosition = _this7.cache("target-offsetparent-bounds",
-                                    function() {
-                                        return getBounds(offsetParent);
-                                    });
-                                var offsetParentStyle = getComputedStyle(offsetParent);
-                                var offsetParentSize = offsetPosition;
-
-                                var offsetBorder = {};
-                                ["Top", "Left", "Bottom", "Right"].forEach(function(side) {
-                                    offsetBorder[side
-                                        .toLowerCase()] = parseFloat(offsetParentStyle["border" + side + "Width"]);
+                            var elementPos = this.cache("element-bounds",
+                                function() {
+                                    return getBounds(_this7.element);
                                 });
 
-                                offsetPosition.right = doc.body.scrollWidth -
-                                    offsetPosition.left -
-                                    offsetParentSize.width +
-                                    offsetBorder.right;
-                                offsetPosition.bottom = doc.body.scrollHeight -
-                                    offsetPosition.top -
-                                    offsetParentSize.height +
-                                    offsetBorder.bottom;
+                            var width = elementPos.width;
+                            var height = elementPos.height;
 
-                                if (next.page.top >= offsetPosition.top + offsetBorder.top &&
-                                    next.page.bottom >= offsetPosition.bottom) {
-                                    if (next.page.left >= offsetPosition.left + offsetBorder.left &&
-                                        next.page.right >= offsetPosition.right) {
-                                        // We're within the visible part of the target's scroll parent
-                                        var scrollTop = offsetParent.scrollTop;
-                                        var scrollLeft = offsetParent.scrollLeft;
+                            if (width === 0 && height === 0 && typeof this.lastSize !== "undefined") {
+                                var _lastSize = this.lastSize;
 
-                                        // It's position relative to the target's offset parent (absolute positioning when
-                                        // the element is moved to be a child of the target's offset parent).
-                                        next.offset = {
-                                            top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
-                                            left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
-                                        };
+                                // We cache the height and width to make it possible to position elements that are
+                                // getting hidden.
+                                width = _lastSize.width;
+                                height = _lastSize.height;
+                            } else {
+                                this.lastSize = { width: width, height: height };
+                            }
+
+                            var targetPos = this.cache("target-bounds",
+                                function() {
+                                    return _this7.getTargetBounds();
+                                });
+                            var targetSize = targetPos;
+
+                            // Get an actual px offset from the attachment
+                            var offset = offsetToPx(attachmentToOffset(this.attachment),
+                                { width: width, height: height });
+                            var targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
+
+                            var manualOffset = offsetToPx(this.offset, { width: width, height: height });
+                            var manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
+
+                            // Add the manually provided offset
+                            offset = addOffset(offset, manualOffset);
+                            targetOffset = addOffset(targetOffset, manualTargetOffset);
+
+                            // It's now our goal to make (element position + offset) == (target position + target offset)
+                            var left = targetPos.left + targetOffset.left - offset.left;
+                            var top = targetPos.top + targetOffset.top - offset.top;
+
+                            for (var i = 0; i < TetherBase.modules.length; ++i) {
+                                var _module2 = TetherBase.modules[i];
+                                var ret = _module2.position.call(this,
+                                    {
+                                        left: left,
+                                        top: top,
+                                        targetAttachment: targetAttachment,
+                                        targetPos: targetPos,
+                                        elementPos: elementPos,
+                                        offset: offset,
+                                        targetOffset: targetOffset,
+                                        manualOffset: manualOffset,
+                                        manualTargetOffset: manualTargetOffset,
+                                        scrollbarSize: scrollbarSize,
+                                        attachment: this.attachment
+                                    });
+
+                                if (ret === false) {
+                                    return false;
+                                } else if (typeof ret === "undefined" || typeof ret !== "object") {
+                                    continue;
+                                } else {
+                                    top = ret.top;
+                                    left = ret.left;
+                                }
+                            }
+
+                            // We describe the position three different ways to give the optimizer
+                            // a chance to decide the best possible way to position the element
+                            // with the fewest repaints.
+                            var next = {
+                                // It's position relative to the page (absolute positioning when
+                                // the element is a child of the body)
+                                page: {
+                                    top: top,
+                                    left: left
+                                },
+
+                                // It's position relative to the viewport (fixed positioning)
+                                viewport: {
+                                    top: top - pageYOffset,
+                                    bottom: pageYOffset - top - height + innerHeight,
+                                    left: left - pageXOffset,
+                                    right: pageXOffset - left - width + innerWidth
+                                }
+                            };
+
+                            var doc = this.target.ownerDocument;
+                            var win = doc.defaultView;
+
+                            var scrollbarSize = undefined;
+                            if (doc.body.scrollWidth > win.innerWidth) {
+                                scrollbarSize = this.cache("scrollbar-size", getScrollBarSize);
+                                next.viewport.bottom -= scrollbarSize.height;
+                            }
+
+                            if (doc.body.scrollHeight > win.innerHeight) {
+                                scrollbarSize = this.cache("scrollbar-size", getScrollBarSize);
+                                next.viewport.right -= scrollbarSize.width;
+                            }
+
+                            if (["", "static"].indexOf(doc.body.style.position) === -1 ||
+                                ["", "static"].indexOf(doc.body.parentElement.style.position) === -1) {
+                                // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
+                                next.page.bottom = doc.body.scrollHeight - top - height;
+                                next.page.right = doc.body.scrollWidth - left - width;
+                            }
+
+                            if (typeof this.options.optimizations !== "undefined" &&
+                                this.options.optimizations.moveElement !== false &&
+                                !(typeof this.targetModifier !== "undefined")) {
+                                (function() {
+                                    var offsetParent = _this7.cache("target-offsetparent",
+                                        function() {
+                                            return getOffsetParent(_this7.target);
+                                        });
+                                    var offsetPosition = _this7.cache("target-offsetparent-bounds",
+                                        function() {
+                                            return getBounds(offsetParent);
+                                        });
+                                    var offsetParentStyle = getComputedStyle(offsetParent);
+                                    var offsetParentSize = offsetPosition;
+
+                                    var offsetBorder = {};
+                                    ["Top", "Left", "Bottom", "Right"].forEach(function(side) {
+                                        offsetBorder[side
+                                            .toLowerCase()] = parseFloat(offsetParentStyle["border" + side + "Width"]);
+                                    });
+
+                                    offsetPosition.right = doc.body.scrollWidth -
+                                        offsetPosition.left -
+                                        offsetParentSize.width +
+                                        offsetBorder.right;
+                                    offsetPosition.bottom = doc.body.scrollHeight -
+                                        offsetPosition.top -
+                                        offsetParentSize.height +
+                                        offsetBorder.bottom;
+
+                                    if (next.page.top >= offsetPosition.top + offsetBorder.top &&
+                                        next.page.bottom >= offsetPosition.bottom) {
+                                        if (next.page.left >= offsetPosition.left + offsetBorder.left &&
+                                            next.page.right >= offsetPosition.right) {
+                                            // We're within the visible part of the target's scroll parent
+                                            var scrollTop = offsetParent.scrollTop;
+                                            var scrollLeft = offsetParent.scrollLeft;
+
+                                            // It's position relative to the target's offset parent (absolute positioning when
+                                            // the element is moved to be a child of the target's offset parent).
+                                            next.offset = {
+                                                top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
+                                                left: next.page.left -
+                                                    offsetPosition.left +
+                                                    scrollLeft -
+                                                    offsetBorder.left
+                                            };
+                                        }
+                                    }
+                                })();
+                            }
+
+                            // We could also travel up the DOM and try each containing context, rather than only
+                            // looking at the body, but we're gonna get diminishing returns.
+
+                            this.move(next);
+
+                            this.history.unshift(next);
+
+                            if (this.history.length > 3) {
+                                this.history.pop();
+                            }
+
+                            if (flushChanges) {
+                                flush();
+                            }
+
+                            return true;
+                        }
+
+                        // THE ISSUE
+                    }, {
+                        key: "move",
+                        value: function move(pos) {
+                            var _this8 = this;
+
+                            if (!(typeof this.element.parentNode !== "undefined")) {
+                                return;
+                            }
+
+                            var same = {};
+
+                            for (var type in pos) {
+                                same[type] = {};
+
+                                for (var key in pos[type]) {
+                                    var found = false;
+
+                                    for (var i = 0; i < this.history.length; ++i) {
+                                        var point = this.history[i];
+                                        if (typeof point[type] !== "undefined" &&
+                                            !within(point[type][key], pos[type][key])
+                                        ) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found) {
+                                        same[type][key] = true;
                                     }
                                 }
-                            })();
-                        }
+                            }
 
-                        // We could also travel up the DOM and try each containing context, rather than only
-                        // looking at the body, but we're gonna get diminishing returns.
+                            var css = { top: "", left: "", right: "", bottom: "" };
 
-                        this.move(next);
+                            var transcribe = function transcribe(_same, _pos) {
+                                var hasOptimizations = typeof _this8.options.optimizations !== "undefined";
+                                var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
+                                if (gpu !== false) {
+                                    var yPos = undefined,
+                                        xPos = undefined;
+                                    if (_same.top) {
+                                        css.top = 0;
+                                        yPos = _pos.top;
+                                    } else {
+                                        css.bottom = 0;
+                                        yPos = -_pos.bottom;
+                                    }
 
-                        this.history.unshift(next);
+                                    if (_same.left) {
+                                        css.left = 0;
+                                        xPos = _pos.left;
+                                    } else {
+                                        css.right = 0;
+                                        xPos = -_pos.right;
+                                    }
 
-                        if (this.history.length > 3) {
-                            this.history.pop();
-                        }
+                                    css[transformKey] = "translateX(" +
+                                        Math.round(xPos) +
+                                        "px) translateY(" +
+                                        Math.round(yPos) +
+                                        "px)";
 
-                        if (flushChanges) {
-                            flush();
-                        }
+                                    if (transformKey !== "msTransform") {
+                                        // The Z transform will keep this in the GPU (faster, and prevents artifacts),
+                                        // but IE9 doesn't support 3d transforms and will choke.
+                                        css[transformKey] += " translateZ(0)";
+                                    }
+                                } else {
+                                    if (_same.top) {
+                                        css.top = _pos.top + "px";
+                                    } else {
+                                        css.bottom = _pos.bottom + "px";
+                                    }
 
-                        return true;
-                    }
+                                    if (_same.left) {
+                                        css.left = _pos.left + "px";
+                                    } else {
+                                        css.right = _pos.right + "px";
+                                    }
+                                }
+                            };
 
-                    // THE ISSUE
-                }, {
-                    key: "move",
-                    value: function move(pos) {
-                        var _this8 = this;
+                            var moved = false;
+                            if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+                                css.position = "absolute";
+                                transcribe(same.page, pos.page);
+                            } else if ((same.viewport.top || same.viewport.bottom) &&
+                                (same.viewport.left || same.viewport.right)) {
+                                css.position = "fixed";
+                                transcribe(same.viewport, pos.viewport);
+                            } else if (typeof same.offset !== "undefined" && same.offset.top && same.offset.left) {
+                                (function() {
+                                    css.position = "absolute";
+                                    var offsetParent = _this8.cache("target-offsetparent",
+                                        function() {
+                                            return getOffsetParent(_this8.target);
+                                        });
 
-                        if (!(typeof this.element.parentNode !== "undefined")) {
-                            return;
-                        }
+                                    if (getOffsetParent(_this8.element) !== offsetParent) {
+                                        defer(function() {
+                                            _this8.element.parentNode.removeChild(_this8.element);
+                                            offsetParent.appendChild(_this8.element);
+                                        });
+                                    }
 
-                        var same = {};
+                                    transcribe(same.offset, pos.offset);
+                                    moved = true;
+                                })();
+                            } else {
+                                css.position = "absolute";
+                                transcribe({ top: true, left: true }, pos.page);
+                            }
 
-                        for (var type in pos) {
-                            same[type] = {};
-
-                            for (var key in pos[type]) {
-                                var found = false;
-
-                                for (var i = 0; i < this.history.length; ++i) {
-                                    var point = this.history[i];
-                                    if (typeof point[type] !== "undefined" && !within(point[type][key], pos[type][key])
-                                    ) {
-                                        found = true;
+                            if (!moved) {
+                                var offsetParentIsBody = true;
+                                var currentNode = this.element.parentNode;
+                                while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== "BODY") {
+                                    if (getComputedStyle(currentNode).position !== "static") {
+                                        offsetParentIsBody = false;
                                         break;
                                     }
+
+                                    currentNode = currentNode.parentNode;
                                 }
 
-                                if (!found) {
-                                    same[type][key] = true;
-                                }
-                            }
-                        }
-
-                        var css = { top: "", left: "", right: "", bottom: "" };
-
-                        var transcribe = function transcribe(_same, _pos) {
-                            var hasOptimizations = typeof _this8.options.optimizations !== "undefined";
-                            var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
-                            if (gpu !== false) {
-                                var yPos = undefined,
-                                    xPos = undefined;
-                                if (_same.top) {
-                                    css.top = 0;
-                                    yPos = _pos.top;
-                                } else {
-                                    css.bottom = 0;
-                                    yPos = -_pos.bottom;
-                                }
-
-                                if (_same.left) {
-                                    css.left = 0;
-                                    xPos = _pos.left;
-                                } else {
-                                    css.right = 0;
-                                    xPos = -_pos.right;
-                                }
-
-                                css[transformKey] = "translateX(" +
-                                    Math.round(xPos) +
-                                    "px) translateY(" +
-                                    Math.round(yPos) +
-                                    "px)";
-
-                                if (transformKey !== "msTransform") {
-                                    // The Z transform will keep this in the GPU (faster, and prevents artifacts),
-                                    // but IE9 doesn't support 3d transforms and will choke.
-                                    css[transformKey] += " translateZ(0)";
-                                }
-                            } else {
-                                if (_same.top) {
-                                    css.top = _pos.top + "px";
-                                } else {
-                                    css.bottom = _pos.bottom + "px";
-                                }
-
-                                if (_same.left) {
-                                    css.left = _pos.left + "px";
-                                } else {
-                                    css.right = _pos.right + "px";
+                                if (!offsetParentIsBody) {
+                                    this.element.parentNode.removeChild(this.element);
+                                    this.element.ownerDocument.body.appendChild(this.element);
                                 }
                             }
-                        };
 
-                        var moved = false;
-                        if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
-                            css.position = "absolute";
-                            transcribe(same.page, pos.page);
-                        } else if ((same.viewport.top || same.viewport.bottom) &&
-                            (same.viewport.left || same.viewport.right)) {
-                            css.position = "fixed";
-                            transcribe(same.viewport, pos.viewport);
-                        } else if (typeof same.offset !== "undefined" && same.offset.top && same.offset.left) {
-                            (function() {
-                                css.position = "absolute";
-                                var offsetParent = _this8.cache("target-offsetparent",
-                                    function() {
-                                        return getOffsetParent(_this8.target);
-                                    });
+                            // Any css change will trigger a repaint, so let's avoid one if nothing changed
+                            var writeCSS = {};
+                            var write = false;
+                            for (var key in css) {
+                                var val = css[key];
+                                var elVal = this.element.style[key];
 
-                                if (getOffsetParent(_this8.element) !== offsetParent) {
-                                    defer(function() {
-                                        _this8.element.parentNode.removeChild(_this8.element);
-                                        offsetParent.appendChild(_this8.element);
-                                    });
+                                if (elVal !== val) {
+                                    write = true;
+                                    writeCSS[key] = val;
                                 }
-
-                                transcribe(same.offset, pos.offset);
-                                moved = true;
-                            })();
-                        } else {
-                            css.position = "absolute";
-                            transcribe({ top: true, left: true }, pos.page);
-                        }
-
-                        if (!moved) {
-                            var offsetParentIsBody = true;
-                            var currentNode = this.element.parentNode;
-                            while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== "BODY") {
-                                if (getComputedStyle(currentNode).position !== "static") {
-                                    offsetParentIsBody = false;
-                                    break;
-                                }
-
-                                currentNode = currentNode.parentNode;
                             }
 
-                            if (!offsetParentIsBody) {
-                                this.element.parentNode.removeChild(this.element);
-                                this.element.ownerDocument.body.appendChild(this.element);
+                            if (write) {
+                                defer(function() {
+                                    extend(_this8.element.style, writeCSS);
+                                });
                             }
-                        }
-
-                        // Any css change will trigger a repaint, so let's avoid one if nothing changed
-                        var writeCSS = {};
-                        var write = false;
-                        for (var key in css) {
-                            var val = css[key];
-                            var elVal = this.element.style[key];
-
-                            if (elVal !== val) {
-                                write = true;
-                                writeCSS[key] = val;
-                            }
-                        }
-
-                        if (write) {
-                            defer(function() {
-                                extend(_this8.element.style, writeCSS);
-                            });
                         }
                     }
-                }
-            ]);
+                ]);
 
             return TetherClass;
         })(Evented);
@@ -1853,10 +1860,10 @@
                         eAttachment.left !== _this.attachment.left) {
                         _this.updateAttachClasses(eAttachment, tAttachment);
                         _this.trigger("update",
-                        {
-                            attachment: eAttachment,
-                            targetAttachment: tAttachment
-                        });
+                            {
+                                attachment: eAttachment,
+                                targetAttachment: tAttachment
+                            });
                     }
                 });
 

@@ -1,9 +1,9 @@
 ﻿@using OnlineSatisProje.Core.Entities
 @{
     ViewBag.Title = "Anasayfa";
-    var urunListe = (IEnumerable<Urun>)ViewData["UrunListe"];
-    var saticiListe = (IEnumerable<Satici>)ViewData["SaticiListe"];
-    var resimler = (IEnumerable<Resim>)ViewData["Resimler"];
+    var urunListe = (IEnumerable<Urun>) ViewData["UrunListe"];
+    var saticiListe = (IEnumerable<Satici>) ViewData["SaticiListe"];
+    var resimler = (IEnumerable<Resim>) ViewData["Resimler"];
 
     urunListe = urunListe.OrderByDescending(x => x.Id).Take(3);
     saticiListe = saticiListe.OrderByDescending(x => x.Id).Take(3);
@@ -14,7 +14,7 @@
 @if (uruns.Any())
 {
     <h1 class="display-4 text-center">Son eklenenler</h1>
-    <hr class="bg-danger" style="margin: 2rem 0" />
+    <hr class="bg-danger" style="margin: 2rem 0"/>
     <div class="card-deck">
         @foreach (var urun in uruns)
         {
@@ -25,14 +25,14 @@
                 @if (null != urunresim)
                 {
                     <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
-                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="width: 200px; height: 200px; object-fit: cover"
+                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;"
                              src="@urunresim.Resim.ResimPath" alt="@urunresim.Resim.Baslik">
                     </a>
                 }
                 else
                 {
                     <a href="@Url.Action("Detay", "Urun", new {area = "", id = urun.Id})">
-                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="width: 200px; height: 200px; object-fit: cover" src="/Content/Images/product.png" alt="@urun.Baslik">
+                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;" src="/Content/Images/product.png" alt="@urun.Baslik">
                     </a>
                 }
                 <div class="card-block">
@@ -49,7 +49,7 @@
                         </h4>
                     }
                     <p class="card-text">
-                        <hr class="bg-danger" />
+                        <hr class="bg-danger"/>
                         <h3>@urun.Fiyat.ToString("C")</h3>
                     </p>
                     <p class="card-text">
@@ -66,14 +66,14 @@
                     }
                 </div>
             </div>
-                    }
+        }
     </div>
-                    }
+}
 @if (saticis.Any())
 {
-    <hr class="bg-danger" style="margin: 2rem 0" />
+    <hr class="bg-danger" style="margin: 2rem 0"/>
     <h1 class="display-4 text-center">En çok satanlar satıcılar</h1>
-    <hr class="bg-danger" style="margin: 2rem 0" />
+    <hr class="bg-danger" style="margin: 2rem 0"/>
     <div class="card-deck">
         @foreach (var satici in saticis)
         {
@@ -82,20 +82,20 @@
                 <div class="card-block">
                     @if (resim != null)
                     {
-                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; width: 200px; object-fit: cover"
+                        <img class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" style="height: 200px; object-fit: cover; width: 200px;"
                              src="@resim.ResimPath" alt="@resim.Baslik">
                     }
                     else
                     {
-                        <img src="@Url.Content("~/Content/Images/identity.png")" style="height: 200px; width: 200px; object-fit: cover" class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" alt="@satici.Ad" />
+                        <img src="@Url.Content("~/Content/Images/identity.png")" style="height: 200px; object-fit: cover; width: 200px;" class="card-img-top mt-3 mb-3 rounded-circle img-thumbnail mx-auto" alt="@satici.Ad"/>
                     }
-                    <hr class="bg-danger" />
+                    <hr class="bg-danger"/>
                     <h4 class="card-title">
                         @satici.Ad
                     </h4>
                 </div>
                 <div class="card-footer" style="background: none; border: none">
-                    <a href="@Url.Action("Profil", "Saticilar", new { id = satici.Id, area="" })" class="btn btn-outline-danger"><i class="fa fa-user"></i> Profil</a>
+                    <a href="@Url.Action("Profil", "Saticilar", new {id = satici.Id, area = ""})" class="btn btn-outline-danger"><i class="fa fa-user"></i> Profil</a>
                 </div>
 
             </div>

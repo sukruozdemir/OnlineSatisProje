@@ -1,5 +1,5 @@
-﻿using System.Net;
-using System.Linq;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using OnlineSatisProje.Services.Interfaces;
 using PagedList;
@@ -12,7 +12,7 @@ namespace OnlineSatisProje.Web.Controllers
 
         public UrunController(
             IUrunRepository urunRepository
-            )
+        )
         {
             _urunRepository = urunRepository;
         }
@@ -43,14 +43,10 @@ namespace OnlineSatisProje.Web.Controllers
             var liste = _urunRepository.GetAvailableProductsWithDiscount();
 
             if (kategoriId > 0)
-            {
                 liste = _urunRepository.GetUrunsByCategoryId(kategoriId);
-            }
 
             if (saticiId > 0)
-            {
                 liste = liste.Where(u => u.SaticiId == saticiId).ToList();
-            }
 
             return View(liste.OrderByDescending(l => l.CreatedDate).ToPagedList(sayfa, 9));
         }
